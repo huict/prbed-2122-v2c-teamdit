@@ -1,4 +1,4 @@
-package nl.hu.prbed.vliegmaatschappij.domain;
+package nl.hu.prbed.vliegmaatschappij.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

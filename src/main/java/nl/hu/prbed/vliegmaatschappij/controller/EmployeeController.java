@@ -3,15 +3,13 @@ package nl.hu.prbed.vliegmaatschappij.controller;
 import nl.hu.prbed.vliegmaatschappij.application.EmployeeService;
 import nl.hu.prbed.vliegmaatschappij.controller.DTO.AirportDTO;
 import nl.hu.prbed.vliegmaatschappij.domain.Airport;
-import nl.hu.prbed.vliegmaatschappij.domain.Employee;
-import org.apache.el.parser.AstOr;
+import nl.hu.prbed.vliegmaatschappij.domain.user.Employee;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -32,20 +30,6 @@ public class EmployeeController {
     public void flightrouteView() {
     }
 
-    private ResponseEntity<Collection<Employee>> getCollectionResponseEntity() {
-        Collection<Employee> employees = new ArrayList<>();
-        List<Employee> response = new ArrayList<>();
-
-        employees.forEach(employee -> {
-            if (employees.isEmpty()) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-            }
-//            employee.add(linkTo(methodOn(EmployeeController.class).findByid(employee.getId())).withSelfRel());
-            response.add(employee);
-        });
-
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
 
     //vliegroute toevoegen
     @PostMapping("/vliegroute")
@@ -62,8 +46,7 @@ public class EmployeeController {
     @GetMapping("/luchthaven/")
     public List<Airport> airportView() {
         try {
-            List<Airport> airports = this.service.getAllAirports();
-            return airports;
+            return this.service.getAllAirports();
         } catch (Exception exception) {
             throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, exception.getMessage());
         }
@@ -73,8 +56,7 @@ public class EmployeeController {
     @GetMapping("/luchthaven/{code}")
     public Airport airportView(@PathVariable String code) {
         try {
-            Airport airport= this.service.findAirportbyCode(code);
-            return airport;
+            return this.service.findAirportbyCode(code);
         } catch (Exception exception) {
             throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, exception.getMessage());
         }

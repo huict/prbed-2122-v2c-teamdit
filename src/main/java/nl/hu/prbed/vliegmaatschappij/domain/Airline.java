@@ -1,5 +1,6 @@
 package nl.hu.prbed.vliegmaatschappij.domain;
 
+import nl.hu.prbed.vliegmaatschappij.domain.user.Employee;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.springframework.stereotype.Component;

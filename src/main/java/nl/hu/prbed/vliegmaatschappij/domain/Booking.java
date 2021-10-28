@@ -1,12 +1,11 @@
 package nl.hu.prbed.vliegmaatschappij.domain;
 
+import nl.hu.prbed.vliegmaatschappij.domain.user.Customer;
 import org.hibernate.annotations.Cascade;
 import org.springframework.stereotype.Component;
 import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
-import java.security.AlgorithmConstraints;
-import java.security.AllPermission;
 
 @Entity
 @Component

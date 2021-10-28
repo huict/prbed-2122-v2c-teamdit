@@ -1,4 +1,5 @@
-package nl.hu.prbed.vliegmaatschappij.domain;
+package nl.hu.prbed.vliegmaatschappij.domain.user;
+import nl.hu.prbed.vliegmaatschappij.domain.Booking;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Cascade;
 import org.springframework.stereotype.Component;
