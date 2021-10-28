@@ -19,7 +19,6 @@ public class Employee {
     @GeneratedValue
     @Column(name = "id", nullable = false)
     private Long id;
-
     private String firstName;
     private String lastName;
     private Date dateOfBirth;
@@ -35,7 +34,7 @@ public class Employee {
         this.id = id;
     }
 
-    public Employee(Long id, String firstName, String lastName, Date dateOfBirth) {
+    public Employee(String firstName, String lastName, Date dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;

@@ -1,12 +1,16 @@
 package nl.hu.prbed.vliegmaatschappij.domain;
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 
 @Entity
-@Table(name = "AIRPORT")
+@Component
 public class Airport {
     @Id
+    @GeneratedValue
     @Column(length = 4, nullable = false)
+    private Long id;
     private String code;
     private String airportName;
     private String city;

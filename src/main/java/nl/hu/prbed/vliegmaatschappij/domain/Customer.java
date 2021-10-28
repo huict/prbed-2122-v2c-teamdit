@@ -1,17 +1,43 @@
 package nl.hu.prbed.vliegmaatschappij.domain;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Cascade;
+import org.springframework.stereotype.Component;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-public class Customer {
+import static javax.persistence.CascadeType.*;
 
+@Component
+@Entity
+public class Customer {
+    @Id
+    @GeneratedValue
+    @Column(name = "id", nullable = false)
+    private Long id;
     private String firstName;
     private String lastName;
     private Date dateOfBirth;
     private Integer phoneNumber;
     private String emailAdress;
     private String nationality;
+
+    @OneToMany
+    @Cascade(CascadeType.ALL)
     private List<Booking> bookings;
+
+    public Customer() {
+
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
 
     public Customer(String firstName, String lastName, Date dateOfBirth, Integer phoneNumber, String emailAdress, String nationality) {
