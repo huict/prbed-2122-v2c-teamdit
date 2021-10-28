@@ -24,11 +24,11 @@ public class Airport {
     public Airport() {
     }
 
-    public Airport(String code, String airportName, String city, double longditude, double latitude) {
+    public Airport(String code, String airportName, String city, double longitude, double latitude) {
         this.code = code;
         this.airportName = airportName;
         this.city = city;
-        this.longitude = longditude;
+        this.longitude = longitude;
         this.latitude = latitude;
     }
 }
