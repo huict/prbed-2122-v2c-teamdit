@@ -1,8 +1,8 @@
-package nl.hu.prbed.vliegmaatschappij.security.presentation.controller;
+package nl.hu.prbed.security.presentation.controller;
 
-import nl.hu.prbed.vliegmaatschappij.security.application.UserService;
-import nl.hu.prbed.vliegmaatschappij.security.presentation.dto.Registration;
-import nl.hu.prbed.vliegmaatschappij.security.domain.exception.UserNotFoundException;
+import nl.hu.prbed.security.application.UserService;
+import nl.hu.prbed.security.presentation.dto.Registration;
+import nl.hu.prbed.security.domain.exception.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

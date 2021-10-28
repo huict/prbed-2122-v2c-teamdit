@@ -1,11 +1,11 @@
-package nl.hu.prbed.vliegmaatschappij.security.presentation.filter;
+package nl.hu.prbed.security.presentation.filter;
 
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
-import nl.hu.prbed.vliegmaatschappij.security.domain.UserProfile;
+import nl.hu.prbed.security.domain.UserProfile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

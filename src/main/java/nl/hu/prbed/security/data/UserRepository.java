@@ -1,6 +1,6 @@
-package nl.hu.prbed.vliegmaatschappij.security.data;
+package nl.hu.prbed.security.data;
 
-import nl.hu.prbed.vliegmaatschappij.security.domain.User;
+import nl.hu.prbed.security.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

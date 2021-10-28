@@ -1,4 +1,4 @@
-package nl.hu.prbed.vliegmaatschappij.security.domain;
+package nl.hu.prbed.security.domain;
 
 public class UserProfile {
     private final String username;

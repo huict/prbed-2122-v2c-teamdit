@@ -1,7 +1,7 @@
-package nl.hu.prbed.vliegmaatschappij.security;
+package nl.hu.prbed.security;
 
-import nl.hu.prbed.vliegmaatschappij.security.presentation.filter.JwtAuthenticationFilter;
-import nl.hu.prbed.vliegmaatschappij.security.presentation.filter.JwtAuthorizationFilter;
+import nl.hu.prbed.security.presentation.filter.JwtAuthenticationFilter;
+import nl.hu.prbed.security.presentation.filter.JwtAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;

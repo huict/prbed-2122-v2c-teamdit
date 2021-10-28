@@ -1,4 +1,4 @@
-package nl.hu.prbed.vliegmaatschappij.security.domain.exception;
+package nl.hu.prbed.security.domain.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

@@ -1,4 +1,4 @@
-package nl.hu.prbed.vliegmaatschappij.security.presentation.dto;
+package nl.hu.prbed.security.presentation.dto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;

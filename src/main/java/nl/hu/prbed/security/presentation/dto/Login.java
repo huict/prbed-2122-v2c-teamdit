@@ -1,4 +1,4 @@
-package nl.hu.prbed.vliegmaatschappij.security.presentation.dto;
+package nl.hu.prbed.security.presentation.dto;
 
 public class Login {
     public String username;

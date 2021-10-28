@@ -1,4 +1,4 @@
-package nl.hu.prbed.vliegmaatschappij.security.domain;
+package nl.hu.prbed.security.domain;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

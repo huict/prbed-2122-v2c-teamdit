@@ -1,11 +1,11 @@
-package nl.hu.prbed.vliegmaatschappij.security.presentation.filter;
+package nl.hu.prbed.security.presentation.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
-import nl.hu.prbed.vliegmaatschappij.security.domain.User;
-import nl.hu.prbed.vliegmaatschappij.security.presentation.dto.Login;
+import nl.hu.prbed.security.domain.User;
+import nl.hu.prbed.security.presentation.dto.Login;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

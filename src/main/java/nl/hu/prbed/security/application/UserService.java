@@ -1,7 +1,7 @@
-package nl.hu.prbed.vliegmaatschappij.security.application;
+package nl.hu.prbed.security.application;
 
-import nl.hu.prbed.vliegmaatschappij.security.data.UserRepository;
-import nl.hu.prbed.vliegmaatschappij.security.domain.User;
+import nl.hu.prbed.security.data.UserRepository;
+import nl.hu.prbed.security.domain.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
