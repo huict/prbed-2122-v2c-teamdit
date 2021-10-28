@@ -16,9 +16,18 @@ public class EmployeeService {
         this.airportRepository = airportRepository;
     }
 
-    public void createAirport(AirportDTO airportDTO){
+    public Airport createAirport(AirportDTO airportDTO){
         Airport airport = new Airport(airportDTO.code, airportDTO.name, airportDTO.city, airportDTO.longitude, airportDTO.latitude);
         this.airportRepository.save(airport);
+        return airport;
+    }
+
+    public void updateAirport(AirportDTO airportDTO){
+        Airport airport = airportRepository.findByCode(airportDTO.code);
+        if (airport != null){
+           Airport updatedAirport = createAirport(airportDTO);
+           airportRepository.saveAndFlush(updatedAirport);
+        }
     }
 
     public void deleteAirport(AirportDTO airportDTO){

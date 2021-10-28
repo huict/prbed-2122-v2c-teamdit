@@ -1,6 +1,7 @@
 package nl.hu.prbed.vliegmaatschappij.controller;
 
 import nl.hu.prbed.vliegmaatschappij.application.EmployeeService;
+import nl.hu.prbed.vliegmaatschappij.controller.DTO.AirportDTO;
 import nl.hu.prbed.vliegmaatschappij.domain.Employee;
 import org.dom4j.io.ElementModifier;
 import org.springframework.http.HttpStatus;
@@ -59,16 +60,25 @@ public class EmployeeController {
     //zoeken van luchthavens
     @GetMapping("/luchthaven/inzien")
     public void airportView() {
+        es.getAllAirports();
     }
 
     //toevoegen van luchthaven
     @PostMapping("/luchthaven/toevoegen")
-    public void airportAdd() {
+    public void airportAdd(@RequestBody AirportDTO dto) {
+        es.createAirport(dto);
     }
 
     //aanpassen van luchthaven
     @PostMapping("/luchthaven/aanpassen")
     public void airportEdit() {
+
+
+    }
+
+    //verwijderen luchthaven
+    @PostMapping("/luchthaven/verwijderen")
+    public void airportDelete() {
 
     }
 
