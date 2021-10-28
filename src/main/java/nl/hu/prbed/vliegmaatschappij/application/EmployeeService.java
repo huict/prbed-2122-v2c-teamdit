@@ -3,6 +3,7 @@ package nl.hu.prbed.vliegmaatschappij.application;
 import nl.hu.prbed.vliegmaatschappij.controller.DTO.AirportDTO;
 import nl.hu.prbed.vliegmaatschappij.data.AirportRepository;
 import nl.hu.prbed.vliegmaatschappij.domain.Airport;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,7 +24,7 @@ public class EmployeeService {
     }
 
     public void updateAirport(AirportDTO airportDTO){
-        Airport airport = airportRepository.findByCode(airportDTO.code);
+        Optional<Airport> airport = airportRepository.findByCode(airportDTO.code);
         if (airport != null){
            Airport updatedAirport = createAirport(airportDTO);
            airportRepository.saveAndFlush(updatedAirport);
@@ -39,8 +40,9 @@ public class EmployeeService {
         return this.airportRepository.findAll();
     }
 
-    private Airport findAirportbyCode(String code){
-        return  this.airportRepository.findByCode(code);
+    public Airport findAirportbyCode(String code){
+        return  this.airportRepository.findByCode(code)
+                .orElseThrow(() -> new UsernameNotFoundException(code));
     }
 
 }

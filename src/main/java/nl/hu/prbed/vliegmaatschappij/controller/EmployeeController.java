@@ -2,15 +2,16 @@ package nl.hu.prbed.vliegmaatschappij.controller;
 
 import nl.hu.prbed.vliegmaatschappij.application.EmployeeService;
 import nl.hu.prbed.vliegmaatschappij.controller.DTO.AirportDTO;
+import nl.hu.prbed.vliegmaatschappij.domain.Airport;
 import nl.hu.prbed.vliegmaatschappij.domain.Employee;
-import org.dom4j.io.ElementModifier;
+import org.apache.el.parser.AstOr;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
-
+import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,10 +21,10 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "/employee")
 public class EmployeeController {
-    private final EmployeeService es;
+    private final EmployeeService service;
 
-    public EmployeeController(EmployeeService es) {
-        this.es = es;
+    public EmployeeController(EmployeeService service) {
+        this.service = service;
     }
 
     //zoeken van vliegroute
@@ -57,28 +58,39 @@ public class EmployeeController {
 
     }
 
+    //toevoegen van luchthaven
+    @GetMapping("/luchthaven/")
+    public List<Airport> airportView() {
+        try {
+            List<Airport> airports = this.service.getAllAirports();
+            return airports;
+        } catch (Exception exception) {
+            throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, exception.getMessage());
+        }
+    }
+
     //zoeken van luchthavens
-    @GetMapping("/luchthaven/inzien")
-    public void airportView() {
-        es.getAllAirports();
+    @GetMapping("/luchthaven/{code}")
+    public Airport airportView(@PathVariable String code) {
+        try {
+            Airport airport= this.service.findAirportbyCode(code);
+            return airport;
+        } catch (Exception exception) {
+            throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, exception.getMessage());
+        }
     }
 
     //toevoegen van luchthaven
-    @PostMapping("/luchthaven/toevoegen")
-    public void airportAdd(@RequestBody AirportDTO dto) {
-        es.createAirport(dto);
+    @PostMapping("/luchthaven/")
+    public AirportDTO airportAdd(@Validated @RequestBody AirportDTO airportDTO) {
+            Airport airport = this.service.createAirport(airportDTO);
+            return new AirportDTO(airport);
     }
 
-    //aanpassen van luchthaven
-    @PostMapping("/luchthaven/aanpassen")
-    public void airportEdit() {
-
-
-    }
-
-    //verwijderen luchthaven
-    @PostMapping("/luchthaven/verwijderen")
+    //verwijderen van luchthaven
+    @DeleteMapping("/luchthaven/")
     public void airportDelete() {
+
 
     }
 

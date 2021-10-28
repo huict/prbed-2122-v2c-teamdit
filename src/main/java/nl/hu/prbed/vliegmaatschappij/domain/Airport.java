@@ -24,4 +24,23 @@ public class Airport {
         this.latitude = latitude;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public String getAirportName() {
+        return airportName;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
 }
