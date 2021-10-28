@@ -1,16 +1,16 @@
 package nl.hu.prbed.vliegmaatschappij.domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+
 import java.sql.Time;
+import java.util.ArrayList;
+import java.util.List;
 
 
-@Entity
 public class Flight {
 
     private Integer id;
+
+    private List<Booking> bookings = new ArrayList<Booking>();
 
     private Time departureTime;
     private Time arrivalTime;
