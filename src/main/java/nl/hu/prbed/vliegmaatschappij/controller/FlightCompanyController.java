@@ -1,11 +1,14 @@
 package nl.hu.prbed.vliegmaatschappij.controller;
 
 import nl.hu.prbed.vliegmaatschappij.application.FlightCompanyService;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/flightcompany")
 public class FlightCompanyController {
+
     private final FlightCompanyService fcs;
 
     public FlightCompanyController(FlightCompanyService flightCompanyService) {

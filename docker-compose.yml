@@ -21,4 +21,4 @@ services:
       - DB_APP_USER=prbed-vliegmaatschappij
       - DB_APP_PASS=prbed-vliegmaatschappij
     volumes:
-      - "./nl.hu.prbed.vliegmaatschappij.data:/var/nl.hu.prbed.vliegmaatschappij.data/db"
+      - "./data:/var/data/db"
