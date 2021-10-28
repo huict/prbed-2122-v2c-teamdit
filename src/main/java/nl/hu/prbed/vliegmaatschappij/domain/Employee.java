@@ -13,4 +13,10 @@ public class Employee {
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
     }
+
+    enum permissionLevel{
+        LOW,
+        MEDIUM,
+        HIGH
+    }
 }

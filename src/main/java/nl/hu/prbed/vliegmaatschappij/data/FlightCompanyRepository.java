@@ -1,4 +1,6 @@
-//package nl.hu.prbed.vliegmaatschappij.data;
-//
-//public interface FlightCompanyRepository {
-//}
+package nl.hu.prbed.vliegmaatschappij.data;
+
+
+public interface FlightCompanyRepository {
+
+}
