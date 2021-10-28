@@ -1,4 +1,4 @@
-package nl.hu.prbed.vliegmaatschappij.controller.DTO;
+package nl.hu.prbed.vliegmaatschappij.presentation.DTO;
 
 import nl.hu.prbed.vliegmaatschappij.domain.Airport;
 

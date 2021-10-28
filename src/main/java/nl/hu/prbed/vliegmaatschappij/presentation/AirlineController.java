@@ -1,4 +1,4 @@
-package nl.hu.prbed.vliegmaatschappij.controller;
+package nl.hu.prbed.vliegmaatschappij.presentation;
 
 import nl.hu.prbed.vliegmaatschappij.application.AirlineService;
 import org.springframework.web.bind.annotation.*;

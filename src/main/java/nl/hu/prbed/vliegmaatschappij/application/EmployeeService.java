@@ -1,13 +1,12 @@
 package nl.hu.prbed.vliegmaatschappij.application;
 
-import nl.hu.prbed.vliegmaatschappij.controller.DTO.AirportDTO;
+import nl.hu.prbed.vliegmaatschappij.presentation.DTO.AirportDTO;
 import nl.hu.prbed.vliegmaatschappij.data.AirportRepository;
 import nl.hu.prbed.vliegmaatschappij.domain.Airport;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EmployeeService {
