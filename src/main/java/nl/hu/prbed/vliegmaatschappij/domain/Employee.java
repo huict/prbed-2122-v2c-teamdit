@@ -14,6 +14,7 @@ public class Employee {
         this.dateOfBirth = dateOfBirth;
     }
 
+//    maybe function instead permissionlvl?
     enum permissionLevel{
         LOW,
         MEDIUM,

@@ -16,7 +16,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 /**
  * This class configures authentication and authorisation
- * for the nl.hu.prbed.vliegmaatschappij.application.
+ * for the application.
  *
  * The configure method
  * - permits all POSTs to the registration and login endpoints
@@ -24,7 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  * - sets up JWT-based authentication and authorisation
  * - enforces sessions to be stateless (see: REST)
  *
- * We make sure user nl.hu.prbed.vliegmaatschappij.data is securely stored
+ * We make sure user data is securely stored
  * by utilizing a BcryptPasswordEncoder.
  * We don't store passwords, only hashes of passwords.
  */
