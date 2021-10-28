@@ -15,18 +15,24 @@ public class CustomerController {
         this.cm = cm;
     }
 
-    @PostMapping("/vlucht/zoek")
+    //zoeken
+    @PostMapping("/vlucht")
     public void flightsAvailableFind(){}
 
-    @GetMapping("/vlucht/inzien")
+    //beschikbare vluchten
+    @GetMapping("/vlucht/beschikbaar")
     public void flightsAvailableView(){}
 
-    @PostMapping("/vlucht/kies")
+    //beschikbare vlucht op basis van id
+    @PostMapping("/vlucht")
     public void flightsAvailablePick(){}
 
+    //passagier gegevens op basis van id
     @PostMapping("/gegevens")
     public void customerDetailsFill(){}
 
-    @PostMapping("/bevestig")
+    //bevestigen van boeken
+    @PostMapping("/vlucht")
     public void confirmBooking(){}
+
 }
