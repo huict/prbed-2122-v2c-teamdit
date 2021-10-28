@@ -1,4 +1,4 @@
-package nl.hu.prbed.vliegmaatschappij.controller.DTO;
+package nl.hu.prbed.vliegmaatschappij.controller.dto;
 
 public class AirportDTO {
     public String name;

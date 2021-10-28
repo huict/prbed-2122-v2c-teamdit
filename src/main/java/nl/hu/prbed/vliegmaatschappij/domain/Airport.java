@@ -6,19 +6,11 @@ import javax.persistence.*;
 @Table(name = "AIRPORT")
 public class Airport {
     @Id
-    @Column(name = "CODE", length = 4, nullable = false)
+    @Column(length = 4, nullable = false)
     private String code;
-
-    @Column(name = "AIRPORT_NAME")
     private String airportName;
-
-    @Column(name = "CITY")
     private String city;
-
-    @Column(name = "LONGITUDE")
     private double longitude;
-
-    @Column(name = "LATITUDE")
     private double latitude;
 
     public Airport() {
