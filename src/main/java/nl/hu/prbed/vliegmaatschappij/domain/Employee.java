@@ -14,7 +14,7 @@ import java.util.Date;
 
 @Component
 @Entity
-public class Employee extends RepresentationModel<Employee> {
+public class Employee {
     @Id
     @GeneratedValue
     @Column(name = "id", nullable = false)
@@ -35,8 +35,7 @@ public class Employee extends RepresentationModel<Employee> {
         this.id = id;
     }
 
-    @JsonCreator
-    public Employee(@JsonProperty("id") Long id, @JsonProperty("firstname") String firstName, @JsonProperty("lastname") String lastName, @JsonProperty("birthday") Date dateOfBirth) {
+    public Employee(Long id, String firstName, String lastName, Date dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
