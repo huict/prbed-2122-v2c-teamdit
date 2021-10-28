@@ -31,4 +31,5 @@ public class Airport {
         this.longitude = longitude;
         this.latitude = latitude;
     }
+
 }
