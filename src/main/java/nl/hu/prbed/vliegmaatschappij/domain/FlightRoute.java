@@ -5,11 +5,11 @@ public class FlightRoute {
     private Airport departureLocation;
     private Integer duration;
 
-    private float economyPrice;
-    private float businessPrice;
-    private float firstClassPrice;
+    private Double economyPrice;
+    private Double businessPrice;
+    private Double firstClassPrice;
 
-    public FlightRoute(Airport arrivalLocation, Airport departureLocation, Integer duration, float economyPrice, float businessPrice, float firstClassPrice){
+    public FlightRoute(Airport arrivalLocation, Airport departureLocation, Integer duration, Double economyPrice, Double businessPrice, Double firstClassPrice){
         this.arrivalLocation = arrivalLocation;
         this.departureLocation = departureLocation;
         this.duration = duration;
