@@ -87,6 +87,12 @@ public class EmployeeController {
             return new AirportDTO(airport);
     }
 
+    //updaten airport
+    @PutMapping("/luchthaven")
+    public void airportUpdate(@Validated @RequestBody AirportDTO airportDTO) {
+        this.service.updateAirport(airportDTO);
+    }
+
     //verwijderen van luchthaven
     @DeleteMapping("/luchthaven/{code}")
     public void airportDelete(@PathVariable String code) {
