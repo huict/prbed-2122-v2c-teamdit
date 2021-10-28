@@ -88,10 +88,9 @@ public class EmployeeController {
     }
 
     //verwijderen van luchthaven
-    @DeleteMapping("/luchthaven/")
-    public void airportDelete() {
-
-
+    @DeleteMapping("/luchthaven/{code}")
+    public void airportDelete(@PathVariable String code) {
+        service.deleteAirport(code);
     }
 
     //zoeken van vliegtuig op basis van id

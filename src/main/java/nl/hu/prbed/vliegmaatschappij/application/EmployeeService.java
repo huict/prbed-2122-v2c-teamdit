@@ -31,9 +31,9 @@ public class EmployeeService {
         }
     }
 
-    public void deleteAirport(AirportDTO airportDTO){
-        Airport airport = findAirportbyCode(airportDTO.code);
-        this.airportRepository.delete(airport);
+    public void deleteAirport(String code){
+        Airport airport = findAirportbyCode(code);
+        airportRepository.deleteAirportByCode(code);
     }
 
     public List<Airport> getAllAirports(){

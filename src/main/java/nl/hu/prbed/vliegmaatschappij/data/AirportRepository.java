@@ -9,4 +9,5 @@ import java.util.Optional;
 
 public interface AirportRepository extends JpaRepository<Airport,Long> {
     Optional<Airport> findByCode(String code);
+    Airport deleteAirportByCode(String code);
 }
