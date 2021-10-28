@@ -22,7 +22,6 @@ public class Airport {
     private double latitude;
 
     public Airport() {
-
     }
 
     public Airport(String code, String airportName, String city, double longditude, double latitude) {
