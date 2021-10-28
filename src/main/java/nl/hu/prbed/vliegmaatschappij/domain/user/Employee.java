@@ -2,7 +2,6 @@ package nl.hu.prbed.vliegmaatschappij.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.hateoas.RepresentationModel;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.Column;
