@@ -1,4 +1,9 @@
 package nl.hu.prbed.vliegmaatschappij.domain;
 
-public class Class {
+public enum Class {
+
+    ECONOMY,
+    BUSINESS,
+    FIRST;
+
 }
