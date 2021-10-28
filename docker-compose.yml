@@ -4,7 +4,7 @@
 #
 # One can connect to it using your DB client
 # (IntelliJ, DataGrip, pqadmin, psql, ...),
-# using the following parameters (see: application.properties):
+# using the following parameters (see: nl.hu.prbed.vliegmaatschappij.application.properties):
 #   url = jdbc:postgresql://localhost:15432/prbed-vliegmaatschappij
 #   username = prbed-vliegmaatschappij
 #   password = prbed-vliegmaatschappij
@@ -21,4 +21,4 @@ services:
       - DB_APP_USER=prbed-vliegmaatschappij
       - DB_APP_PASS=prbed-vliegmaatschappij
     volumes:
-      - "./data:/var/data/db"
+      - "./nl.hu.prbed.vliegmaatschappij.data:/var/nl.hu.prbed.vliegmaatschappij.data/db"
