@@ -23,16 +23,17 @@ public class EmployeeService {
     }
 
     //TODO: Maymbe change Exceptionsds
-    public void updateAirport(AirportDTO airportDTO) {
+    public Airport updateAirport(AirportDTO airportDTO) {
         Airport airport = airportRepository.findByCode(airportDTO.code)
                 .orElseThrow(() -> new UsernameNotFoundException(airportDTO.code));
         Airport updatedAirport = createAirport(airportDTO);
         airportRepository.saveAndFlush(updatedAirport);
+        return updatedAirport;
     }
 
     public void deleteAirport(String code) {
         Airport airport = findAirportbyCode(code);
-        airportRepository.deleteAirportByCode(code);
+        airportRepository.delete(airport);
     }
 
     public List<Airport> getAllAirports() {

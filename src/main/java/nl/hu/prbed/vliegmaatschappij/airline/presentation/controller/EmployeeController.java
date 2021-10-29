@@ -1,6 +1,7 @@
 package nl.hu.prbed.vliegmaatschappij.airline.presentation.controller;
 
 import nl.hu.prbed.vliegmaatschappij.airline.application.EmployeeService;
+import nl.hu.prbed.vliegmaatschappij.airline.presentation.dto.AirportCode;
 import nl.hu.prbed.vliegmaatschappij.airline.presentation.dto.AirportDTO;
 import nl.hu.prbed.vliegmaatschappij.airline.domain.Airport;
 import nl.hu.prbed.vliegmaatschappij.security.domain.UserProfile;
@@ -33,13 +34,9 @@ public class EmployeeController {
     }
 
     //zoeken van luchthaven op code
-    @GetMapping("/airport/{code}")
-    public Airport airportView(@PathVariable String code) {
-        try {
-            return this.employeeService.findAirportbyCode(code);
-        } catch (Exception exception) {
-            throw new ResponseStatusException(HttpStatus.I_AM_A_TEAPOT, exception.getMessage());
-        }
+    @GetMapping("/airport/code")
+    public Airport airportView(@Validated @RequestBody AirportCode AirportCode) {
+            return this.employeeService.findAirportbyCode(AirportCode.code);
     }
 
     //toevoegen van luchthaven
@@ -51,13 +48,14 @@ public class EmployeeController {
 
     //updaten airport
     @PutMapping("/airport")
-    public void airportUpdate(@Validated @RequestBody AirportDTO airportDTO) {
-        this.employeeService.updateAirport(airportDTO);
+    public AirportDTO airportUpdate(@Validated @RequestBody AirportDTO airportDTO) {
+        Airport airport = this.employeeService.updateAirport(airportDTO);
+        return new AirportDTO(airport);
     }
 
-    //verwijderen van luchthaven
-    @DeleteMapping("/airport/{code}")
-    public void airportDelete(@PathVariable String code) {
-        employeeService.deleteAirport(code);
+    //delete airport
+    @DeleteMapping("/airport")
+    public void airportDelete(@Validated @RequestBody AirportCode AirportCode) {
+        this.employeeService.deleteAirport(AirportCode.code);
     }
 }
