@@ -1,9 +1,11 @@
-package nl.hu.prbed.vliegmaatschappij.airline.presentation;
+package nl.hu.prbed.vliegmaatschappij.airline.presentation.controller;
 
 import nl.hu.prbed.vliegmaatschappij.airline.application.EmployeeService;
 import nl.hu.prbed.vliegmaatschappij.airline.presentation.dto.AirportDTO;
 import nl.hu.prbed.vliegmaatschappij.airline.domain.Airport;
+import nl.hu.prbed.vliegmaatschappij.security.domain.UserProfile;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -59,7 +61,8 @@ public class EmployeeController {
 
     //toevoegen van luchthaven
     @PostMapping("/luchthaven/")
-    public AirportDTO airportAdd(@Validated @RequestBody AirportDTO airportDTO) {
+    public AirportDTO airportAdd(Authentication authentication, @Validated @RequestBody AirportDTO airportDTO) {
+            UserProfile profile = (UserProfile) authentication.getPrincipal();
             Airport airport = this.employeeService.createAirport(airportDTO);
             return new AirportDTO(airport);
     }
