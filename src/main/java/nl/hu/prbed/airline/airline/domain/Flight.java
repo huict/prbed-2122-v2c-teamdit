@@ -22,6 +22,7 @@ public class Flight {
     @OneToMany
     @Cascade(CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
+
     private Time departureTime;
     private Time arrivalTime;
 

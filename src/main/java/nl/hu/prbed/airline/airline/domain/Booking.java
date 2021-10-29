@@ -20,7 +20,6 @@ public class Booking {
     @Enumerated(EnumType.STRING)
     private Class bookingClass;
 
-    @OneToOne
     @ManyToMany
     @Cascade(CascadeType.ALL)
     private List<Customer> customer;
