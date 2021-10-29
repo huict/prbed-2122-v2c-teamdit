@@ -10,7 +10,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-//voor HATEOS zie link https://www.youtube.com/watch?v=KIFncw4RtEY&ab_channel=AlmightyJava
 
 @RestController
 @RequestMapping(path = "/employee")
