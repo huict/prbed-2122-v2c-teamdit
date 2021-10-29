@@ -1,8 +1,14 @@
-const data = pm.response.json();
-pm.test("Luchthaven succesvol opgehaald", () => {
-    pm.request.method.eql("GET");
-    pm.expect(data.id).to.be.an("number");
+pm.test("airport succesfully fetched!", () => {
+    if(Object.values(pm.request.auth.bearer)[1].token.value === ""){
+        throw new Error("Unauthorized");
+    };
+
+    let data = pm.response.json();
+    pm.expect(data).to.have.all.keys('code', 'airportName','city','country','longitude','latitude');
     pm.expect(pm.response.code).to.eql(200);
-    pm.expect(pm.request.body.isEmpty);
-    pm.expect(pm.request.url.eql("localhost:8080/employee/luchthaven/")+ (pm.request.url[-1]) instanceof Number);
+    pm.expect(pm.request.url.toString() === "http://localhost:8080/employee/airport/"+pm.request.url.path[2]);
+    pm.expect(pm.request.method === "GET");
+    pm.expect([...Object.values(data)].includes(null) == false);
+    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');
+
 });
