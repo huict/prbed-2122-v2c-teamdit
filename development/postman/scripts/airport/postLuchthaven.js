@@ -6,6 +6,9 @@ pm.test("airport succesfully made!",() => {
     const data = pm.response.json();
     const input = JSON.parse(pm.request.body.raw);
 
+    pm.expect(data).to.have.all.keys('code', 'name','city','country','longitude','latitude');
+    pm.expect(input).to.have.all.keys('code', 'name','city','country','longitude','latitude');
+
     pm.expect(pm.request.method === "POST");
 
     pm.expect(typeof data.name == "string");
