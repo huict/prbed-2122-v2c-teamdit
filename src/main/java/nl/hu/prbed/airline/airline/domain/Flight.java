@@ -16,7 +16,7 @@ import java.util.List;
 public class Flight {
     @Id
     @GeneratedValue
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private Long id;
     @OneToMany
     @Cascade(CascadeType.ALL)
@@ -34,14 +34,6 @@ public class Flight {
 
     public Flight() {
 
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Flight(Time departureTime, Time arrivalTime, FlightRoute flightRoute, Plane plane){

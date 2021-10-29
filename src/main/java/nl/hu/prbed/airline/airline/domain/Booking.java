@@ -13,7 +13,7 @@ public class Booking {
 
     @Id
     @GeneratedValue
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private Long id;
 
     @Enumerated(EnumType.STRING)
@@ -31,13 +31,5 @@ public class Booking {
 
     public Booking() {
 
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }

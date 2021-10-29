@@ -12,7 +12,7 @@ import org.hibernate.annotations.CascadeType;
 public class FlightRoute {
     @Id
     @GeneratedValue
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private Long id;
 
     @OneToOne
@@ -29,14 +29,6 @@ public class FlightRoute {
 
     public FlightRoute() {
 
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public FlightRoute(Airport arrivalLocation, Airport departureLocation, Integer duration, Double economyPrice, Double businessPrice, Double firstClassPrice){

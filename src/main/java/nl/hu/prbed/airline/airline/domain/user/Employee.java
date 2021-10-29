@@ -23,24 +23,10 @@ public class Employee {
     public Employee() {
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Employee(String firstName, String lastName, Date dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
-    }
-
-    enum permissionLevel {
-        LOW,
-        MEDIUM,
-        HIGH
     }
 
 }

@@ -13,7 +13,7 @@ import java.util.List;
 public class Airline {
     @Id
     @GeneratedValue
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private Long id;
 
     @OneToMany
@@ -31,14 +31,6 @@ public class Airline {
 
     public Airline() {
 
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public Airline(List<Employee> employees) {
