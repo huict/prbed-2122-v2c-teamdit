@@ -14,7 +14,7 @@ import java.util.Date;
 public class Employee {
     @Id
     @GeneratedValue
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private Long id;
     private String firstName;
     private String lastName;

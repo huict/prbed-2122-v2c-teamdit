@@ -17,11 +17,12 @@ public class FlightRoute {
 
     @OneToOne
     @Cascade(CascadeType.ALL)
-    private Airport arrivalLocation;
+    private Airport departureLocation;
 
     @OneToOne
     @Cascade(CascadeType.ALL)
-    private Airport departureLocation;
+    private Airport arrivalLocation;
+
     private Integer duration;
     private Double economyPrice;
     private Double businessPrice;
@@ -31,9 +32,9 @@ public class FlightRoute {
 
     }
 
-    public FlightRoute(Airport arrivalLocation, Airport departureLocation, Integer duration, Double economyPrice, Double businessPrice, Double firstClassPrice){
-        this.arrivalLocation = arrivalLocation;
+    public FlightRoute(Airport departureLocation, Airport arrivalLocation, Integer duration, Double economyPrice, Double businessPrice, Double firstClassPrice){
         this.departureLocation = departureLocation;
+        this.arrivalLocation = arrivalLocation;
         this.duration = duration;
         this.economyPrice = economyPrice;
         this.businessPrice = businessPrice;

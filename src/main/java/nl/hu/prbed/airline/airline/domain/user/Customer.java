@@ -13,16 +13,16 @@ import java.util.List;
 public class Customer {
     @Id
     @GeneratedValue
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private Long id;
     private String firstName;
     private String lastName;
     private Date dateOfBirth;
     private Integer phoneNumber;
-    private String emailAdress;
+    private String emailAddress;
     private String nationality;
 
-    @OneToMany
+    @ManyToMany
     @Cascade(CascadeType.ALL)
     private List<Booking> bookings;
 
@@ -30,12 +30,12 @@ public class Customer {
 
     }
 
-    public Customer(String firstName, String lastName, Date dateOfBirth, Integer phoneNumber, String emailAdress, String nationality) {
+    public Customer(String firstName, String lastName, Date dateOfBirth, Integer phoneNumber, String emailAddress, String nationality) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
-        this.emailAdress = emailAdress;
+        this.emailAddress = emailAddress;
         this.nationality = nationality;
     }
 

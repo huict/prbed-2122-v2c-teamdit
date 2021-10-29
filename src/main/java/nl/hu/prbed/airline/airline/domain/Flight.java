@@ -18,6 +18,7 @@ public class Flight {
     @GeneratedValue
     @Column(nullable = false)
     private Long id;
+
     @OneToMany
     @Cascade(CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();

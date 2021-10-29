@@ -12,16 +12,18 @@ public class Airport {
     private String code;
     private String airportName;
     private String city;
+    private String country;
     private double longitude;
     private double latitude;
 
     public Airport() {
     }
 
-    public Airport(String code, String airportName, String city, double longitude, double latitude) {
+    public Airport(String code, String airportName, String city, String country, double longitude, double latitude) {
         this.code = code;
         this.airportName = airportName;
         this.city = city;
+        this.country = country;
         this.longitude = longitude;
         this.latitude = latitude;
     }
@@ -36,6 +38,10 @@ public class Airport {
 
     public String getCity() {
         return city;
+    }
+
+    public String getCountry() {
+        return country;
     }
 
     public double getLongitude() {

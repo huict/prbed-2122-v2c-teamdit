@@ -20,11 +20,6 @@ public class Airline {
     @Cascade(CascadeType.ALL)
     private List<Employee> employees;
 
-    // todo: planes here?
-    @OneToMany
-    @Cascade(CascadeType.ALL)
-    private List<Plane> planes;
-
     @OneToMany
     @Cascade(CascadeType.ALL)
     private List<Plane> fleet;

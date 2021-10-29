@@ -6,11 +6,12 @@ import org.springframework.stereotype.Component;
 import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Component
 public class Booking {
-
     @Id
     @GeneratedValue
     @Column(nullable = false)
@@ -20,16 +21,18 @@ public class Booking {
     private Class bookingClass;
 
     @OneToOne
+    @ManyToMany
     @Cascade(CascadeType.ALL)
-    private Customer customer;
+    private List<Customer> customer;
 
 
     public Booking(Class bookingClass, Customer customer) {
+        this();
         this.bookingClass = bookingClass;
-        this.customer = customer;
+        this.customer.add(customer);
     }
 
     public Booking() {
-
+        this.customer = new ArrayList<>();
     }
 }
