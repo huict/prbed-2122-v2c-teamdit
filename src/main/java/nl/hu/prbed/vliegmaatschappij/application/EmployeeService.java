@@ -1,6 +1,6 @@
 package nl.hu.prbed.vliegmaatschappij.application;
 
-import nl.hu.prbed.vliegmaatschappij.presentation.DTO.AirportDTO;
+import nl.hu.prbed.vliegmaatschappij.presentation.dto.AirportDTO;
 import nl.hu.prbed.vliegmaatschappij.data.AirportRepository;
 import nl.hu.prbed.vliegmaatschappij.domain.Airport;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

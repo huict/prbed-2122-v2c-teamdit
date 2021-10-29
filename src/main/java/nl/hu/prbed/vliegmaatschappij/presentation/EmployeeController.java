@@ -1,7 +1,7 @@
 package nl.hu.prbed.vliegmaatschappij.presentation;
 
 import nl.hu.prbed.vliegmaatschappij.application.EmployeeService;
-import nl.hu.prbed.vliegmaatschappij.presentation.DTO.AirportDTO;
+import nl.hu.prbed.vliegmaatschappij.presentation.dto.AirportDTO;
 import nl.hu.prbed.vliegmaatschappij.domain.Airport;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
