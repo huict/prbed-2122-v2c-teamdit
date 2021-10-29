@@ -8,9 +8,7 @@ import javax.persistence.*;
 @Component
 public class Airport {
     @Id
-    @GeneratedValue
     @Column(length = 4, nullable = false)
-    private Long id;
     private String code;
     private String airportName;
     private String city;
@@ -48,11 +46,4 @@ public class Airport {
         return latitude;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
 }

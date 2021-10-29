@@ -22,6 +22,7 @@ public class EmployeeService {
         return airport;
     }
 
+    //TODO: Maymbe change Exceptionsds
     public void updateAirport(AirportDTO airportDTO) {
         Airport airport = airportRepository.findByCode(airportDTO.code)
                 .orElseThrow(() -> new UsernameNotFoundException(airportDTO.code));
@@ -38,6 +39,7 @@ public class EmployeeService {
         return this.airportRepository.findAll();
     }
 
+    //TODO: Maymbe change Exceptionsds
     public Airport findAirportbyCode(String code) {
         return this.airportRepository.findByCode(code)
                 .orElseThrow(() -> new UsernameNotFoundException(code));
