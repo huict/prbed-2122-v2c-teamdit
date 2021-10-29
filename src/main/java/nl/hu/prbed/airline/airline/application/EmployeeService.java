@@ -24,7 +24,7 @@ public class EmployeeService {
             throw new RuntimeException("Airport already exists");
         }
 
-        Airport airport = new Airport(airportDTO.code, airportDTO.name, airportDTO.city, airportDTO.longitude, airportDTO.latitude);
+        Airport airport = new Airport(airportDTO.code, airportDTO.name, airportDTO.city, airportDTO.country, airportDTO.longitude, airportDTO.latitude);
         this.airportRepository.save(airport);
         return airport;
     }
