@@ -5,6 +5,7 @@ import org.hibernate.annotations.Cascade;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +18,7 @@ public class Customer {
     private Long id;
     private String firstName;
     private String lastName;
-    private Date dateOfBirth;
+    private LocalDateTime dateOfBirth;
     private Integer phoneNumber;
     private String emailAddress;
     private String nationality;
@@ -30,7 +31,7 @@ public class Customer {
 
     }
 
-    public Customer(String firstName, String lastName, Date dateOfBirth, Integer phoneNumber, String emailAddress, String nationality) {
+    public Customer(String firstName, String lastName, LocalDateTime dateOfBirth, Integer phoneNumber, String emailAddress, String nationality) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;

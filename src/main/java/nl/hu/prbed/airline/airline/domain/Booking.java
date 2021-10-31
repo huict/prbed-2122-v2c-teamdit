@@ -22,16 +22,13 @@ public class Booking {
 
     @ManyToMany
     @Cascade(CascadeType.ALL)
-    private List<Customer> customer;
-
-
-    public Booking(Class bookingClass, Customer customer) {
-        this();
-        this.bookingClass = bookingClass;
-        this.customer.add(customer);
-    }
+    private List<Customer> customers;
 
     public Booking() {
-        this.customer = new ArrayList<>();
+    }
+
+    public Booking( Class bookingClass, List<Customer> customers) {
+        this.bookingClass = bookingClass;
+        this.customers = customers;
     }
 }

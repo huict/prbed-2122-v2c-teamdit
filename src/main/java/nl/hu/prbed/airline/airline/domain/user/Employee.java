@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -18,12 +19,12 @@ public class Employee {
     private Long id;
     private String firstName;
     private String lastName;
-    private Date dateOfBirth;
+    private LocalDateTime dateOfBirth;
 
     public Employee() {
     }
 
-    public Employee(String firstName, String lastName, Date dateOfBirth) {
+    public Employee(String firstName, String lastName, LocalDateTime dateOfBirth) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;

@@ -7,6 +7,7 @@ import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,7 @@ public class Flight {
     @Cascade(CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
 
-    private Time departureTime;
-    private Time arrivalTime;
+    private LocalDateTime departureTime;
 
     @OneToOne
     @Cascade(CascadeType.ALL)
@@ -38,9 +38,8 @@ public class Flight {
 
     }
 
-    public Flight(Time departureTime, Time arrivalTime, FlightRoute flightRoute, Plane plane){
+    public Flight(LocalDateTime  departureTime, FlightRoute flightRoute, Plane plane){
         this.departureTime = departureTime;
-        this.arrivalTime = arrivalTime;
         this.route = flightRoute;
         this.plane = plane;
     }

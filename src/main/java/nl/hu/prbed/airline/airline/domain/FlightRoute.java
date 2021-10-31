@@ -15,29 +15,29 @@ public class FlightRoute {
     @Column(nullable = false)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @Cascade(CascadeType.ALL)
     private Airport departureLocation;
 
-    @OneToOne
+    @ManyToOne
     @Cascade(CascadeType.ALL)
     private Airport arrivalLocation;
 
-    private Integer duration;
-    private Double economyPrice;
-    private Double businessPrice;
-    private Double firstClassPrice;
+    private Integer durationMinutes;
+    private Double priceEconomy;
+    private Double priceBusiness;
+    private Double priceFirstClass;
 
     public FlightRoute() {
 
     }
 
-    public FlightRoute(Airport departureLocation, Airport arrivalLocation, Integer duration, Double economyPrice, Double businessPrice, Double firstClassPrice){
+    public FlightRoute(Airport departureLocation, Airport arrivalLocation, Integer durationMinutes, Double priceEconomy, Double priceBusiness, Double priceFirstClass){
         this.departureLocation = departureLocation;
         this.arrivalLocation = arrivalLocation;
-        this.duration = duration;
-        this.economyPrice = economyPrice;
-        this.businessPrice = businessPrice;
-        this.firstClassPrice = firstClassPrice;
+        this.durationMinutes = durationMinutes;
+        this.priceEconomy = priceEconomy;
+        this.priceBusiness = priceBusiness;
+        this.priceFirstClass = priceFirstClass;
     }
 }

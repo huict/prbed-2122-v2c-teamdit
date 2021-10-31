@@ -16,19 +16,25 @@ public class Airline {
     @Column(nullable = false)
     private Long id;
 
+    @OneToOne
+    @Cascade(CascadeType.ALL)
+    private Fleet fleet;
+
     @OneToMany
     @Cascade(CascadeType.ALL)
     private List<Employee> employees;
 
     @OneToMany
     @Cascade(CascadeType.ALL)
-    private List<Plane> fleet;
+    private List<Flight> flights;
 
     public Airline() {
 
     }
 
-    public Airline(List<Employee> employees) {
+    public Airline(Fleet fleet, List<Employee> employees, List<Flight> flights) {
+        this.fleet = fleet;
         this.employees = employees;
+        this.flights = flights;
     }
 }
