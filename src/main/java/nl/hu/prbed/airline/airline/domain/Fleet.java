@@ -11,7 +11,7 @@ import java.util.List;
 public class Fleet {
     @Id
     @GeneratedValue
-    @Column(name = "id", nullable = false)
+    @Column(nullable = false)
     private Long id;
 
     @OneToMany

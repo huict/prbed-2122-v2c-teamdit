@@ -10,7 +10,9 @@ public class AirportDTO {
     public double longitude;
     public double latitude;
 
-    public AirportDTO(){};
+    public AirportDTO() {
+
+    }
 
     public AirportDTO(Airport airport) {
         this.code = airport.getCode();
