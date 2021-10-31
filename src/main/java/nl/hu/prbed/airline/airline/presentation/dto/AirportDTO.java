@@ -2,12 +2,21 @@ package nl.hu.prbed.airline.airline.presentation.dto;
 
 import nl.hu.prbed.airline.airline.domain.Airport;
 
+import javax.validation.constraints.NotNull;
+
 public class AirportDTO {
+
+    @NotNull
     public String code;
+    @NotNull
     public String name;
+    @NotNull
     public String city;
+    @NotNull
     public String country;
+    @NotNull
     public double longitude;
+    @NotNull
     public double latitude;
 
     public AirportDTO() {
