@@ -1,4 +1,4 @@
-package nl.hu.prbed.vliegmaatschappij;
+package nl.hu.prbed.airline;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
