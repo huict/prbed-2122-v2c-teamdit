@@ -22,4 +22,13 @@ public class AirportDTO {
         this.longitude = airport.getLongitude();
         this.latitude = airport.getLatitude();
     }
+
+    public Airport toAirport() {
+        return new Airport(code,
+                name,
+                city,
+                country,
+                longitude,
+                latitude);
+    }
 }

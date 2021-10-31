@@ -20,6 +20,7 @@ public class Flight {
     @Column(nullable = false)
     private Long id;
 
+    // TODO: Cleanup new list initialization on object creation
     @OneToMany
     @Cascade(CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
