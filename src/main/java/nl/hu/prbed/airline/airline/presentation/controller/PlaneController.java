@@ -18,7 +18,6 @@ public class PlaneController {
     @GetMapping
     public List<Plane> getPlanes(){return service.getAllPlanes();}
 
-    // Get airport by code
     @GetMapping("/{id}")
     public Plane getPlaneByID(@PathVariable Long id) {
         return service.getPlane(id);
