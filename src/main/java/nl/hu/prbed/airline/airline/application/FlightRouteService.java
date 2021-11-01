@@ -39,26 +39,29 @@ public class FlightRouteService {
 
 
     public FlightrouteDTO createFlightRoute(FlightrouteDTO flightRouteDTO) {
-        if (this.flightRouteRepository.existsById(flightRouteDTO.id)) {
-            throw new FlightRouteAlreadyExistsException(flightRouteDTO.id);
-        }
-
         Airport arrival = airportService.findAirportByCode(flightRouteDTO.arrivalCode);
         Airport departure = airportService.findAirportByCode(flightRouteDTO.departureCode);
+        FlightRoute flightRoute = flightRouteDTO.toFlightroute(arrival, departure);
+
+        if (this.flightRouteRepository.existsById(flightRoute.getId())) {
+            throw new FlightRouteAlreadyExistsException(flightRoute.getId());
+        }
 
         this.flightRouteRepository.save(flightRouteDTO.toFlightroute(arrival, departure));
 
-        return flightRouteDTO;
+        return new FlightrouteDTO(flightRoute);
     }
 
     public FlightrouteDTO updateFlightRoute(FlightrouteDTO flightRouteDTO) {
-        this.flightRouteRepository.findById(flightRouteDTO.id)
-                .orElseThrow(() -> new FlightRouteNotFoundException(flightRouteDTO.id));
         Airport arrival = airportService.findAirportByCode(flightRouteDTO.arrivalCode);
         Airport departure = airportService.findAirportByCode(flightRouteDTO.departureCode);
+        FlightRoute flightRoute = flightRouteDTO.toFlightroute(arrival, departure);
 
-        this.flightRouteRepository.saveAndFlush(flightRouteDTO.toFlightroute(arrival, departure));
-        return flightRouteDTO;
+        this.flightRouteRepository.findById(flightRoute.getId())
+                .orElseThrow(() -> new FlightRouteNotFoundException(flightRoute.getId()));
+
+        this.flightRouteRepository.saveAndFlush(flightRoute);
+        return new FlightrouteDTO(flightRoute);
     }
 
     public void deleteFlightRoute(Long id) {
