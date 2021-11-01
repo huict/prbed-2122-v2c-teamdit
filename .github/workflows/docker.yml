@@ -6,9 +6,9 @@ on: [push, pull_request]
 env:
   IMAGE_NAME: prbed-teamdit
 
-  DB_APP_NAME: postgres
-  DB_APP_USER: postgres
-  DB_APP_PASS: postgres
+  POSTGRES_DATABASE: postgres
+  POSTGRES_USER: postgres
+  POSTGRES_PASSWORD: postgres
   JWT_SECRET: jwt_secret
 
 jobs:
@@ -21,9 +21,6 @@ jobs:
       postgres:
         # Docker Hub image
         image: postgres:11
-        # Provide the password for postgres
-        env:
-          POSTGRES_PASSWORD: postgres
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
