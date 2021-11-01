@@ -106,6 +106,4 @@ jobs:
           docker push registry.heroku.com/prbed-team-dit-app/web
 
           HEROKU_API_KEY="${{ secrets.HEROKU_API_KEY }}" heroku container:push --app prbed-team-dit-app --recursive
-          HEROKU_API_KEY="${{ secrets.HEROKU_API_KEY }}" heroku container:release web --app prbed-team-dit-app --recursive
-#          heroku container:release prbed-team-dit-app
-#          heroku container:release $IMAGE_NAME
+          HEROKU_API_KEY="${{ secrets.HEROKU_API_KEY }}" heroku container:release web --app prbed-team-dit-app
