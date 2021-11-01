@@ -40,4 +40,32 @@ public class FlightRoute {
         this.priceBusiness = priceBusiness;
         this.priceFirstClass = priceFirstClass;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Airport getDepartureLocation() {
+        return departureLocation;
+    }
+
+    public Airport getArrivalLocation() {
+        return arrivalLocation;
+    }
+
+    public Integer getDurationMinutes() {
+        return durationMinutes;
+    }
+
+    public Double getPriceEconomy() {
+        return priceEconomy;
+    }
+
+    public Double getPriceBusiness() {
+        return priceBusiness;
+    }
+
+    public Double getPriceFirstClass() {
+        return priceFirstClass;
+    }
 }

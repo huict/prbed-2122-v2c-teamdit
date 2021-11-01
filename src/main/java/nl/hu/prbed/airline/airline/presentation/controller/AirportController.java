@@ -17,12 +17,14 @@ public class AirportController {
         this.airportService = airportService;
     }
 
+    //todo: make list of DTOs
     // Get all airports
     @GetMapping
     public List<Airport> getAllAirports() {
         return this.airportService.getAllAirports();
     }
 
+    //todo: make list of DTOs
     // Get airport by code
     @GetMapping("/{code}")
     public Airport getAirportByCode(@PathVariable String code) {
@@ -43,6 +45,7 @@ public class AirportController {
         return new AirportDTO(airport);
     }
 
+    // todo: delete isn't a usecase?
     // Delete airport
     @DeleteMapping("/{code}")
     public void deleteAirport(@PathVariable String code) {
