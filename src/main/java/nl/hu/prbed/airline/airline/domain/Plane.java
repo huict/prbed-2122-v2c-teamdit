@@ -38,4 +38,16 @@ public class Plane {
         this.seatsBusiness = seatsBusiness;
         this.seatsFirstClass = seatsFirstClass;
     }
+
+    public int getSeatsBusiness() {
+        return seatsBusiness;
+    }
+
+    public int getSeatsEconomy() {
+        return seatsEconomy;
+    }
+
+    public int getSeatsFirstClass() {
+        return seatsFirstClass;
+    }
 }
