@@ -6,7 +6,9 @@ import nl.hu.prbed.airline.airline.data.FlightRouteRepository;
 import nl.hu.prbed.airline.airline.domain.Airport;
 import nl.hu.prbed.airline.airline.domain.FlightRoute;
 import nl.hu.prbed.airline.airline.presentation.dto.FlightRouteDTO;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -78,6 +80,10 @@ public class FlightRouteService {
         return new FlightRouteDTO(flightRoute);
     }
 
+    //deze is voor de werking van de flight service kant
+    public FlightRoute findFlightRouteByID(Long id ){
+        return flightRouteRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+    }
     public void deleteFlightRoute(Long id) {
         this.flightRouteRepository.findById(id)
                 .orElseThrow(() -> new FlightRouteNotFoundException());
