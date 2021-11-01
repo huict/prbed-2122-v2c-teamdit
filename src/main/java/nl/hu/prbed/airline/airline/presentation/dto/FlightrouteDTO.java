@@ -7,12 +7,11 @@ import javax.validation.constraints.NotNull;
 
 public class FlightrouteDTO {
 
-    @NotNull
     public Long id;
     @NotNull
-    public Airport arrival;
+    public String arrivalCode;
     @NotNull
-    public Airport departure;
+    public String departureCode;
     @NotNull
     public int durationMinutes;
     @NotNull
@@ -28,15 +27,15 @@ public class FlightrouteDTO {
 
     public FlightrouteDTO(FlightRoute flightRoute) {
         this.id = flightRoute.getId();
-        this.arrival = flightRoute.getArrivalLocation();
-        this.departure = flightRoute.getDepartureLocation();
+        this.arrivalCode = flightRoute.getArrivalLocation().getCode();
+        this.departureCode = flightRoute.getDepartureLocation().getCode();
         this.durationMinutes = flightRoute.getDurationMinutes();
         this.priceEconomy = flightRoute.getPriceEconomy();
         this.priceBusiness = flightRoute.getPriceBusiness();
         this.priceFirstClass = flightRoute.getPriceFirstClass();
     }
 
-    public FlightRoute toFlightroute() {
+    public FlightRoute toFlightroute(Airport arrival, Airport departure) {
         return new FlightRoute(arrival, departure, durationMinutes, priceEconomy, priceBusiness, priceFirstClass);
     }
 

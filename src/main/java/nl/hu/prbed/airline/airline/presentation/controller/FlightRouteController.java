@@ -17,23 +17,27 @@ public class FlightRouteController {
     }
 
     @GetMapping
-    public List<FlightrouteDTO> getAllFlightroutes(){
-        return this.flightRouteService.getAllFlightroutes();
+    public List<FlightrouteDTO> getAllFlightRoutes() {
+        return this.flightRouteService.getAllFlightRoutes();
     }
 
     @GetMapping("/{id}")
     public FlightrouteDTO getFlightrouteById(@PathVariable Long id) {
-        return this.flightRouteService.getFlightrouteByID(id);
+        return this.flightRouteService.getFlightRouteByID(id);
     }
 
     @PostMapping
     public FlightrouteDTO addFlightroute(@Validated @RequestBody FlightrouteDTO flightRouteDTO) {
-        return this.flightRouteService.createFlightroute(flightRouteDTO);
+        return this.flightRouteService.createFlightRoute(flightRouteDTO);
     }
 
     @PutMapping
     public FlightrouteDTO updateFlightroute(@Validated @RequestBody FlightrouteDTO flightRouteDTO) {
-        return this.flightRouteService.updateFlightroute(flightRouteDTO);
+        return this.flightRouteService.updateFlightRoute(flightRouteDTO);
     }
 
+    @DeleteMapping("/{id}")
+    public void deleteFlightRouteById(@PathVariable Long id) {
+        this.flightRouteService.deleteFlightRoute(id);
+    }
 }
