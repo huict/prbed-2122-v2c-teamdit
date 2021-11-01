@@ -5,7 +5,7 @@ import nl.hu.prbed.airline.airline.application.exception.FlightRouteNotFoundExce
 import nl.hu.prbed.airline.airline.data.FlightRouteRepository;
 import nl.hu.prbed.airline.airline.domain.Airport;
 import nl.hu.prbed.airline.airline.domain.FlightRoute;
-import nl.hu.prbed.airline.airline.presentation.dto.FlightrouteDTO;
+import nl.hu.prbed.airline.airline.presentation.dto.FlightRouteDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,47 +21,60 @@ public class FlightRouteService {
         this.airportService = airportService;
     }
 
-    public List<FlightrouteDTO> getAllFlightRoutes() {
+    public List<FlightRouteDTO> getAllFlightRoutes() {
 
         List<FlightRoute> flightRoutes = this.flightRouteRepository.findAll();
-        List<FlightrouteDTO> flightRouteDTOS = new ArrayList<>();
+        List<FlightRouteDTO> flightRouteDTOS = new ArrayList<>();
         for (FlightRoute flightRoute : flightRoutes) {
-            flightRouteDTOS.add(new FlightrouteDTO(flightRoute));
+            flightRouteDTOS.add(new FlightRouteDTO(flightRoute));
         }
         return flightRouteDTOS;
     }
 
-    public FlightrouteDTO getFlightRouteByID(Long id) {
+    public FlightRouteDTO getFlightRouteByID(Long id) {
         FlightRoute flightRoute = this.flightRouteRepository.findById(id)
-                .orElseThrow(() -> new FlightRouteNotFoundException(id));
-        return new FlightrouteDTO(flightRoute);
+                .orElseThrow(() -> new FlightRouteNotFoundException());
+        return new FlightRouteDTO(flightRoute);
     }
 
 
-    public FlightrouteDTO createFlightRoute(FlightrouteDTO flightRouteDTO) {
+    public FlightRouteDTO createFlightRoute(FlightRouteDTO flightRouteDTO) {
         Airport arrival = airportService.findAirportByCode(flightRouteDTO.arrivalCode);
         Airport departure = airportService.findAirportByCode(flightRouteDTO.departureCode);
         FlightRoute flightRoute = flightRouteDTO.toFlightroute(arrival, departure);
 
-        if (this.flightRouteRepository.existsById(flightRoute.getId())) {
-            throw new FlightRouteAlreadyExistsException(flightRoute.getId());
+
+        //todo: HAS TO BE A BETTER WAY
+        List<FlightRoute> flightRoutes = this.flightRouteRepository.findAll();
+        Object potentialFlightRoute = flightRoute.flightExists(flightRoutes, flightRoute);
+
+        if (!(potentialFlightRoute instanceof Boolean)) {
+            FlightRoute existingFLightRoute = (FlightRoute) potentialFlightRoute;
+            throw new FlightRouteAlreadyExistsException(existingFLightRoute.getId());
         }
 
         this.flightRouteRepository.save(flightRouteDTO.toFlightroute(arrival, departure));
 
-        return new FlightrouteDTO(flightRoute);
+        flightRoutes = this.flightRouteRepository.findAll();
+        Object addedFlightRoute = flightRoute.flightExists(flightRoutes, flightRoute);
+
+        return new FlightRouteDTO((FlightRoute) addedFlightRoute);
     }
 
-    public FlightrouteDTO updateFlightRoute(FlightrouteDTO flightRouteDTO) {
+    public FlightRouteDTO updateFlightRoute(FlightRouteDTO flightRouteDTO) {
         Airport arrival = airportService.findAirportByCode(flightRouteDTO.arrivalCode);
         Airport departure = airportService.findAirportByCode(flightRouteDTO.departureCode);
         FlightRoute flightRoute = flightRouteDTO.toFlightroute(arrival, departure);
 
-        this.flightRouteRepository.findById(flightRoute.getId())
-                .orElseThrow(() -> new FlightRouteNotFoundException(flightRoute.getId()));
+        List<FlightRoute> flightRoutes = this.flightRouteRepository.findAll();
+        Object potentialFlightRoute = flightRoute.flightExists(flightRoutes, flightRoute);
+
+        if (potentialFlightRoute instanceof Boolean) {
+            throw new FlightRouteNotFoundException();
+        }
 
         this.flightRouteRepository.saveAndFlush(flightRoute);
-        return new FlightrouteDTO(flightRoute);
+        return new FlightRouteDTO(flightRoute);
     }
 
     public void deleteFlightRoute(Long id) {

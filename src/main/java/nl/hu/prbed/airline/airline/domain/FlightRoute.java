@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 import javax.persistence.*;
 import org.hibernate.annotations.CascadeType;
 
+import java.util.List;
+
 
 @Component
 @Entity
@@ -67,5 +69,32 @@ public class FlightRoute {
 
     public Double getPriceFirstClass() {
         return priceFirstClass;
+    }
+
+    public Object flightExists(List<FlightRoute> flightRoutes, FlightRoute flightRoute) {
+        for (FlightRoute flightRouteRepo : flightRoutes) {
+            if (flightRoute.getArrivalLocation().equals(flightRouteRepo.getArrivalLocation()) &&
+                    flightRoute.getDepartureLocation().equals(flightRouteRepo.getDepartureLocation()) &&
+                    flightRoute.getDurationMinutes().equals(flightRouteRepo.getDurationMinutes()) &&
+                    flightRoute.getPriceEconomy().equals(flightRouteRepo.getPriceEconomy()) &&
+                    flightRoute.getPriceBusiness().equals(flightRouteRepo.getPriceBusiness()) &&
+                    flightRoute.getPriceFirstClass().equals(flightRouteRepo.getPriceFirstClass())) {
+                return flightRouteRepo;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "FlightRoute{" +
+                "id=" + id +
+                ", departureLocation=" + departureLocation +
+                ", arrivalLocation=" + arrivalLocation +
+                ", durationMinutes=" + durationMinutes +
+                ", priceEconomy=" + priceEconomy +
+                ", priceBusiness=" + priceBusiness +
+                ", priceFirstClass=" + priceFirstClass +
+                '}';
     }
 }

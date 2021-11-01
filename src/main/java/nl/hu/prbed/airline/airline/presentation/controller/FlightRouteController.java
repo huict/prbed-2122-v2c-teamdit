@@ -1,7 +1,7 @@
 package nl.hu.prbed.airline.airline.presentation.controller;
 
 import nl.hu.prbed.airline.airline.application.FlightRouteService;
-import nl.hu.prbed.airline.airline.presentation.dto.FlightrouteDTO;
+import nl.hu.prbed.airline.airline.presentation.dto.FlightRouteDTO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,22 +17,22 @@ public class FlightRouteController {
     }
 
     @GetMapping
-    public List<FlightrouteDTO> getAllFlightRoutes() {
+    public List<FlightRouteDTO> getAllFlightRoutes() {
         return this.flightRouteService.getAllFlightRoutes();
     }
 
     @GetMapping("/{id}")
-    public FlightrouteDTO getFlightrouteById(@PathVariable Long id) {
+    public FlightRouteDTO getFlightrouteById(@PathVariable Long id) {
         return this.flightRouteService.getFlightRouteByID(id);
     }
 
     @PostMapping
-    public FlightrouteDTO addFlightroute(@Validated @RequestBody FlightrouteDTO flightRouteDTO) {
+    public FlightRouteDTO addFlightroute(@Validated @RequestBody FlightRouteDTO flightRouteDTO) {
         return this.flightRouteService.createFlightRoute(flightRouteDTO);
     }
 
     @PutMapping
-    public FlightrouteDTO updateFlightroute(@Validated @RequestBody FlightrouteDTO flightRouteDTO) {
+    public FlightRouteDTO updateFlightroute(@Validated @RequestBody FlightRouteDTO flightRouteDTO) {
         return this.flightRouteService.updateFlightRoute(flightRouteDTO);
     }
 
