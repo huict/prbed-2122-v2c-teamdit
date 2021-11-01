@@ -18,11 +18,9 @@ public class FlightRoute {
     private Long id;
 
     @ManyToOne
-    @Cascade(CascadeType.ALL)
     private Airport departureLocation;
 
     @ManyToOne
-    @Cascade(CascadeType.ALL)
     private Airport arrivalLocation;
 
     private Integer durationMinutes;
@@ -32,6 +30,16 @@ public class FlightRoute {
 
     public FlightRoute() {
 
+    }
+
+    public FlightRoute(Long id, Airport departureLocation, Airport arrivalLocation, Integer durationMinutes, Double priceEconomy, Double priceBusiness, Double priceFirstClass) {
+        this.id = id;
+        this.departureLocation = departureLocation;
+        this.arrivalLocation = arrivalLocation;
+        this.durationMinutes = durationMinutes;
+        this.priceEconomy = priceEconomy;
+        this.priceBusiness = priceBusiness;
+        this.priceFirstClass = priceFirstClass;
     }
 
     public FlightRoute(Airport departureLocation, Airport arrivalLocation, Integer durationMinutes, Double priceEconomy, Double priceBusiness, Double priceFirstClass){

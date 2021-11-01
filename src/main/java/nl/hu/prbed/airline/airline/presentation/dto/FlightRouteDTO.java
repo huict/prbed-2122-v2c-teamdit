@@ -39,4 +39,8 @@ public class FlightRouteDTO {
         return new FlightRoute(arrival, departure, durationMinutes, priceEconomy, priceBusiness, priceFirstClass);
     }
 
+    public FlightRoute toFlightroute(Long id, Airport arrival, Airport departure) {
+        return new FlightRoute(id, arrival, departure, durationMinutes, priceEconomy, priceBusiness, priceFirstClass);
+    }
+
 }

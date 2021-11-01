@@ -64,20 +64,23 @@ public class FlightRouteService {
     public FlightRouteDTO updateFlightRoute(FlightRouteDTO flightRouteDTO) {
         Airport arrival = airportService.findAirportByCode(flightRouteDTO.arrivalCode);
         Airport departure = airportService.findAirportByCode(flightRouteDTO.departureCode);
-        FlightRoute flightRoute = flightRouteDTO.toFlightroute(arrival, departure);
 
-        List<FlightRoute> flightRoutes = this.flightRouteRepository.findAll();
-        Object potentialFlightRoute = flightRoute.flightExists(flightRoutes, flightRoute);
-
-        if (potentialFlightRoute instanceof Boolean) {
+        if (flightRouteDTO.id.equals(null)){
             throw new FlightRouteNotFoundException();
         }
+
+        FlightRoute flightRoute = flightRouteDTO.toFlightroute(flightRouteDTO.id, arrival, departure);
+
+        this.flightRouteRepository.findById(flightRoute.getId())
+                .orElseThrow(() -> new FlightRouteNotFoundException());
 
         this.flightRouteRepository.saveAndFlush(flightRoute);
         return new FlightRouteDTO(flightRoute);
     }
 
     public void deleteFlightRoute(Long id) {
+        this.flightRouteRepository.findById(id)
+                .orElseThrow(() -> new FlightRouteNotFoundException());
         this.flightRouteRepository.deleteById(id);
     }
 }
