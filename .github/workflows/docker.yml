@@ -6,7 +6,8 @@ on: [push, pull_request]
 env:
   IMAGE_NAME: prbed-teamdit
 
-  POSTGRES_DATABASE: postgres
+  POSTGRES_URL: jdbc:postgresql://prbed-postgres-team-dit:5432
+  POSTGRES_DATABASE: prbed-vliegmaatschappij
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: postgres
   JWT_SECRET: jwt_secret

@@ -1,4 +1,12 @@
 FROM openjdk:11
+
+# Environment variables
+#ARG POSTGRES_URL
+#ARG POSTGRES_DATABASE
+#ARG POSTGRES_USER
+#ARG POSTGRES_PASSWORD
+#ARG JWT_SECRET
+
 VOLUME /tmp
 ADD target/vliegmaatschappij-0.0.1-SNAPSHOT.jar app.jar
 RUN sh -c 'touch /app.jar'

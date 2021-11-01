@@ -1,0 +1,30 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - deployment
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "prbed-team-dit-app"
+          heroku_email: "sam.werring@student.hu.nl"
+          usedocker: true
+          docker_build_args: |
+            POSTGRES_URL
+            POSTGRES_DATABASE
+            POSTGRES_USER
+            POSTGRES_PASSWORD
+            JWT_SECRET
+        env:
+          POSTGRES_URL: ec2-3-228-86-183.compute-1.amazonaws.com
+          POSTGRES_DATABASE: dclgljdj3l883n
+          POSTGRES_USER: ilfiyoqgawuuuk
+          POSTGRES_PASSWORD: 7a8c40cca8cba8b05a97f7057b96e3fdeab32d09d169522a12ff38f15b45d68c
+          JWT_SECRET: jwt_secret
