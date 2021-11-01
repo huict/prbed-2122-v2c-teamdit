@@ -101,5 +101,5 @@ jobs:
 
       - name: Deploy image
         run: |
-          docker tag ghcr.io/huict/prbed-2122-v2c-teamdit/prbed-teamdit:github-workflows registry.heroku.com/prbed-team-dit-app/web
+          docker tag $IMAGE_NAME registry.heroku.com/prbed-team-dit-app/web
           docker push registry.heroku.com/prbed-team-dit-app/web
