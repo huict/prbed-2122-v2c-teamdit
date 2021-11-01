@@ -1,5 +1,6 @@
 package nl.hu.prbed.airline.airline.domain;
 
+import nl.hu.prbed.airline.airline.presentation.dto.PlaneDTO;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.Column;
@@ -22,6 +23,13 @@ public class Plane {
 
     public Plane() {
 
+    }
+
+    public void update(String type, int seatsEconomy, int seatsBusiness, int seatsFirstClass){
+        this.type = type;
+        this.seatsEconomy = seatsEconomy;
+        this.seatsBusiness = seatsBusiness;
+        this.seatsFirstClass = seatsFirstClass;
     }
 
     public Plane(String type, int seatsEconomy, int seatsBusiness, int seatsFirstClass) {
