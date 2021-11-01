@@ -102,5 +102,5 @@ jobs:
       - name: Deploy image
         run: |
           docker tag $IMAGE_NAME registry.heroku.com/prbed-team-dit-app/web
-          docker login --username=_ --password=$(secrets.HEROKU_API_KEY) registry.heroku.com
+          docker login --username=_ --password="${{ secrets.HEROKU_API_KEY }}" registry.heroku.com
           docker push registry.heroku.com/prbed-team-dit-app/web
