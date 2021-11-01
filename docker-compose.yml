@@ -12,7 +12,7 @@
 #   password = prbed-vliegmaatschappij
 version: "3.7"
 services:
-  api:
+  app:
     container_name: prbed-backend-team-dit
     image: ghcr.io/huict/prbed-2122-v2c-teamdit/prbed-teamdit:github-workflows
     depends_on:
