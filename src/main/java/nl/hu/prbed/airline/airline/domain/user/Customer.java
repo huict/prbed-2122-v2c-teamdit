@@ -24,9 +24,7 @@ public class Customer {
     private String nationality;
 
     @OneToMany
-    @Cascade(CascadeType.ALL)
     private List<Booking> bookings;
-
     public Customer() {
 
     }
