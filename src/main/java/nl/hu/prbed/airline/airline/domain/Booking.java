@@ -19,9 +19,7 @@ public class Booking {
     private Long id;
 
     @ManyToOne
-    @Cascade(CascadeType.ALL)
     private Customer customer;
-
 
     @Enumerated(EnumType.STRING)
     private BookingClass bookingClass;
