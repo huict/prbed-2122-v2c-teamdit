@@ -17,18 +17,14 @@ public class AirportController {
         this.airportService = airportService;
     }
 
-    //todo: make list of DTOs
-    // Get all airports
     @GetMapping
-    public List<Airport> getAllAirports() {
+    public List<AirportDTO> getAllAirports() {
         return this.airportService.getAllAirports();
     }
 
-    //todo: make list of DTOs
-    // Get airport by code
     @GetMapping("/{code}")
-    public Airport getAirportByCode(@PathVariable String code) {
-        return this.airportService.findAirportByCode(code);
+    public AirportDTO getAirportByCode(@PathVariable String code) {
+        return new AirportDTO(this.airportService.findAirportByCode(code));
     }
 
     // Add airport
@@ -45,7 +41,6 @@ public class AirportController {
         return new AirportDTO(airport);
     }
 
-    // todo: delete isn't a usecase?
     // Delete airport
     @DeleteMapping("/{code}")
     public void deleteAirport(@PathVariable String code) {
