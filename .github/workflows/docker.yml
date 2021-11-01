@@ -106,6 +106,4 @@ jobs:
           echo "${{ secrets.HEROKU_API_KEY }}" | docker login registry.heroku.com --username=_ --password-stdin
           docker push registry.heroku.com/prbed-team-dit-app/web
 
-          HEROKU_API_KEY="${{ secrets.HEROKU_API_KEY }}"
-          heroku container:login
-          heroku container:push --app prbed-team-dit-app --recursive
+          HEROKU_API_KEY="${{ secrets.HEROKU_API_KEY }}" heroku container:push --app prbed-team-dit-app --recursive
