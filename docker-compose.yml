@@ -23,6 +23,7 @@ services:
       - .env
 
   db:
+    container_name: prbed-postgres-team-dit
     build: development/db
     ports:
       - "15432:5432"
