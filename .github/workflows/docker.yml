@@ -106,13 +106,6 @@ jobs:
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
 
-  deploy:
-    # Ensure test and push jobs pass before deploying image.
-    needs: [test, push]
-
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Deploy image
         run: |
           echo "${{ secrets.HEROKU_API_KEY }}" | docker login registry.heroku.com --username=_ --password-stdin
