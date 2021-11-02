@@ -1,14 +1,24 @@
 name: Docker
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - deployment
+      - main
+  pull_request:
+    branches:
+      - main
 
 
 env:
   IMAGE_NAME: prbed-teamdit
 
+  POSTGRES_HOST: prbed-postgres-team-dit
+  POSTGRES_PORT: 5432
   POSTGRES_DATABASE: postgres
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: postgres
+
   JWT_SECRET: jwt_secret
 
 jobs:
@@ -77,7 +87,7 @@ jobs:
         run: mkdir target && mv vliegmaatschappij-0.0.1-SNAPSHOT.jar target/
 
       - name: Build image
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME
+        run: docker build . --file Dockerfile.web --tag $IMAGE_NAME
 
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
@@ -97,3 +107,12 @@ jobs:
           echo VERSION=$VERSION
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
+
+      - name: Deploy image
+        run: |
+          docker tag $IMAGE_NAME registry.heroku.com/prbed-team-dit-app/web
+          echo "${{ secrets.HEROKU_API_KEY }}" | docker login registry.heroku.com --username=_ --password-stdin
+          docker push registry.heroku.com/prbed-team-dit-app/web
+
+          HEROKU_API_KEY="${{ secrets.HEROKU_API_KEY }}" heroku container:push --app prbed-team-dit-app --recursive
+          HEROKU_API_KEY="${{ secrets.HEROKU_API_KEY }}" heroku container:release web --app prbed-team-dit-app
