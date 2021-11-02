@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - deployment
+      - main
   pull_request:
     branches:
       - main
@@ -104,6 +105,7 @@ jobs:
           echo VERSION=$VERSION
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
+
   deploy:
     # Ensure test and push jobs pass before deploying image.
     needs: [test, push]
@@ -113,7 +115,7 @@ jobs:
     steps:
       - name: Deploy image
         run: |
-          docker tag $IMAGE_NAME registry.heroku.com/prbed-team-dit-app/web
+          docker tag ghcr.io/${{ github.repository }}/$IMAGE_NAME registry.heroku.com/prbed-team-dit-app/web
           echo "${{ secrets.HEROKU_API_KEY }}" | docker login registry.heroku.com --username=_ --password-stdin
           docker push registry.heroku.com/prbed-team-dit-app/web
 
