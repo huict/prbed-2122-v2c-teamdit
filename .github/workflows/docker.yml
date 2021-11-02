@@ -108,7 +108,7 @@ jobs:
 
       - name: Deploy image
         run: |
-          docker tag ghcr.io/${{ github.repository }}/$IMAGE_NAME registry.heroku.com/prbed-team-dit-app/web
+          docker tag $IMAGE_NAME registry.heroku.com/prbed-team-dit-app/web
           echo "${{ secrets.HEROKU_API_KEY }}" | docker login registry.heroku.com --username=_ --password-stdin
           docker push registry.heroku.com/prbed-team-dit-app/web
 
