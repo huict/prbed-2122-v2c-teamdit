@@ -21,6 +21,9 @@ services:
       - '8080:8080'
     env_file:
       - .env
+    environment:
+      POSTGRES_HOST: prbed-postgres-team-dit
+      POSTGRES_PORT: 5432
 
   db:
     container_name: prbed-postgres-team-dit
