@@ -24,17 +24,17 @@ public class PlaneController {
     }
 
     @PostMapping
-    public Plane newPlane(PlaneDTO dto){
+    public Plane newPlane(@RequestBody PlaneDTO dto){
         return service.addPlane(dto);
     }
 
     @PutMapping
-    public Plane updatePlane(PlaneDTO dto){
+    public Plane updatePlane(@RequestBody PlaneDTO dto){
         return service.updatePlane(dto);
     }
 
     @DeleteMapping
-    public Boolean deletePlane(PlaneDTO dto){
+    public Boolean deletePlane(@RequestBody PlaneDTO dto){
         return service.deletePlane(dto);
     }
 
