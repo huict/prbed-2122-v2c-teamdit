@@ -6,8 +6,6 @@ on: [push, pull_request]
 env:
   IMAGE_NAME: prbed-teamdit
 
-  POSTGRES_HOST: prbed-postgres-team-dit
-  POSTGRES_PORT: 5432
   POSTGRES_DATABASE: postgres
   POSTGRES_USER: postgres
   POSTGRES_PASSWORD: postgres
