@@ -3,7 +3,6 @@ name: Docker
 on:
   push:
     branches:
-      - deployment
       - main
   pull_request:
     branches:
