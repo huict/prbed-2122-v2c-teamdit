@@ -33,4 +33,9 @@ public class PlaneController {
         return service.updatePlane(dto);
     }
 
+    @DeleteMapping
+    public Boolean deletePlane(PlaneDTO dto){
+        return service.deletePlane(dto);
+    }
+
 }

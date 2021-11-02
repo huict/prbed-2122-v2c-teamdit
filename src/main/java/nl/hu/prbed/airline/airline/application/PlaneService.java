@@ -2,12 +2,15 @@ package nl.hu.prbed.airline.airline.application;
 
 import nl.hu.prbed.airline.airline.application.exception.InvalidDTOException;
 import nl.hu.prbed.airline.airline.application.exception.PlaneNotFoundException;
+import nl.hu.prbed.airline.airline.application.exception.ReliantFlightsException;
 import nl.hu.prbed.airline.airline.data.PlaneRepository;
 import nl.hu.prbed.airline.airline.domain.Plane;
 import nl.hu.prbed.airline.airline.presentation.dto.PlaneDTO;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.ConstraintViolationException;
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -66,4 +69,17 @@ public class PlaneService {
         return repository.findAll();
     }
 
+    public Boolean deletePlane(PlaneDTO dto){
+        Plane planeToDelete = getPlane(dto);
+        if (planeToDelete == null){
+            throw new PlaneNotFoundException(dto.id);
+        }
+        try {
+            repository.delete(planeToDelete);
+            return true;
+        }
+        catch (ConstraintViolationException e){
+            throw new ReliantFlightsException("this plane still has flights!");
+        }
+    }
 }
