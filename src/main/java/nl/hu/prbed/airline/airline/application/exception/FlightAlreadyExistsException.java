@@ -11,12 +11,3 @@ public class FlightAlreadyExistsException extends RuntimeException {
 
     }
 }
-
-
-//
-//@ResponseStatus(value = HttpStatus.CONFLICT, reason = "Duplicate flightroute")
-//public class FlightRouteAlreadyExistsException extends RuntimeException {
-//    public FlightRouteAlreadyExistsException(Long id) {
-//        super("Flightroute already exists with id: " + id);
-//    }
-//}
