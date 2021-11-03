@@ -1,4 +1,4 @@
-package nl.hu.prbed.airline.airline.presentation.dto.Flight;
+package nl.hu.prbed.airline.airline.presentation.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import nl.hu.prbed.airline.airline.domain.*;

@@ -41,4 +41,32 @@ public class Customer {
     public Long getId() {
         return id;
     }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public LocalDateTime getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public Integer getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public String getEmailAddress() {
+        return emailAddress;
+    }
+
+    public String getNationality() {
+        return nationality;
+    }
+
+    public List<Booking> getBookings() {
+        return bookings;
+    }
 }

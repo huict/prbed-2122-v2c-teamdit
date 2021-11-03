@@ -6,7 +6,7 @@ import nl.hu.prbed.airline.airline.domain.Booking;
 import nl.hu.prbed.airline.airline.domain.Flight;
 import nl.hu.prbed.airline.airline.domain.FlightRoute;
 import nl.hu.prbed.airline.airline.domain.Plane;
-import nl.hu.prbed.airline.airline.presentation.dto.Flight.FlightDTO;
+import nl.hu.prbed.airline.airline.presentation.dto.FlightDTO;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

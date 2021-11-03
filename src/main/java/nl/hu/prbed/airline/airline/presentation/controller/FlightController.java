@@ -2,7 +2,7 @@ package nl.hu.prbed.airline.airline.presentation.controller;
 
 import nl.hu.prbed.airline.airline.application.FlightService;
 import nl.hu.prbed.airline.airline.domain.Flight;
-import nl.hu.prbed.airline.airline.presentation.dto.Flight.FlightDTO;
+import nl.hu.prbed.airline.airline.presentation.dto.FlightDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
