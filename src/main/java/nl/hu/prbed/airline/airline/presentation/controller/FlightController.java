@@ -2,10 +2,7 @@ package nl.hu.prbed.airline.airline.presentation.controller;
 
 import nl.hu.prbed.airline.airline.application.FlightService;
 import nl.hu.prbed.airline.airline.domain.Flight;
-import nl.hu.prbed.airline.airline.presentation.dto.Flight.FlightBookingDTO;
 import nl.hu.prbed.airline.airline.presentation.dto.Flight.FlightDTO;
-import nl.hu.prbed.airline.airline.presentation.dto.Flight.FlightDepartureDTO;
-import nl.hu.prbed.airline.airline.presentation.dto.Flight.FlightDepartureRouteDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,13 +27,13 @@ public class FlightController {
     }
 
     @GetMapping("/departure")
-    public List<Flight> getFlightsByDeparture(@RequestBody FlightDepartureDTO flightDeparture) {
-        return this.flightService.findFlightsByDeparture(flightDeparture.departureTime);
+    public List<Flight> getFlightsByDeparture(@RequestBody FlightDTO flightDTO) {
+        return this.flightService.findFlightsByDeparture(flightDTO.departureTime);
     }
 
     @GetMapping("/departure/route")
-    public Flight getFlightRouteAndDeparture(@RequestBody FlightDepartureRouteDTO flightDepartureRoute) {
-        return this.flightService.findFlightRouteAndDeparture(flightDepartureRoute);
+    public Flight getFlightRouteAndDeparture(@RequestBody FlightDTO flightDTO) {
+        return this.flightService.findFlightRouteAndDeparture(flightDTO);
     }
 
     @PostMapping
@@ -46,11 +43,11 @@ public class FlightController {
 
     @PutMapping("/{id}")
     public Flight updateFlightById(@PathVariable Long id, @RequestBody FlightDTO flightDTO) {
-        return flightService.updateFlight(flightDTO, id);
+        return flightService.updateFlight(flightDTO);
     }
 
     @PutMapping("/booking")
-    public void addBooking(@RequestBody FlightBookingDTO flightBooking){
+    public void addBooking(@RequestBody FlightDTO flightBooking){
         flightService.addBooking(flightBooking);
     }
 

@@ -8,6 +8,7 @@ import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ public class FlightDTO {
     public Long flightRouteId;
     public Long planeId;
     public Date departureTime;
+    public Long bookingId;
+    public Long flightId;
 
     public FlightDTO(Date departureTime, Long flightRouteId, Long planeId) {
         this.departureTime = departureTime;
