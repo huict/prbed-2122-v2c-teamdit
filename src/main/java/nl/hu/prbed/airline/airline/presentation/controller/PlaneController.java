@@ -34,7 +34,7 @@ public class PlaneController {
     }
 
     @DeleteMapping
-    public Boolean deletePlane(PlaneDTO dto){
+    public Boolean deletePlane(@RequestBody PlaneDTO dto){
         return service.deletePlane(dto);
     }
 
