@@ -23,16 +23,18 @@ public class FlightService {
 
     private final FlightRepository flightRepository;
     private final Flight flight;
-    private final PlaneService planeService;
+    private final FleetService fleetService;
     private final FlightRouteService flightRouteService;
     private final BookingService bookingService;
+    private final PlaneService planeService;
 
-    public FlightService(Flight flight, FlightRepository fR, PlaneService pS, FlightRouteService fRS, BookingService bS) {
+    public FlightService(Flight flight, FlightRepository fR, FleetService fS, FlightRouteService fRS, BookingService bS, PlaneService pS) {
         this.flight = flight;
         this.flightRepository = fR;
-        this.planeService = pS;
+        this.fleetService = fS;
         this.flightRouteService = fRS;
         this.bookingService = bS;
+        this.planeService = pS;
     }
 
     public Flight createFlight(FlightDTO flightDTO) {

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
-import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -19,15 +18,6 @@ public class PlaneService {
     private PlaneRepository repository;
 
     public PlaneService(PlaneRepository repository){this.repository = repository;}
-
-    public Plane addPlane(PlaneDTO dto){
-        if (dto.type == null){
-            throw new InvalidDTOException("No type specified!");
-        }
-        Plane newPlane = new Plane(dto.type, dto.seatsEconomy, dto.seatsBusiness, dto.seatsFirstClass);
-        repository.save(newPlane);
-        return newPlane;
-    }
 
     public Plane updatePlane(PlaneDTO dto){
         if(dto.id == null){
@@ -69,16 +59,15 @@ public class PlaneService {
         return repository.findAll();
     }
 
-    public Boolean deletePlane(PlaneDTO dto){
+    public Boolean deletePlane(PlaneDTO dto) {
         Plane planeToDelete = getPlane(dto);
-        if (planeToDelete == null){
+        if (planeToDelete == null) {
             throw new PlaneNotFoundException(dto.id);
         }
         try {
             repository.delete(planeToDelete);
             return true;
-        }
-        catch (ConstraintViolationException e){
+        } catch (ConstraintViolationException e) {
             throw new ReliantFlightsException("this plane still has flights!");
         }
     }
