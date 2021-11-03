@@ -21,6 +21,7 @@ public class Plane {
     private int seatsBusiness;
     private int seatsFirstClass;
 
+
     public Plane() {
 
     }
@@ -39,6 +40,14 @@ public class Plane {
         this.seatsFirstClass = seatsFirstClass;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
     public int getSeatsBusiness() {
         return seatsBusiness;
     }
@@ -50,4 +59,6 @@ public class Plane {
     public int getSeatsFirstClass() {
         return seatsFirstClass;
     }
+
+    public int getTotalSeats(){return seatsBusiness + seatsEconomy + seatsFirstClass;}
 }
