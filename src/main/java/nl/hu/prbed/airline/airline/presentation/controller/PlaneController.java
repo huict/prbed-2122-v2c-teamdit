@@ -16,8 +16,6 @@ public class PlaneController {
         this.service = service;
     }
 
-
-
     @GetMapping
     public List<Plane> getPlanes(){return service.getAllPlanes();}
 
