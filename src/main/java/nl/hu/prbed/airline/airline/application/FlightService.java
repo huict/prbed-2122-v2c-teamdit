@@ -24,9 +24,9 @@ public class FlightService {
 
     public FlightService(FlightRepository fR, PlaneService pS, FlightRouteService fRS, BookingService bS) {
         this.flightRepository = fR;
-        this.planeService = pS;
         this.flightRouteService = fRS;
         this.bookingService = bS;
+        this.planeService = pS;
     }
 
     public Flight createFlight(FlightDTO flightDTO) {

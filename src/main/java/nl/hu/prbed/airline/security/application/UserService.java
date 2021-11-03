@@ -1,5 +1,6 @@
 package nl.hu.prbed.airline.security.application;
 
+import nl.hu.prbed.airline.security.application.exception.UsernameAlreadyExists;
 import nl.hu.prbed.airline.security.data.UserRepository;
 import nl.hu.prbed.airline.security.domain.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,6 +22,10 @@ public class UserService implements UserDetailsService {
     }
 
     public void register(String username, String password, String firstName, String lastName) {
+        if (this.userRepository.existsByUsername(username)) {
+            throw new UsernameAlreadyExists(username);
+        }
+
         String encodedPassword = this.passwordEncoder.encode(password);
 
         User user = new User(username, encodedPassword, firstName, lastName);

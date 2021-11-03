@@ -18,6 +18,10 @@ public class Fleet {
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Plane> planes;
 
+    public void addPlane(Plane plane){
+        planes.add(plane);
+    }
+
     public Fleet() {
     }
 
