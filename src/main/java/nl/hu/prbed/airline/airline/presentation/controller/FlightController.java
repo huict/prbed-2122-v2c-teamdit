@@ -5,6 +5,7 @@ import nl.hu.prbed.airline.airline.domain.Flight;
 import nl.hu.prbed.airline.airline.presentation.dto.FlightDTO;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -32,8 +33,8 @@ public class FlightController {
     }
 
     @GetMapping("/departure/route")
-    public Flight getFlightRouteAndDeparture(@RequestBody FlightDTO flightDTO) {
-        return this.flightService.findFlightRouteAndDeparture(flightDTO);
+    public Flight getFlightRouteAndDeparture(@RequestParam(name = "departure") Date departure, @RequestParam(name = "route") Long routeId) {
+        return this.flightService.findFlightRouteAndDeparture(departure, routeId);
     }
 
     @PostMapping
