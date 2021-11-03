@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.CONFLICT, reason = "Duplicate flight")
 public class FlightAlreadyExistsException extends RuntimeException {
-    public FlightAlreadyExistsException(Long id){
-        super("Flight already exists with id: "+id);
+    public FlightAlreadyExistsException(){
+        super("Flight already exists!");
 
     }
 }
