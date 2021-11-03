@@ -64,11 +64,12 @@ public class Flight {
         }
     }
 
+    @JsonProperty("TotalBookings")
     public int flightOccupation() {
         return bookings.size();
     }
 
-
+    @JsonProperty("seatsAvailable")
     public int seatsAvailable() {
         int totalSeats = plane.getTotalSeats();
         return bookings.size() <= totalSeats ? totalSeats - bookings.size() : 0;
@@ -88,6 +89,18 @@ public class Flight {
                 .collect(Collectors.toList());
     }
 
+    @JsonProperty("customersFirstClass")
+    public List<Booking> customersForFirstClass() {
+        return bookings.stream().filter(booking ->
+                        booking.getBookingClass().equals(BookingClass.FIRST))
+                .collect(Collectors.toList());
+    }
+
+    public boolean flightExists(List<Flight> flights, Flight newFlight) {
+        return flights.stream().anyMatch(existingFlight -> existingFlight.getDepartureTime().equals(newFlight.getDepartureTime()) &&
+                existingFlight.getPlane().equals(newFlight.getPlane()) &&
+                existingFlight.getRoute().equals(newFlight.getRoute()));
+    }
 
     public Date getDepartureTime() {
         return departureTime;
@@ -115,10 +128,6 @@ public class Flight {
 
     public Long getId() {
         return id;
-    }
-
-    public List<Booking> getBookings() {
-        return bookings;
     }
 
 
