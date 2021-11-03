@@ -20,7 +20,7 @@ public class User implements UserDetails {
     private String password;
     private String firstName;
     private String lastName;
-    private String role;
+    private String role = "user";
 
     public User() {
     }
@@ -53,6 +53,10 @@ public class User implements UserDetails {
         return lastName;
     }
 
+    public String getRole() {
+        return role;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -72,6 +76,11 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public void becomeAdmin(){
+        this.role = "admin";
+    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
