@@ -35,7 +35,7 @@ public class FlightRouteService {
 
     public FlightRouteDTO getFlightRouteByID(Long id) {
         FlightRoute flightRoute = this.flightRouteRepository.findById(id)
-                .orElseThrow(() -> new FlightRouteNotFoundException());
+                .orElseThrow(FlightRouteNotFoundException::new);
         return new FlightRouteDTO(flightRoute);
     }
 
@@ -67,26 +67,25 @@ public class FlightRouteService {
         Airport arrival = airportService.findAirportByCode(flightRouteDTO.arrivalCode);
         Airport departure = airportService.findAirportByCode(flightRouteDTO.departureCode);
 
-        if (flightRouteDTO.id.equals(null)){
+        if (flightRouteDTO.id == null){
             throw new FlightRouteNotFoundException();
         }
 
         FlightRoute flightRoute = flightRouteDTO.toFlightroute(flightRouteDTO.id, arrival, departure);
 
         this.flightRouteRepository.findById(flightRoute.getId())
-                .orElseThrow(() -> new FlightRouteNotFoundException());
+                .orElseThrow(FlightRouteNotFoundException::new);
 
         this.flightRouteRepository.saveAndFlush(flightRoute);
         return new FlightRouteDTO(flightRoute);
     }
 
-    //deze is voor de werking van de flight service kant
     public FlightRoute findFlightRouteByID(Long id ){
-        return flightRouteRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+        return flightRouteRepository.findById(id).orElseThrow(FlightRouteNotFoundException::new);
     }
     public void deleteFlightRoute(Long id) {
         this.flightRouteRepository.findById(id)
-                .orElseThrow(() -> new FlightRouteNotFoundException());
+                .orElseThrow(FlightRouteNotFoundException::new);
         this.flightRouteRepository.deleteById(id);
     }
 }
