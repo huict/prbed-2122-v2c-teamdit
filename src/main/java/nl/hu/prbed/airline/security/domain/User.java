@@ -53,13 +53,10 @@ public class User implements UserDetails {
         return lastName;
     }
 
-<<<<<<< Updated upstream
     public String getRole() {
         return role;
     }
-=======
-    public void becomeAdmin() {this.role = "admin";}
->>>>>>> Stashed changes
+
 
     @Override
     public boolean isAccountNonExpired() {
