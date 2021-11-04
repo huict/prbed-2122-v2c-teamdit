@@ -63,10 +63,10 @@ public class FlightService {
         }
     }
 
-    public Flight findFlightRouteAndDeparture(FlightDTO flightDTO) {
+    public Flight findFlightRouteAndDeparture(Date departure, Long flightRouteId) {
         try {
-            FlightRoute flightRoute = flightRouteService.findFlightRouteByID(flightDTO.flightRouteId);
-            return flightRepository.findByRouteAndDepartureTime(flightRoute, flightDTO.departureTime).orElseThrow(FlightNotFoundException::new);
+            FlightRoute flightRoute = flightRouteService.findFlightRouteByID(flightRouteId);
+            return flightRepository.findByRouteAndDepartureTime(flightRoute, departure).orElseThrow(FlightNotFoundException::new);
         } catch (NullPointerException nullPointerException) {
             throw new InvalidDTOException("Missing input variables to send!");
         }
