@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface AirlineRepository extends JpaRepository<Airline, Long> {
-    public List<Airline> findAll();
+    List<Airline> findAll();
 }

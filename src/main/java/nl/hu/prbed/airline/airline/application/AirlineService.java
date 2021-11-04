@@ -8,15 +8,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class AirlineService {
 
-    private final AirlineRepository repository;
+    private final AirlineRepository airlineRepository;
 
-    public AirlineService(AirlineRepository repository){
-        this.repository = repository;
+    public AirlineService(AirlineRepository airlineRepository){
+        this.airlineRepository = airlineRepository;
     }
 
     public Airline getAirline(){
         try {
-            return repository.findAll().get(0);
+            return airlineRepository.findAll().get(0);
         }
         catch (IndexOutOfBoundsException e){
             throw new NoAirlineExistsException();
