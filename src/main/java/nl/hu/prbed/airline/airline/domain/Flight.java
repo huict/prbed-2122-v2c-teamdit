@@ -52,56 +52,29 @@ public class Flight {
     }
 
     public void addBooking(Booking booking) {
-        if (booking.getBookingClass().equals(BookingClass.BUSINESS) && bookings.size() < plane.getSeatsBusiness()) {
+        if (seatsLeftForClass(booking.getBookingClass()) > booking.getAmountOfPassengers()) {
             bookings.add(booking);
-        } else if (booking.getBookingClass().equals(BookingClass.ECONOMY) && bookings.size() < plane.getSeatsEconomy()) {
-            bookings.add(booking);
-        } else if (booking.getBookingClass().equals(BookingClass.FIRST) && bookings.size() < plane.getSeatsFirstClass()) {
-            bookings.add(booking);
+        } else {
+            // TODO: Throw noSeatsLeftForThisClass
         }
     }
 
-    @JsonProperty("TotalBookings")
-    public int flightOccupation() {
-        return bookings.size();
-    }
+    public int seatsLeftForClass(BookingClass bookingClass) {
+        int seatsLeft = 0;
 
-    @JsonProperty("seatsAvailable")
-    public int seatsAvailable() {
-        int totalSeats = plane.getTotalSeats();
-        return bookings.size() <= totalSeats ? totalSeats - bookings.size() : 0;
-    }
+        for (Booking booking : this.bookings) {
+            if (booking.getBookingClass().equals(bookingClass)) {
+                seatsLeft += booking.getAmountOfPassengers();
+            }
+        }
 
-    @JsonProperty("customersBussinesClass")
-    public List<Booking> customersForBussinesClass() {
-        return bookings.stream().filter(booking ->
-                        booking.getBookingClass().equals(BookingClass.BUSINESS))
-                .collect(Collectors.toList());
-    }
-
-    @JsonProperty("customersEconomyClass")
-    public List<Booking> customersForEconomyClass() {
-        return bookings.stream().filter(booking ->
-                        booking.getBookingClass().equals(BookingClass.BUSINESS))
-                .collect(Collectors.toList());
-    }
-
-    @JsonProperty("customersFirstClass")
-    public List<Booking> customersForFirstClass() {
-        return bookings.stream().filter(booking ->
-                        booking.getBookingClass().equals(BookingClass.FIRST))
-                .collect(Collectors.toList());
-    }
-
-    public boolean flightExists(List<Flight> flights, Flight newFlight) {
-        return flights.stream().anyMatch(existingFlight -> existingFlight.getDepartureTime().equals(newFlight.getDepartureTime()) &&
-                existingFlight.getPlane().equals(newFlight.getPlane()) &&
-                existingFlight.getRoute().equals(newFlight.getRoute()));
+        return seatsLeft;
     }
 
     public void setDepartureTime(LocalDateTime departureTime) {
         this.departureTime = departureTime;
     }
+
 
     public void setPlane(Plane plane) {
         this.plane = plane;
@@ -111,4 +84,20 @@ public class Flight {
         this.route = route;
     }
 
+
+    public boolean equals(Flight flight) {
+        return flight.getDepartureTime().equals(this.departureTime) &&
+                flight.getRoute().equals(this.route) &&
+                flight.getPlane().equals(this.plane);
+    }
+
+    public static boolean exists(List<Flight> flights, Flight newFlight) {
+        for (Flight flight : flights) {
+            if (flight.equals(newFlight)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
