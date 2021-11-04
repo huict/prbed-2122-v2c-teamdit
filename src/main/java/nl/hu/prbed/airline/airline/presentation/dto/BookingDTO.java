@@ -12,6 +12,7 @@ public class BookingDTO {
     public Long customerId;
     public BookingClass bookingClass;
     public List<Passenger> passengers;
+    public Long flightId;
 
     public BookingDTO(){}
 
@@ -20,6 +21,7 @@ public class BookingDTO {
         this.customerId = booking.getCustomer().getId();
         this.bookingClass = booking.getBookingClass();
         this.passengers = booking.getPassengers();
+        this.flightId = booking.getFlight().getId();
     }
 
 }

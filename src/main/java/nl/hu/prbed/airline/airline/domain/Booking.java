@@ -28,17 +28,21 @@ public class Booking {
     @Cascade(CascadeType.ALL)
     private List<Passenger> Passengers;
 
+    @ManyToOne
+    private Flight flight;
+
     public Booking() {
     }
 
-    public Booking( Customer customer, BookingClass bookingClass, List<Passenger> Passengers) {
+    public Booking( Customer customer, BookingClass bookingClass, List<Passenger> Passengers, Flight flight) {
         this.customer = customer;
         this.bookingClass = bookingClass;
         this.Passengers = Passengers;
+        this.flight = flight;
     }
 
-    public Booking(Long id, Customer customer, BookingClass bookingClass, List<Passenger> passengers){
-        this(customer, bookingClass, passengers);
+    public Booking(Long id, Customer customer, BookingClass bookingClass, List<Passenger> passengers, Flight flight){
+        this(customer, bookingClass, passengers, flight);
         this.id = id;
     }
 
@@ -57,4 +61,6 @@ public class Booking {
     public List<Passenger> getPassengers() {
         return Passengers;
     }
+
+    public Flight getFlight(){return  flight;}
 }

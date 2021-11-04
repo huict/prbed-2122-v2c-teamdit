@@ -25,7 +25,6 @@ public class Flight {
 
     // TODO: Cleanup new list initialization on object creation
     @OneToMany
-    @Cascade(CascadeType.ALL)
     private List<Booking> bookings = new ArrayList<>();
 
     private Date departureTime;
