@@ -19,19 +19,19 @@ public class BookingController {
         this.bookingService = bookingService;
     }
 
-    //Get all Bookings
+    // Get all bookings
     @GetMapping
     public List<Booking> getAllBooings(){
         return this.bookingService.getAllBookings();
     }
 
-    // Get Bookings by id
+    // Get booking by id
     @GetMapping("/{id}")
     public Booking getAirportByCode(@PathVariable long id) {
         return this.bookingService.findBookingById(id);
     }
 
-    // Add Booking
+    // Add booking
     @PostMapping
     public BookingDTO addBooking(@Validated @RequestBody BookingDTO bookingDTO) {
         Booking booking = this.bookingService.createBooking(bookingDTO);

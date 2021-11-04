@@ -10,28 +10,28 @@ import java.util.List;
 @RestController
 public class PlaneController {
 
-    private final PlaneService service;
+    private final PlaneService planeService;
 
-    public PlaneController(PlaneService service){
-        this.service = service;
+    public PlaneController(PlaneService planeService){
+        this.planeService = planeService;
     }
 
     @GetMapping
-    public List<Plane> getPlanes(){return service.getAllPlanes();}
+    public List<Plane> getPlanes(){return planeService.getAllPlanes();}
 
     @GetMapping("/{id}")
     public Plane getPlaneByID(@PathVariable Long id) {
-        return service.getPlane(id);
+        return planeService.getPlaneById(id);
     }
 
 
     @PutMapping
     public Plane updatePlane(@RequestBody PlaneDTO dto){
-        return service.updatePlane(dto);
+        return planeService.updatePlane(dto);
     }
 
     @DeleteMapping
-    public Boolean deletePlane(@RequestBody PlaneDTO dto){
-        return service.deletePlane(dto);
+    public Boolean deletePlane(@PathVariable Long id){
+        return planeService.deletePlane(id);
     }
 }

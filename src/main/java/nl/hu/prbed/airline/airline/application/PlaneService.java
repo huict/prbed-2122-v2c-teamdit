@@ -43,11 +43,9 @@ public class PlaneService {
         return planeRepository.findAll();
     }
 
-    public Boolean deletePlane(PlaneDTO dto) {
-        Plane planeToDelete = getPlaneById(dto);
-        if (planeToDelete == null) {
-            throw new PlaneNotFoundException(dto.id);
-        }
+    public Boolean deletePlane(Long id) {
+        Plane planeToDelete = getPlaneById(id);
+
         try {
             planeRepository.delete(planeToDelete);
             return true;
