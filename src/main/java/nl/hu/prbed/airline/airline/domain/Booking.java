@@ -1,17 +1,20 @@
 package nl.hu.prbed.airline.airline.domain;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import nl.hu.prbed.airline.airline.domain.user.Customer;
 import nl.hu.prbed.airline.airline.domain.user.Passenger;
 import org.hibernate.annotations.Cascade;
-import org.springframework.stereotype.Component;
 import org.hibernate.annotations.CascadeType;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Component
+@Getter
+@NoArgsConstructor
 public class Booking {
     @Id
     @GeneratedValue
@@ -31,9 +34,6 @@ public class Booking {
     @ManyToOne
     private Flight flight;
 
-    public Booking() {
-    }
-
     public Booking( Customer customer, BookingClass bookingClass, List<Passenger> Passengers, Flight flight) {
         this.customer = customer;
         this.bookingClass = bookingClass;
@@ -45,22 +45,4 @@ public class Booking {
         this(customer, bookingClass, passengers, flight);
         this.id = id;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Customer getCustomer() {
-        return customer;
-    }
-
-    public BookingClass getBookingClass() {
-        return bookingClass;
-    }
-
-    public List<Passenger> getPassengers() {
-        return Passengers;
-    }
-
-    public Flight getFlight(){return  flight;}
 }

@@ -1,5 +1,6 @@
 package nl.hu.prbed.airline.airline.domain;
 
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cascade;
 import org.springframework.stereotype.Component;
 
@@ -8,6 +9,7 @@ import java.util.List;
 
 @Entity
 @Component
+@NoArgsConstructor
 public class Fleet {
     @Id
     @GeneratedValue
@@ -18,14 +20,11 @@ public class Fleet {
     @Cascade(org.hibernate.annotations.CascadeType.ALL)
     private List<Plane> planes;
 
-    public void addPlane(Plane plane){
-        planes.add(plane);
-    }
-
-    public Fleet() {
-    }
-
     public Fleet(List<Plane> planes) {
         this.planes = planes;
+    }
+
+    public void addPlane(Plane plane) {
+        planes.add(plane);
     }
 }

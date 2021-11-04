@@ -1,6 +1,7 @@
 package nl.hu.prbed.airline.airline.domain;
 
-import nl.hu.prbed.airline.airline.presentation.dto.PlaneDTO;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.Column;
@@ -10,6 +11,8 @@ import javax.persistence.Id;
 
 @Entity
 @Component
+@NoArgsConstructor
+@Getter
 public class Plane {
     @Id
     @GeneratedValue
@@ -21,18 +24,6 @@ public class Plane {
     private int seatsBusiness;
     private int seatsFirstClass;
 
-
-    public Plane() {
-
-    }
-
-    public void update(String type, int seatsEconomy, int seatsBusiness, int seatsFirstClass){
-        this.type = type;
-        this.seatsEconomy = seatsEconomy;
-        this.seatsBusiness = seatsBusiness;
-        this.seatsFirstClass = seatsFirstClass;
-    }
-
     public Plane(String type, int seatsEconomy, int seatsBusiness, int seatsFirstClass) {
         this.type = type;
         this.seatsEconomy = seatsEconomy;
@@ -40,25 +31,15 @@ public class Plane {
         this.seatsFirstClass = seatsFirstClass;
     }
 
-    public Long getId() {
-        return id;
+    public void update(String type, int seatsEconomy, int seatsBusiness, int seatsFirstClass) {
+        this.type = type;
+        this.seatsEconomy = seatsEconomy;
+        this.seatsBusiness = seatsBusiness;
+        this.seatsFirstClass = seatsFirstClass;
     }
 
-    public String getType() {
-        return type;
+    public int getTotalSeats() {
+        return seatsBusiness + seatsEconomy + seatsFirstClass;
     }
 
-    public int getSeatsBusiness() {
-        return seatsBusiness;
-    }
-
-    public int getSeatsEconomy() {
-        return seatsEconomy;
-    }
-
-    public int getSeatsFirstClass() {
-        return seatsFirstClass;
-    }
-
-    public int getTotalSeats(){return seatsBusiness + seatsEconomy + seatsFirstClass;}
 }

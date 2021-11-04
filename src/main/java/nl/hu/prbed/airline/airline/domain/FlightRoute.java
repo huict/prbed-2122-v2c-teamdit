@@ -1,16 +1,19 @@
 package nl.hu.prbed.airline.airline.domain;
 
-import org.hibernate.annotations.Cascade;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import org.hibernate.annotations.CascadeType;
-
 import java.util.List;
 
 
 @Component
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
 public class FlightRoute {
     @Id
     @GeneratedValue
@@ -28,20 +31,6 @@ public class FlightRoute {
     private Double priceBusiness;
     private Double priceFirstClass;
 
-    public FlightRoute() {
-
-    }
-
-    public FlightRoute(Long id, Airport departureLocation, Airport arrivalLocation, Integer durationMinutes, Double priceEconomy, Double priceBusiness, Double priceFirstClass) {
-        this.id = id;
-        this.departureLocation = departureLocation;
-        this.arrivalLocation = arrivalLocation;
-        this.durationMinutes = durationMinutes;
-        this.priceEconomy = priceEconomy;
-        this.priceBusiness = priceBusiness;
-        this.priceFirstClass = priceFirstClass;
-    }
-
     public FlightRoute(Airport departureLocation, Airport arrivalLocation, Integer durationMinutes, Double priceEconomy, Double priceBusiness, Double priceFirstClass){
         this.departureLocation = departureLocation;
         this.arrivalLocation = arrivalLocation;
@@ -49,34 +38,6 @@ public class FlightRoute {
         this.priceEconomy = priceEconomy;
         this.priceBusiness = priceBusiness;
         this.priceFirstClass = priceFirstClass;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Airport getDepartureLocation() {
-        return departureLocation;
-    }
-
-    public Airport getArrivalLocation() {
-        return arrivalLocation;
-    }
-
-    public Integer getDurationMinutes() {
-        return durationMinutes;
-    }
-
-    public Double getPriceEconomy() {
-        return priceEconomy;
-    }
-
-    public Double getPriceBusiness() {
-        return priceBusiness;
-    }
-
-    public Double getPriceFirstClass() {
-        return priceFirstClass;
     }
 
     public Object flightExists(List<FlightRoute> flightRoutes, FlightRoute flightRoute) {
@@ -91,18 +52,5 @@ public class FlightRoute {
             }
         }
         return false;
-    }
-
-    @Override
-    public String toString() {
-        return "FlightRoute{" +
-                "id=" + id +
-                ", departureLocation=" + departureLocation +
-                ", arrivalLocation=" + arrivalLocation +
-                ", durationMinutes=" + durationMinutes +
-                ", priceEconomy=" + priceEconomy +
-                ", priceBusiness=" + priceBusiness +
-                ", priceFirstClass=" + priceFirstClass +
-                '}';
     }
 }

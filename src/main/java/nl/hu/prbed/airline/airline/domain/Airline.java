@@ -1,5 +1,6 @@
 package nl.hu.prbed.airline.airline.domain;
 
+import lombok.NoArgsConstructor;
 import nl.hu.prbed.airline.airline.domain.user.Employee;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Entity
 @Component
+@NoArgsConstructor
 public class Airline {
     @Id
     @GeneratedValue
@@ -27,11 +29,6 @@ public class Airline {
     @OneToMany
     @Cascade(CascadeType.ALL)
     private List<Flight> flights;
-
-    public Airline() {
-
-    }
-
 
     public Airline(Fleet fleet, List<Employee> employees, List<Flight> flights) {
         this.fleet = fleet;
