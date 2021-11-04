@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Transactional
@@ -55,7 +56,7 @@ public class FlightService {
         }
     }
 
-    public List<Flight> findFlightsByDeparture(Date departure) {
+    public List<Flight> findFlightsByDeparture(LocalDateTime departure) {
         try {
             return flightRepository.findAllByDepartureTime(departure);
         } catch (NullPointerException nullPointerException) {

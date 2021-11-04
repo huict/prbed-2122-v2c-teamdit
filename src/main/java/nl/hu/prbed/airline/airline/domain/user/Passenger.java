@@ -1,5 +1,7 @@
 package nl.hu.prbed.airline.airline.domain.user;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.Column;
@@ -10,6 +12,8 @@ import java.time.LocalDateTime;
 
 @Component
 @Entity
+@NoArgsConstructor
+@Getter
 public class Passenger {
     @Id
     @GeneratedValue
@@ -21,10 +25,6 @@ public class Passenger {
     private Integer phoneNumber;
     private String emailAddress;
     private String nationality;
-
-    public Passenger() {
-
-    }
 
     public Passenger(String firstName, String lastName, LocalDateTime dateOfBirth, Integer phoneNumber, String emailAddress, String nationality) {
         this.firstName = firstName;

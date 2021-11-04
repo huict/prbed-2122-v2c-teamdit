@@ -1,16 +1,18 @@
 package nl.hu.prbed.airline.airline.domain.user;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import nl.hu.prbed.airline.airline.domain.Booking;
-import org.hibernate.annotations.CascadeType;
-import org.hibernate.annotations.Cascade;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Component
 @Entity
+@NoArgsConstructor
+@Getter
 public class Customer {
     @Id
     @GeneratedValue
@@ -25,9 +27,7 @@ public class Customer {
 
     @OneToMany
     private List<Booking> bookings;
-    public Customer() {
 
-    }
 
     public Customer(String firstName, String lastName, LocalDateTime dateOfBirth, Integer phoneNumber, String emailAddress, String nationality) {
         this.firstName = firstName;
@@ -38,35 +38,4 @@ public class Customer {
         this.nationality = nationality;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public LocalDateTime getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public Integer getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public String getEmailAddress() {
-        return emailAddress;
-    }
-
-    public String getNationality() {
-        return nationality;
-    }
-
-    public List<Booking> getBookings() {
-        return bookings;
-    }
 }

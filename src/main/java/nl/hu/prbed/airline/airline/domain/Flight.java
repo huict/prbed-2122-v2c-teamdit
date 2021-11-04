@@ -2,14 +2,14 @@ package nl.hu.prbed.airline.airline.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import nl.hu.prbed.airline.airline.domain.user.Customer;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Cascade;
-import org.springframework.stereotype.Component;
 import org.hibernate.annotations.CascadeType;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 
 @Entity
 @Component
+@NoArgsConstructor
+@Getter
 public class Flight {
     @Id
     @GeneratedValue
@@ -27,7 +29,7 @@ public class Flight {
     @OneToMany
     private List<Booking> bookings = new ArrayList<>();
 
-    private Date departureTime;
+    private LocalDateTime departureTime;
 
     @OneToOne
     @Cascade(CascadeType.ALL)
@@ -37,17 +39,13 @@ public class Flight {
     @Cascade(CascadeType.ALL)
     private Plane plane;
 
-    public Flight() {
-
-    }
-
-    public Flight(Date departureTime, FlightRoute flightRoute, Plane plane) {
+    public Flight(LocalDateTime departureTime, FlightRoute flightRoute, Plane plane) {
         this.departureTime = departureTime;
         this.route = flightRoute;
         this.plane = plane;
     }
 
-    public void update(Date departureTime, FlightRoute flightRoute, Plane plane) {
+    public void update(LocalDateTime departureTime, FlightRoute flightRoute, Plane plane) {
         this.departureTime = departureTime;
         this.route = flightRoute;
         this.plane = plane;
@@ -101,33 +99,16 @@ public class Flight {
                 existingFlight.getRoute().equals(newFlight.getRoute()));
     }
 
-    public Date getDepartureTime() {
-        return departureTime;
-    }
-
-    public void setDepartureTime(Date departureTime) {
+    public void setDepartureTime(LocalDateTime departureTime) {
         this.departureTime = departureTime;
-    }
-
-    public Plane getPlane() {
-        return plane;
     }
 
     public void setPlane(Plane plane) {
         this.plane = plane;
     }
 
-    public FlightRoute getRoute() {
-        return route;
-    }
-
     public void setRoute(FlightRoute route) {
         this.route = route;
     }
-
-    public Long getId() {
-        return id;
-    }
-
 
 }
