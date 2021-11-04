@@ -15,18 +15,18 @@ import java.util.List;
 @Service
 public class PlaneService {
 
-    private PlaneRepository repository;
+    private PlaneRepository planeRepository;
 
-    public PlaneService(PlaneRepository repository){this.repository = repository;}
+    public PlaneService(PlaneRepository planeRepository){this.planeRepository = planeRepository;}
 
     public Plane updatePlane(PlaneDTO dto){
         if(dto.id == null){
             throw new InvalidDTOException("no ID specified!");
         }
         try {
-            Plane planeToUpdate = repository.getById(dto.id);
+            Plane planeToUpdate = planeRepository.getById(dto.id);
             planeToUpdate.update(dto.type, dto.seatsEconomy, dto.seatsBusiness, dto.seatsFirstClass);
-            repository.saveAndFlush(planeToUpdate);
+            planeRepository.saveAndFlush(planeToUpdate);
             return planeToUpdate;
         }
         catch (EntityNotFoundException e){
@@ -34,38 +34,22 @@ public class PlaneService {
         }
     }
 
-    public Plane getPlane(PlaneDTO dto){
-        if(dto.id == null){
-            throw new InvalidDTOException("no ID specified!");
-        }
-        try {
-            return repository.getById(dto.id);
-        }
-        catch(EntityNotFoundException e){
-            throw new PlaneNotFoundException(dto.id);
-        }
-    }
-
-    public Plane getPlane(Long id){
-        try {
-            return repository.getById(id);
-        }
-        catch(EntityNotFoundException e){
-            throw new PlaneNotFoundException(id);
-        }
+    public Plane getPlaneById(Long id){
+        return this.planeRepository.findById(id)
+                .orElseThrow(() -> new PlaneNotFoundException(id));
     }
 
     public List<Plane> getAllPlanes(){
-        return repository.findAll();
+        return planeRepository.findAll();
     }
 
     public Boolean deletePlane(PlaneDTO dto) {
-        Plane planeToDelete = getPlane(dto);
+        Plane planeToDelete = getPlaneById(dto);
         if (planeToDelete == null) {
             throw new PlaneNotFoundException(dto.id);
         }
         try {
-            repository.delete(planeToDelete);
+            planeRepository.delete(planeToDelete);
             return true;
         } catch (ConstraintViolationException e) {
             throw new ReliantFlightsException("this plane still has flights!");
