@@ -23,21 +23,29 @@ public class FlightService {
     private final FlightRouteService flightRouteService;
     private final BookingService bookingService;
 
-    public FlightService(FlightRepository fR, PlaneService pS, FlightRouteService fRS, BookingService bS) {
-        this.flightRepository = fR;
-        this.flightRouteService = fRS;
-        this.bookingService = bS;
-        this.planeService = pS;
+    public FlightService(FlightRepository flightRepository,
+                         PlaneService planeService,
+                         FlightRouteService flightRouteService,
+                         BookingService bookingService) {
+        this.flightRepository = flightRepository;
+        this.planeService = planeService;
+        this.flightRouteService = flightRouteService;
+        this.bookingService = bookingService;
     }
 
     public Flight createFlight(FlightDTO flightDTO) {
         try {
-            Plane plane = planeService.getPlane(flightDTO.planeId);
+            Plane plane = planeService.getPlaneById(flightDTO.planeId);
             FlightRoute flightRoute = flightRouteService.findFlightRouteByID(flightDTO.flightRouteId);
             Flight flight = new Flight(flightDTO.departureTime, flightRoute, plane);
 
-            if (!flight.flightExists(findAllFlights(), flight)) return flightRepository.save(flight);
-            throw new FlightAlreadyExistsException();
+            List<Flight> allFlights = this.findAllFlights();
+
+            if (Flight.exists(allFlights, flight)) {
+                throw new FlightAlreadyExistsException();
+            }
+
+            return flightRepository.save(flight);
 
         } catch (NullPointerException nullPointerException) {
             throw new InvalidDTOException("Missing some input variables to send!");
@@ -49,11 +57,7 @@ public class FlightService {
     }
 
     public Flight findFlightById(Long id) {
-        try {
-            return flightRepository.findById(id).orElseThrow(FlightNotFoundException::new);
-        } catch (NullPointerException nullPointerException) {
-            throw new InvalidInputException("No id specified!");
-        }
+        return flightRepository.findById(id).orElseThrow(FlightNotFoundException::new);
     }
 
     public List<Flight> findFlightsByDeparture(LocalDateTime departure) {
@@ -77,7 +81,7 @@ public class FlightService {
         try {
             Flight flight = findFlightById(flightDTO.flightId);
             FlightRoute flightRoute = flightRouteService.findFlightRouteByID(flightDTO.flightRouteId);
-            Plane plane = planeService.getPlane(flightDTO.planeId);
+            Plane plane = planeService.getPlaneById(flightDTO.planeId);
             flight.update(flightDTO.departureTime, flightRoute, plane);
             flightRepository.save(flight);
             return flight;
@@ -87,12 +91,7 @@ public class FlightService {
     }
 
     public void deleteFlightById(Long id) {
-        try {
-            flightRepository.findById(id);
-            flightRepository.deleteFlightById(id);
-        } catch (NullPointerException nullPointerException) {
-            throw new InvalidInputException("No id specified!");
-        }
+        flightRepository.deleteFlightById(id);
     }
 
     public void addBooking(FlightDTO flightDTO) {
