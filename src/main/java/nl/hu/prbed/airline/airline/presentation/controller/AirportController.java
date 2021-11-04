@@ -6,6 +6,7 @@ import nl.hu.prbed.airline.airline.presentation.dto.AirportDTO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
@@ -29,6 +30,7 @@ public class AirportController {
 
     // Add airport
     @PostMapping
+    @RolesAllowed("admin")
     public AirportDTO addAirport(@Validated @RequestBody AirportDTO airportDTO) {
         Airport airport = this.airportService.createAirport(airportDTO);
         return new AirportDTO(airport);

@@ -9,6 +9,7 @@ import nl.hu.prbed.airline.airline.presentation.dto.AirportDTO;
 import nl.hu.prbed.airline.airline.presentation.dto.FlightRouteDTO;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.security.RolesAllowed;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
