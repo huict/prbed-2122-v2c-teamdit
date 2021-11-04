@@ -2,6 +2,8 @@ package nl.hu.prbed.airline.airline.domain;
 
 import lombok.NoArgsConstructor;
 import nl.hu.prbed.airline.airline.domain.user.Employee;
+import nl.hu.prbed.airline.fleet.domain.Fleet;
+import nl.hu.prbed.airline.flight.domain.Flight;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.springframework.stereotype.Component;
