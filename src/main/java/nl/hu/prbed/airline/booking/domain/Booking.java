@@ -28,27 +28,32 @@ public class Booking {
     @Enumerated(EnumType.STRING)
     private BookingClass bookingClass;
 
-    @ManyToOne
-    private Flight flight;
+    @OneToMany
+    private List<Flight> flights;
 
     @OneToMany
     @Cascade(CascadeType.ALL)
     private List<Passenger> passengers;
 
 
-    public Booking(Customer customer, BookingClass bookingClass, Flight flight, List<Passenger> passengers) {
+    public Booking(Customer customer, BookingClass bookingClass, List<Flight> flights, List<Passenger> passengers) {
         this.customer = customer;
         this.bookingClass = bookingClass;
-        this.flight = flight;
+        this.flights = flights;
         this.passengers = passengers;
     }
 
-    public Booking(Long id, Customer customer, BookingClass bookingClass, Flight flight, List<Passenger> passengers) {
-            this(customer, bookingClass, flight, passengers);
+    public Booking(Long id, Customer customer, BookingClass bookingClass, List<Flight> flights, List<Passenger> passengers) {
+        this(customer, bookingClass, flights, passengers);
             this.id = id;
         }
 
     public int getAmountOfPassengers() {
         return passengers.size() + 1;
     }
+
+    public List<Flight> getFlights() {
+        return flights;
+    }
+
 }

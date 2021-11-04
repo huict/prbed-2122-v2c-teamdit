@@ -19,7 +19,7 @@ public class BookingController {
 
     // Get all bookings
     @GetMapping
-    public List<Booking> getAllBooings(){
+    public List<Booking> getAllBookings(){
         return this.bookingService.getAllBookings();
     }
 
