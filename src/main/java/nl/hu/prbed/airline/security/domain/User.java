@@ -20,7 +20,10 @@ public class User implements UserDetails {
     private String password;
     private String firstName;
     private String lastName;
-    private String role = "user";
+
+    @ManyToMany
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn( name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    private List<Role> roles;
 
     public User() {
     }
@@ -76,10 +79,6 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    public void becomeAdmin(){
-        this.role = "admin";
     }
 
 
