@@ -9,6 +9,7 @@ import nl.hu.prbed.airline.booking.domain.Booking;
 import nl.hu.prbed.airline.booking.domain.BookingClass;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -27,10 +28,6 @@ public class Flight {
     @Column(nullable = false)
     private Long id;
 
-    // TODO: Cleanup new list initialization on object creation
-    @OneToMany
-    private List<Booking> bookings = new ArrayList<>();
-
     private LocalDateTime departureTime;
 
     @OneToOne
@@ -47,44 +44,23 @@ public class Flight {
         this.plane = plane;
     }
 
-    public void update(LocalDateTime departureTime, FlightRoute flightRoute, Plane plane) {
-        this.departureTime = departureTime;
-        this.route = flightRoute;
-        this.plane = plane;
-    }
-
-    public void addBooking(Booking booking) {
-        if (seatsLeftForClass(booking.getBookingClass()) > booking.getAmountOfPassengers()) {
-            bookings.add(booking);
-        } else {
-            // TODO: Throw noSeatsLeftForThisClass
-        }
-    }
-
-    public int seatsLeftForClass(BookingClass bookingClass) {
-        int seatsLeft = 0;
-
-        for (Booking booking : this.bookings) {
-            if (booking.getBookingClass().equals(bookingClass)) {
-                seatsLeft += booking.getAmountOfPassengers();
-            }
-        }
-
-        return seatsLeft;
-    }
-
-    public void setDepartureTime(LocalDateTime departureTime) {
-        this.departureTime = departureTime;
+    public Flight(Long id, LocalDateTime departureTime, FlightRoute flightRoute, Plane plane) {
+        this(departureTime, flightRoute, plane);
+        this.id = id;
     }
 
 
-    public void setPlane(Plane plane) {
-        this.plane = plane;
-    }
-
-    public void setRoute(FlightRoute route) {
-        this.route = route;
-    }
+//    public int seatsLeftForClass(BookingClass bookingClass, Booking booking) {
+//        int seatsLeft = 0;
+//
+//        for (Booking booking : this.bookings) {
+//            if (booking.getBookingClass().equals(bookingClass)) {
+//                seatsLeft += booking.getAmountOfPassengers();
+//            }
+//        }
+//
+//        return seatsLeft;
+//    }
 
 
     public boolean equals(Flight flight) {
@@ -99,7 +75,6 @@ public class Flight {
                 return true;
             }
         }
-
         return false;
     }
 

@@ -5,7 +5,7 @@ import nl.hu.prbed.airline.flight.domain.Flight;
 import nl.hu.prbed.airline.flight.presentation.dto.FlightDTO;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -32,8 +32,9 @@ public class FlightController {
         return this.flightService.findFlightsByDeparture(flightDTO.departureTime);
     }
 
+
     @GetMapping("/departure/route")
-    public Flight getFlightRouteAndDeparture(@RequestParam(name = "departure") Date departure, @RequestParam(name = "route") Long routeId) {
+    public Flight getFlightRouteAndDeparture(@RequestParam(name = "departure") LocalDateTime departure, @RequestParam(name = "route") Long routeId) {
         return this.flightService.findFlightRouteAndDeparture(departure, routeId);
     }
 
@@ -47,11 +48,6 @@ public class FlightController {
         return flightService.updateFlight(flightDTO);
     }
 
-    @PutMapping("/booking")
-    public void addBooking(@RequestBody FlightDTO flightBooking){
-        flightService.addBooking(flightBooking);
-    }
-
     @DeleteMapping("/{id}")
     public void deleteFlightById(@PathVariable Long id) {
         flightService.deleteFlightById(id);
@@ -59,7 +55,17 @@ public class FlightController {
 
 }
 
-/*NOTE: een flight kan alleen een vluchttijd veranderen ivm vertraging, want dit is de enige field die klasse Flight zelf ter beschikking heeft
-    de andere fields geven een relatie naar een andere klasse aan,
-     omdat er gebruikt wordt gemaakt van cascade.ALL worden deze wijzigingen ook doorgevoerd naar de andere klassen
-     Het enige was er nog toegevoegd kan worden is een booking id, en het wijzigen van tijd.*/
+
+// get by departure
+//  @GetMapping
+//    public List<Flight> getFlightsByDeparture(@RequestParam(name = "departure") LocalDateTime departure) {
+//        return this.flightService.findFlightsByDeparture(departure);
+//    }
+
+
+
+// get by flightroute and departure
+//  @GetMapping
+//    public Flight getFlightRouteAndDeparture(@RequestParam(name = "departure") Date departure, @RequestParam(name = "route") Long routeId) {
+//        return this.flightService.findFlightRouteAndDeparture(departure, routeId);
+//    }

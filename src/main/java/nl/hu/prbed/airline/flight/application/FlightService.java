@@ -1,5 +1,6 @@
 package nl.hu.prbed.airline.flight.application;
 
+import nl.hu.prbed.airline.booking.domain.BookingClass;
 import nl.hu.prbed.airline.flight.application.exception.FlightAlreadyExistsException;
 import nl.hu.prbed.airline.flight.application.exception.FlightNotFoundException;
 import nl.hu.prbed.airline.flightroute.application.FlightRouteService;
@@ -12,6 +13,7 @@ import nl.hu.prbed.airline.flightroute.domain.FlightRoute;
 import nl.hu.prbed.airline.plane.domain.Plane;
 import nl.hu.prbed.airline.flight.presentation.dto.FlightDTO;
 import nl.hu.prbed.airline.booking.application.BookingService;
+import nl.hu.prbed.airline.plane.presentation.dto.PlaneDTO;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -26,16 +28,13 @@ public class FlightService {
     private final FlightRepository flightRepository;
     private final PlaneService planeService;
     private final FlightRouteService flightRouteService;
-    private final BookingService bookingService;
 
     public FlightService(FlightRepository flightRepository,
                          PlaneService planeService,
-                         FlightRouteService flightRouteService,
-                         BookingService bookingService) {
+                         FlightRouteService flightRouteService) {
         this.flightRepository = flightRepository;
         this.planeService = planeService;
         this.flightRouteService = flightRouteService;
-        this.bookingService = bookingService;
     }
 
     public Flight createFlight(FlightDTO flightDTO) {
@@ -73,7 +72,7 @@ public class FlightService {
         }
     }
 
-    public Flight findFlightRouteAndDeparture(Date departure, Long flightRouteId) {
+    public Flight findFlightRouteAndDeparture(LocalDateTime departure, Long flightRouteId) {
         try {
             FlightRoute flightRoute = flightRouteService.findFlightRouteByID(flightRouteId);
             return flightRepository.findByRouteAndDepartureTime(flightRoute, departure).orElseThrow(FlightNotFoundException::new);
@@ -87,7 +86,7 @@ public class FlightService {
             Flight flight = findFlightById(flightDTO.flightId);
             FlightRoute flightRoute = flightRouteService.findFlightRouteByID(flightDTO.flightRouteId);
             Plane plane = planeService.getPlaneById(flightDTO.planeId);
-            flight.update(flightDTO.departureTime, flightRoute, plane);
+//            flight.update(flightDTO.departureTime, flightRoute, plane);
             flightRepository.save(flight);
             return flight;
         } catch (NullPointerException nullPointerException) {
@@ -99,15 +98,13 @@ public class FlightService {
         flightRepository.deleteFlightById(id);
     }
 
-    public void addBooking(FlightDTO flightDTO) {
-        try {
-            Booking booking = bookingService.findBookingById(flightDTO.bookingId);
-            Flight flight = findFlightById(flightDTO.flightId);
-            flight.addBooking(booking);
-            flightRepository.save(flight);
-        } catch (NullPointerException nullPointerException) {
-            throw new InvalidDTOException("Missing input variables to send!");
-        }
-    }
+//    public boolean availableSeatsForClass(PlaneDTO planeDTO, Booking booking){
+//        BookingClass bookingClass = booking.getBookingClass();
+//
+//        if(bookingClass.equals(BookingClass.BUSINESS)){
+//            plane.getSeatsBusiness() -= booking.getAmountOfPassengers();
+//            planeService.
+//        }
+//    }
 
 }
