@@ -46,6 +46,8 @@ public class FlightService {
 
             List<Flight> allFlights = this.findAllFlights();
 
+
+            // todo: rewrite this, does it even work?
             if (Flight.exists(allFlights, flight)) {
                 throw new FlightAlreadyExistsException();
             }

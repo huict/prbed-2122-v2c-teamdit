@@ -1,5 +1,9 @@
 package nl.hu.prbed.airline.flightroute.application;
 
+import nl.hu.prbed.airline.airline.application.exception.InvalidDTOException;
+import nl.hu.prbed.airline.airport.application.exception.AirportAlreadyExistsException;
+import nl.hu.prbed.airline.airport.application.exception.AirportNotFoundException;
+import nl.hu.prbed.airline.airport.presentation.dto.AirportDTO;
 import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteAlreadyExistsException;
 import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteNotFoundException;
 import nl.hu.prbed.airline.flightroute.data.FlightRouteRepository;
@@ -40,36 +44,29 @@ public class FlightRouteService {
 
 
     public FlightRouteDTO createFlightRoute(FlightRouteDTO flightRouteDTO) {
+        if (this.flightRouteRepository.existsByDepartureLocationAndArrivalLocationAndDurationMinutesAndPriceEconomyAndPriceBusinessAndPriceFirstClass(flightRouteDTO.departureCode, flightRouteDTO.arrivalCode, flightRouteDTO.durationMinutes, flightRouteDTO.priceEconomy, flightRouteDTO.priceBusiness, flightRouteDTO.priceFirstClass)) {
+            throw new FlightRouteAlreadyExistsException();
+        }
+
         Airport arrival = airportService.findAirportByCode(flightRouteDTO.arrivalCode);
         Airport departure = airportService.findAirportByCode(flightRouteDTO.departureCode);
         FlightRoute flightRoute = flightRouteDTO.toFlightroute(arrival, departure);
 
+        this.flightRouteRepository.saveAndFlush(flightRoute);
+        FlightRoute flightRouteResult = this.flightRouteRepository.findByDepartureLocationAndArrivalLocationAndDurationMinutesAndPriceEconomyAndPriceBusinessAndPriceFirstClass(flightRouteDTO.departureCode, flightRouteDTO.arrivalCode, flightRouteDTO.durationMinutes, flightRouteDTO.priceEconomy, flightRouteDTO.priceBusiness, flightRouteDTO.priceFirstClass)
+                .orElseThrow(FlightRouteNotFoundException::new);
 
-        //todo: HAS TO BE A BETTER WAY
-        List<FlightRoute> flightRoutes = this.flightRouteRepository.findAll();
-        FlightRoute existingFlightRoute = this.flightRouteRepository.findByDepartureLocationAndArrivalLocationAndDurationMinutesAndPriceEconomyAndPriceBusinessAndPriceFirstClass()
-        Object potentialFlightRoute = flightRoute.flightExists(flightRoutes, flightRoute);
-
-        if (!(potentialFlightRoute instanceof Boolean)) {
-            FlightRoute existingFLightRoute = (FlightRoute) potentialFlightRoute;
-            throw new FlightRouteAlreadyExistsException(existingFLightRoute.getId());
-        }
-
-        this.flightRouteRepository.save(flightRouteDTO.toFlightroute(arrival, departure));
-
-        flightRoutes = this.flightRouteRepository.findAll();
-        Object addedFlightRoute = flightRoute.flightExists(flightRoutes, flightRoute);
-
-        return new FlightRouteDTO((FlightRoute) addedFlightRoute);
+        return new FlightRouteDTO(flightRouteResult);
     }
 
-    public FlightRouteDTO updateFlightRoute(FlightRouteDTO flightRouteDTO) {
-        Airport arrival = airportService.findAirportByCode(flightRouteDTO.arrivalCode);
-        Airport departure = airportService.findAirportByCode(flightRouteDTO.departureCode);
 
-        if (flightRouteDTO.id == null){
+    public FlightRouteDTO updateFlightRoute(FlightRouteDTO flightRouteDTO) {
+        if (flightRouteDTO.id == null) {
             throw new FlightRouteNotFoundException();
         }
+
+        Airport arrival = airportService.findAirportByCode(flightRouteDTO.arrivalCode);
+        Airport departure = airportService.findAirportByCode(flightRouteDTO.departureCode);
 
         FlightRoute flightRoute = flightRouteDTO.toFlightroute(flightRouteDTO.id, arrival, departure);
 
@@ -80,9 +77,11 @@ public class FlightRouteService {
         return new FlightRouteDTO(flightRoute);
     }
 
-    public FlightRoute findFlightRouteByID(Long id ){
+
+    public FlightRoute findFlightRouteByID(Long id) {
         return flightRouteRepository.findById(id).orElseThrow(FlightRouteNotFoundException::new);
     }
+
     public void deleteFlightRoute(Long id) {
         this.flightRouteRepository.findById(id)
                 .orElseThrow(FlightRouteNotFoundException::new);

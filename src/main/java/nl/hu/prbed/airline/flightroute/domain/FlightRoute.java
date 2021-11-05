@@ -41,17 +41,4 @@ public class FlightRoute {
         this.priceFirstClass = priceFirstClass;
     }
 
-    public Object flightExists(List<FlightRoute> flightRoutes, FlightRoute flightRoute) {
-        for (FlightRoute flightRouteRepo : flightRoutes) {
-            if (flightRoute.getArrivalLocation().equals(flightRouteRepo.getArrivalLocation()) &&
-                    flightRoute.getDepartureLocation().equals(flightRouteRepo.getDepartureLocation()) &&
-                    flightRoute.getDurationMinutes().equals(flightRouteRepo.getDurationMinutes()) &&
-                    flightRoute.getPriceEconomy().equals(flightRouteRepo.getPriceEconomy()) &&
-                    flightRoute.getPriceBusiness().equals(flightRouteRepo.getPriceBusiness()) &&
-                    flightRoute.getPriceFirstClass().equals(flightRouteRepo.getPriceFirstClass())) {
-                return flightRouteRepo;
-            }
-        }
-        return false;
-    }
 }
