@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/plane")
 public class PlaneController {
 
     private final PlaneService planeService;
