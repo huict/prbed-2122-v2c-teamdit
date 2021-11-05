@@ -47,6 +47,7 @@ public class FlightRouteService {
 
         //todo: HAS TO BE A BETTER WAY
         List<FlightRoute> flightRoutes = this.flightRouteRepository.findAll();
+        FlightRoute existingFlightRoute = this.flightRouteRepository.findByDepartureLocationAndArrivalLocationAndDurationMinutesAndPriceEconomyAndPriceBusinessAndPriceFirstClass()
         Object potentialFlightRoute = flightRoute.flightExists(flightRoutes, flightRoute);
 
         if (!(potentialFlightRoute instanceof Boolean)) {
