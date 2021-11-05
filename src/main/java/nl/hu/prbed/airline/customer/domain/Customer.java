@@ -29,6 +29,9 @@ public class Customer {
     private List<Booking> bookings;
 
 
+    public Customer() {
+    }
+
     public Customer(String firstName, String lastName, LocalDateTime dateOfBirth, Integer phoneNumber, String emailAddress, String nationality) {
         this.firstName = firstName;
         this.lastName = lastName;
