@@ -40,9 +40,9 @@ public class BookingController {
 
     // Update booking
     @PutMapping
-    public BookingDTO updateBooking(@Validated @RequestBody BookingDTO bookingDTO) {
-        Booking booking = this.bookingService.updateBooking(bookingDTO);
-        return new BookingDTO(booking);
+    public BookingResponseDTO updateBooking(@Validated @RequestBody BookingRequestDTO BookingRequestDTO) {
+        Booking booking = this.bookingService.updateBooking(BookingRequestDTO);
+        return new BookingResponseDTO(booking);
     }
 
     // Delete booking

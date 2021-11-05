@@ -22,7 +22,7 @@ public class BookingService {
     private final CustomerService customerService;
     private final FlightService flightService;
 
-    public BookingService(BookingRepository bookingRepository, CustomerService customerService, FlightService flightService) {
+    public BookingService(BookingRepository bookingRepository, CustomerService customerService,@Lazy FlightService flightService) {
         this.bookingRepository = bookingRepository;
         this.customerService = customerService;
         this.flightService = flightService;
@@ -43,10 +43,16 @@ public class BookingService {
         return booking;
     }
 
-    public Booking updateBooking(BookingDTO bookingDTO) {
-        Customer customer = customerService.findCustomerById(bookingDTO.customerId);
+    public Booking updateBooking(BookingRequestDTO bookingRequestDTO) {
+        List<Flight> flights = null;
+        Customer customer = customerService.findCustomerById(bookingRequestDTO.customerId);
 
-        Booking updatedBooking = new Booking(bookingDTO.id, customer, bookingDTO.bookingClass, bookingDTO.flights, bookingDTO.passengers);
+        for(Long id : bookingRequestDTO.flightsIds){
+            Flight flight = flightService.findFlightById(id);
+            flights.add(flight);
+        }
+
+        Booking updatedBooking = new Booking(customer, bookingRequestDTO.bookingClass, flights, bookingRequestDTO.passengers);
 
         bookingRepository.findByid(updatedBooking.getId())
                 .orElseThrow(() -> new BookingNotFoundException(updatedBooking.getId()));
