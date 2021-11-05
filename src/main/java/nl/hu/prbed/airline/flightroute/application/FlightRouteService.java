@@ -44,16 +44,16 @@ public class FlightRouteService {
 
 
     public FlightRouteDTO createFlightRoute(FlightRouteDTO flightRouteDTO) {
-        if (this.flightRouteRepository.existsByDepartureLocationAndArrivalLocationAndDurationMinutesAndPriceEconomyAndPriceBusinessAndPriceFirstClass(flightRouteDTO.departureCode, flightRouteDTO.arrivalCode, flightRouteDTO.durationMinutes, flightRouteDTO.priceEconomy, flightRouteDTO.priceBusiness, flightRouteDTO.priceFirstClass)) {
+        Airport arrival = airportService.findAirportByCode(flightRouteDTO.arrivalCode);
+        Airport departure = airportService.findAirportByCode(flightRouteDTO.departureCode);
+        if (this.flightRouteRepository.existsByDepartureLocationAndArrivalLocationAndDurationMinutesAndPriceEconomyAndPriceBusinessAndPriceFirstClass(arrival, departure, flightRouteDTO.durationMinutes, flightRouteDTO.priceEconomy, flightRouteDTO.priceBusiness, flightRouteDTO.priceFirstClass)) {
             throw new FlightRouteAlreadyExistsException();
         }
 
-        Airport arrival = airportService.findAirportByCode(flightRouteDTO.arrivalCode);
-        Airport departure = airportService.findAirportByCode(flightRouteDTO.departureCode);
         FlightRoute flightRoute = flightRouteDTO.toFlightroute(arrival, departure);
 
         this.flightRouteRepository.saveAndFlush(flightRoute);
-        FlightRoute flightRouteResult = this.flightRouteRepository.findByDepartureLocationAndArrivalLocationAndDurationMinutesAndPriceEconomyAndPriceBusinessAndPriceFirstClass(flightRouteDTO.departureCode, flightRouteDTO.arrivalCode, flightRouteDTO.durationMinutes, flightRouteDTO.priceEconomy, flightRouteDTO.priceBusiness, flightRouteDTO.priceFirstClass)
+        FlightRoute flightRouteResult = this.flightRouteRepository.findByDepartureLocationAndArrivalLocationAndDurationMinutesAndPriceEconomyAndPriceBusinessAndPriceFirstClass(arrival, departure, flightRouteDTO.durationMinutes, flightRouteDTO.priceEconomy, flightRouteDTO.priceBusiness, flightRouteDTO.priceFirstClass)
                 .orElseThrow(FlightRouteNotFoundException::new);
 
         return new FlightRouteDTO(flightRouteResult);
