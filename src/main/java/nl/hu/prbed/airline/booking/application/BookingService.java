@@ -13,6 +13,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 
 @Transactional
@@ -29,11 +30,11 @@ public class BookingService {
     }
 
     public Booking createBooking(BookingRequestDTO bookingRequestDTO){
-        List<Flight> flights = null;
+        List<Flight> flights = new ArrayList<>();
         Customer customer = customerService.findCustomerById(bookingRequestDTO.customerId);
 
-        for(Long id :bookingRequestDTO.flightsIds){
-            Flight flight = flightService.findFlightById(id);
+        for(Long flightId :bookingRequestDTO.flightsIds){
+            Flight flight = flightService.findFlightById(flightId);
             flights.add(flight);
         }
 
@@ -44,7 +45,7 @@ public class BookingService {
     }
 
     public Booking updateBooking(BookingRequestDTO bookingRequestDTO) {
-        List<Flight> flights = null;
+        List<Flight> flights = new ArrayList<>();
         Customer customer = customerService.findCustomerById(bookingRequestDTO.customerId);
 
         for(Long id : bookingRequestDTO.flightsIds){
@@ -52,7 +53,7 @@ public class BookingService {
             flights.add(flight);
         }
 
-        Booking updatedBooking = new Booking(customer, bookingRequestDTO.bookingClass, flights, bookingRequestDTO.passengers);
+        Booking updatedBooking = new Booking( bookingRequestDTO.id ,customer, bookingRequestDTO.bookingClass, flights, bookingRequestDTO.passengers);
 
         bookingRepository.findByid(updatedBooking.getId())
                 .orElseThrow(() -> new BookingNotFoundException(updatedBooking.getId()));

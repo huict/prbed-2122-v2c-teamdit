@@ -63,7 +63,8 @@ public class FlightService {
     }
 
     public Flight findFlightById(Long id) {
-        return flightRepository.findById(id).orElseThrow(FlightNotFoundException::new);
+        return flightRepository.findById(id)
+                .orElseThrow(FlightNotFoundException::new);
     }
 
     public List<Flight> findFlightsByDeparture(LocalDateTime departure) {
