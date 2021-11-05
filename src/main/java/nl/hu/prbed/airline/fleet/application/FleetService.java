@@ -4,13 +4,9 @@ import nl.hu.prbed.airline.airline.application.exception.InvalidDTOException;
 import nl.hu.prbed.airline.fleet.data.FleetRepository;
 import nl.hu.prbed.airline.fleet.domain.Fleet;
 import nl.hu.prbed.airline.fleet.exception.FleetDoesntExistException;
-import nl.hu.prbed.airline.fleet.presentation.controller.dto.FleetDTO;
 import nl.hu.prbed.airline.plane.domain.Plane;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneDTO;
 import org.springframework.stereotype.Service;
-import org.yaml.snakeyaml.tokens.FlowEntryToken;
-
-import java.util.ArrayList;
 
 @Service
 public class FleetService {
@@ -19,12 +15,6 @@ public class FleetService {
 
     public FleetService(FleetRepository repository) {
         this.repository = repository;
-    }
-
-    public Fleet createFleet(FleetDTO fleetDTO) {
-        Fleet fleet = new Fleet(fleetDTO.planes = new ArrayList<>());
-        repository.save(fleet);
-        return fleet;
     }
 
     public Fleet getFleet() {
