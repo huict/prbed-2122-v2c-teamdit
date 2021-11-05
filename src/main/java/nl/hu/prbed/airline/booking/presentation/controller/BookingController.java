@@ -3,6 +3,8 @@ package nl.hu.prbed.airline.booking.presentation.controller;
 import nl.hu.prbed.airline.booking.application.BookingService;
 import nl.hu.prbed.airline.booking.domain.Booking;
 import nl.hu.prbed.airline.booking.presentation.dto.BookingDTO;
+import nl.hu.prbed.airline.booking.presentation.dto.BookingRequestDTO;
+import nl.hu.prbed.airline.booking.presentation.dto.BookingResponseDTO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,9 +33,9 @@ public class BookingController {
 
     // Add booking
     @PostMapping
-    public BookingDTO addBooking(@Validated @RequestBody BookingDTO bookingDTO) {
-        Booking booking = this.bookingService.createBooking(bookingDTO);
-        return new BookingDTO(booking);
+    public BookingResponseDTO addBooking(@Validated @RequestBody BookingRequestDTO bookingRequestDTO) {
+        Booking booking = this.bookingService.createBooking(bookingRequestDTO);
+        return new BookingResponseDTO(booking);
     }
 
     // Update booking

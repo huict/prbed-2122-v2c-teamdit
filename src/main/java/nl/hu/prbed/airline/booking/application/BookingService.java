@@ -1,5 +1,6 @@
 package nl.hu.prbed.airline.booking.application;
 
+import nl.hu.prbed.airline.booking.presentation.dto.BookingRequestDTO;
 import nl.hu.prbed.airline.customer.application.CustomerService;
 import nl.hu.prbed.airline.flight.application.FlightService;
 import nl.hu.prbed.airline.booking.application.exception.BookingNotFoundException;
@@ -19,15 +20,24 @@ import java.util.List;
 public class BookingService {
     private final BookingRepository bookingRepository;
     private final CustomerService customerService;
+    private final FlightService flightService;
 
-    public BookingService(BookingRepository bookingRepository, CustomerService customerService) {
+    public BookingService(BookingRepository bookingRepository, CustomerService customerService, FlightService flightService) {
         this.bookingRepository = bookingRepository;
         this.customerService = customerService;
+        this.flightService = flightService;
     }
 
-    public Booking createBooking(BookingDTO bookingDTO){
-        Customer customer = customerService.findCustomerById(bookingDTO.customerId);
-        Booking booking = new Booking(customer, bookingDTO.bookingClass, bookingDTO.flights, bookingDTO.passengers);
+    public Booking createBooking(BookingRequestDTO bookingRequestDTO){
+        List<Flight> flights = null;
+        Customer customer = customerService.findCustomerById(bookingRequestDTO.customerId);
+
+        for(Long id :bookingRequestDTO.flightsIds){
+            Flight flight = flightService.findFlightById(id);
+            flights.add(flight);
+        }
+
+        Booking booking = new Booking(customer, bookingRequestDTO.bookingClass, flights, bookingRequestDTO.passengers);
 
         this.bookingRepository.save(booking);
         return booking;
