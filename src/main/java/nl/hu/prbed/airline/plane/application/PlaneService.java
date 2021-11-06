@@ -1,13 +1,11 @@
 package nl.hu.prbed.airline.plane.application;
 
 import nl.hu.prbed.airline.airline.application.exception.InvalidDTOException;
-import nl.hu.prbed.airline.customer.domain.Customer;
-import nl.hu.prbed.airline.customer.presentation.dto.CustomerResponseDTO;
+import nl.hu.prbed.airline.plane.application.exception.DuplicatePlaneException;
 import nl.hu.prbed.airline.plane.application.exception.PlaneNotFoundException;
 import nl.hu.prbed.airline.plane.application.exception.ReliantFlightsException;
 import nl.hu.prbed.airline.plane.data.PlaneRepository;
 import nl.hu.prbed.airline.plane.domain.Plane;
-import nl.hu.prbed.airline.plane.presentation.dto.PlaneDTO;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneRequestDTO;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneResponseDTO;
 import org.springframework.stereotype.Service;
@@ -19,32 +17,47 @@ import java.util.List;
 
 @Service
 public class PlaneService {
+    private final PlaneRepository planeRepository;
 
-    private PlaneRepository planeRepository;
+    public PlaneService(PlaneRepository planeRepository) {
+        this.planeRepository = planeRepository;
+    }
 
-    public PlaneService(PlaneRepository planeRepository){this.planeRepository = planeRepository;}
-
-    public Plane updatePlane(PlaneRequestDTO planeRequestDTO){
-        if(planeRequestDTO.id == null){
-            throw new InvalidDTOException("no ID specified!");
+    public PlaneResponseDTO addPlane(PlaneRequestDTO pro) {
+        if (planeRepository.existsByTypeAndSeatsBusinessAndSeatsEconomyAndSeatsFirstClass(
+                pro.type, pro.seatsBusiness, pro.seatsEconomy, pro.seatsFirstClass)) {
+            throw new DuplicatePlaneException("A plane with these details already exists");
+        } else if (pro.type == null) {
+            throw new InvalidDTOException("No type specified");
         }
+
+        Plane newPlane = new Plane(pro.type, pro.seatsEconomy, pro.seatsBusiness, pro.seatsFirstClass);
+        planeRepository.save(newPlane);
+
+        return new PlaneResponseDTO(newPlane);
+    }
+
+    public PlaneResponseDTO updatePlane(PlaneRequestDTO planeRequestDTO) {
+        if (planeRequestDTO.id == null) {
+            throw new InvalidDTOException("No ID specified");
+        }
+
         try {
             Plane planeToUpdate = planeRepository.getById(planeRequestDTO.id);
             planeToUpdate.update(planeRequestDTO.type, planeRequestDTO.seatsEconomy, planeRequestDTO.seatsBusiness, planeRequestDTO.seatsFirstClass);
             planeRepository.saveAndFlush(planeToUpdate);
-            return planeToUpdate;
-        }
-        catch (EntityNotFoundException e){
+            return new PlaneResponseDTO(planeToUpdate);
+        } catch (EntityNotFoundException e) {
             throw new PlaneNotFoundException(planeRequestDTO.id);
         }
     }
 
-    public Plane getPlaneById(Long id){
+    public Plane getPlaneById(Long id) {
         return this.planeRepository.findById(id)
                 .orElseThrow(() -> new PlaneNotFoundException(id));
     }
 
-    public List<PlaneResponseDTO> getAllPlanes(){
+    public List<PlaneResponseDTO> getAllPlanes() {
         List<Plane> planes = this.planeRepository.findAll();
         List<PlaneResponseDTO> planeDTOS = new ArrayList<>();
         for (Plane plane : planes) {

@@ -21,11 +21,14 @@ public class PlaneController {
     }
 
     @GetMapping
-    public List<PlaneResponseDTO> getPlanes(){return planeService.getAllPlanes();}
     public List<PlaneResponseDTO> getPlanes() {
         return this.planeService.getAllPlanes();
     }
 
+    @PostMapping
+    public PlaneResponseDTO addPlane(@RequestBody PlaneRequestDTO planeRequestDTO) {
+        return this.planeService.addPlane(planeRequestDTO);
+    }
 
     @GetMapping("/{id}")
     public PlaneResponseDTO getPlaneByID(@PathVariable Long id) {
@@ -34,9 +37,8 @@ public class PlaneController {
     }
 
     @PutMapping
-    public PlaneResponseDTO updatePlane(@RequestBody PlaneRequestDTO planeRequestDTO){
-        Plane plane =  planeService.updatePlane(planeRequestDTO);
-        return new PlaneResponseDTO(plane);
+    public PlaneResponseDTO updatePlane(@RequestBody PlaneRequestDTO planeRequestDTO) {
+        return this.planeService.updatePlane(planeRequestDTO);
     }
 
     @DeleteMapping("/{id}")
