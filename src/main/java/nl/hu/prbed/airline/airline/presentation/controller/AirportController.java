@@ -3,14 +3,16 @@ package nl.hu.prbed.airline.airline.presentation.controller;
 import nl.hu.prbed.airline.airline.application.AirportService;
 import nl.hu.prbed.airline.airline.domain.Airport;
 import nl.hu.prbed.airline.airline.presentation.dto.AirportDTO;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.security.RolesAllowed;
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/airport")
+@PreAuthorize("hasRole('ROLE_EMPLOYEE')")
 public class AirportController {
     private final AirportService airportService;
 
@@ -30,7 +32,6 @@ public class AirportController {
 
     // Add airport
     @PostMapping
-    @RolesAllowed("admin")
     public AirportDTO addAirport(@Validated @RequestBody AirportDTO airportDTO) {
         Airport airport = this.airportService.createAirport(airportDTO);
         return new AirportDTO(airport);
