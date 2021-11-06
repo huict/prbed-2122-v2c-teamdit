@@ -17,6 +17,7 @@ import java.awt.print.Book;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 @Entity
@@ -51,10 +52,7 @@ public class Flight {
     }
 
     public boolean seatsLeft(Booking booking) {
-        if(seatsLeftForClass(booking) <= 0){
-            return true;
-        }
-        return false;
+        return seatsLeftForClass(booking) <= 0;
     }
 
     public int seatsLeftForClass(Booking booking) {
@@ -72,13 +70,18 @@ public class Flight {
         };
     }
 
+    @Override
+    public boolean equals(Object object) {
+        if (this == object)
+            return true;
 
-    public boolean equals(Flight flight) {
-        return flight.getDepartureTime().equals(this.departureTime) &&
-                flight.getRoute().equals(this.route) ||
-                flight.getDepartureTime().equals(this.departureTime) &&
-                        flight.getRoute().equals(this.route) &&
-                flight.getPlane().equals(this.plane);
+        if (object == null || getClass() != object.getClass())
+            return false;
+
+        Flight flight = (Flight) object;
+        return Objects.equals(departureTime, flight.departureTime)
+                && Objects.equals(route, flight.route)
+                && Objects.equals(plane, flight.plane);
     }
 
     public static boolean exists(List<Flight> flights, Flight newFlight) {
