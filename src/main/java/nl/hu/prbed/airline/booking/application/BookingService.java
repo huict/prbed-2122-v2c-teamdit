@@ -1,5 +1,6 @@
 package nl.hu.prbed.airline.booking.application;
 
+import nl.hu.prbed.airline.booking.application.exception.NoSeatsLeftForClassException;
 import nl.hu.prbed.airline.booking.presentation.dto.BookingRequestDTO;
 import nl.hu.prbed.airline.customer.application.CustomerService;
 import nl.hu.prbed.airline.flight.application.FlightService;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -39,6 +41,11 @@ public class BookingService {
         }
 
         Booking booking = new Booking(customer, bookingRequestDTO.bookingClass, flights, bookingRequestDTO.passengers);
+        for(Flight flight: flights){
+            if(!flight.seatsLeft(booking)){
+                throw new NoSeatsLeftForClassException();
+            }
+        }
 
         this.bookingRepository.save(booking);
         return booking;
@@ -55,8 +62,7 @@ public class BookingService {
 
         Booking updatedBooking = new Booking( bookingRequestDTO.id ,customer, bookingRequestDTO.bookingClass, flights, bookingRequestDTO.passengers);
 
-        bookingRepository.findByid(updatedBooking.getId())
-                .orElseThrow(() -> new BookingNotFoundException(updatedBooking.getId()));
+        bookingRepository.findByid(updatedBooking.getId()).orElseThrow(() -> new BookingNotFoundException(updatedBooking.getId()));
 
         bookingRepository.saveAndFlush(updatedBooking);
         return updatedBooking;
