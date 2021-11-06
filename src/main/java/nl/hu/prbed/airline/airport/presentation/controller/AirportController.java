@@ -1,8 +1,9 @@
-package nl.hu.prbed.airline.airport.presentation.controller;
+package nl.hu.prbed.airline.airline.presentation.controller;
 
 import nl.hu.prbed.airline.airport.application.AirportService;
 import nl.hu.prbed.airline.airport.domain.Airport;
 import nl.hu.prbed.airline.airport.presentation.dto.AirportDTO;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/airport")
+@PreAuthorize("hasRole('ROLE_EMPLOYEE')")
 public class AirportController {
     private final AirportService airportService;
 
