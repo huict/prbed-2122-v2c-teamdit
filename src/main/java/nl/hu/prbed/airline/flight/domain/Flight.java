@@ -9,13 +9,10 @@ import nl.hu.prbed.airline.booking.domain.Booking;
 import nl.hu.prbed.airline.booking.domain.BookingClass;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import java.awt.print.Book;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -51,25 +48,6 @@ public class Flight {
         this.id = id;
     }
 
-    public boolean seatsLeft(Booking booking) {
-        return seatsLeftForClass(booking) <= 0;
-    }
-
-    public int seatsLeftForClass(Booking booking) {
-        int seatsEconomy = plane.getSeatsEconomy();
-        int seatsBusiness = plane.getSeatsBusiness();
-        int seatsFirst = plane.getSeatsFirstClass();
-
-        BookingClass bookingClass = booking.getBookingClass();
-        int passengers = booking.getAmountOfPassengers();
-
-        return switch (bookingClass) {
-            case ECONOMY -> seatsEconomy - passengers;
-            case BUSINESS -> seatsBusiness - passengers;
-            case FIRST -> seatsFirst - passengers;
-        };
-    }
-
     @Override
     public boolean equals(Object object) {
         if (this == object)
@@ -91,9 +69,5 @@ public class Flight {
             }
         }
         return false;
-    }
-
-    public Long getId() {
-        return id;
     }
 }

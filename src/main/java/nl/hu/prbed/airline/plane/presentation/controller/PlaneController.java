@@ -14,22 +14,24 @@ import java.util.List;
 @RequestMapping("/plane")
 @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
 public class PlaneController {
-
     private final PlaneService planeService;
 
-    public PlaneController(PlaneService planeService){
+    public PlaneController(PlaneService planeService) {
         this.planeService = planeService;
     }
 
     @GetMapping
     public List<PlaneResponseDTO> getPlanes(){return planeService.getAllPlanes();}
+    public List<PlaneResponseDTO> getPlanes() {
+        return this.planeService.getAllPlanes();
+    }
+
 
     @GetMapping("/{id}")
     public PlaneResponseDTO getPlaneByID(@PathVariable Long id) {
-        Plane plane = planeService.getPlaneById(id);
+        Plane plane = this.planeService.getPlaneById(id);
         return new PlaneResponseDTO(plane);
     }
-
 
     @PutMapping
     public PlaneResponseDTO updatePlane(@RequestBody PlaneRequestDTO planeRequestDTO){
@@ -37,8 +39,8 @@ public class PlaneController {
         return new PlaneResponseDTO(plane);
     }
 
-    @DeleteMapping
-    public Boolean deletePlane(@PathVariable Long id){
-        return planeService.deletePlane(id);
+    @DeleteMapping("/{id}")
+    public Boolean deletePlane(@PathVariable Long id) {
+        return this.planeService.deletePlane(id);
     }
 }

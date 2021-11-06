@@ -2,7 +2,6 @@ package nl.hu.prbed.airline.booking.presentation.controller;
 
 import nl.hu.prbed.airline.booking.application.BookingService;
 import nl.hu.prbed.airline.booking.domain.Booking;
-import nl.hu.prbed.airline.booking.presentation.dto.BookingDTO;
 import nl.hu.prbed.airline.booking.presentation.dto.BookingRequestDTO;
 import nl.hu.prbed.airline.booking.presentation.dto.BookingResponseDTO;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,7 +28,7 @@ public class BookingController {
 
     // Get booking by id
     @GetMapping("/{id}")
-    public BookingResponseDTO getAirportByCode(@PathVariable long id) {
+    public BookingResponseDTO getBookingByCode(@PathVariable long id) {
         Booking booking = this.bookingService.findBookingById(id);
         return new BookingResponseDTO(booking);
     }

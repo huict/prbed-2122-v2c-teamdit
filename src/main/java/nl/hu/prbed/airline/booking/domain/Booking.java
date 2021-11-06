@@ -28,7 +28,7 @@ public class Booking {
     @Enumerated(EnumType.STRING)
     private BookingClass bookingClass;
 
-    @OneToMany
+    @ManyToMany
     private List<Flight> flights;
 
     @OneToMany
