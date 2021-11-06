@@ -13,6 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.awt.print.Book;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,23 +50,31 @@ public class Flight {
         this.id = id;
     }
 
+    public boolean seatsLeft(Booking booking) {
+        if(seatsLeftForClass(booking) <= 0){
+            return true;
+        }
+        return false;
+    }
 
-//    public int seatsLeftForClass(BookingClass bookingClass, Booking booking) {
-//        int seatsLeft = 0;
-//
-//        for (Booking booking : this.bookings) {
-//            if (booking.getBookingClass().equals(bookingClass)) {
-//                seatsLeft += booking.getAmountOfPassengers();
-//            }
-//        }
-//
-//        return seatsLeft;
-//    }
+    public int seatsLeftForClass(Booking booking) {
+        int seatsEconomy = plane.getSeatsEconomy();
+        int seatsBusiness = plane.getSeatsBusiness();
+        int seatsFirst = plane.getSeatsFirstClass();
+
+        return switch (booking.getBookingClass()) {
+            case ECONOMY -> seatsEconomy -= booking.getAmountOfPassengers();
+            case BUSINESS -> seatsBusiness -= booking.getAmountOfPassengers();
+            case FIRST -> seatsFirst -= booking.getAmountOfPassengers();
+        };
+    }
 
 
     public boolean equals(Flight flight) {
         return flight.getDepartureTime().equals(this.departureTime) &&
-                flight.getRoute().equals(this.route) &&
+                flight.getRoute().equals(this.route) ||
+                flight.getDepartureTime().equals(this.departureTime) &&
+                        flight.getRoute().equals(this.route) &&
                 flight.getPlane().equals(this.plane);
     }
 
