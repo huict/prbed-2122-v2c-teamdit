@@ -1,9 +1,11 @@
 package nl.hu.prbed.airline.airport.presentation.dto;
 
+import lombok.NoArgsConstructor;
 import nl.hu.prbed.airline.airport.domain.Airport;
 
 import javax.validation.constraints.NotNull;
 
+@NoArgsConstructor
 public class AirportDTO {
     @NotNull
     public String codeICAO;
@@ -17,10 +19,6 @@ public class AirportDTO {
     public double longitude;
     @NotNull
     public double latitude;
-
-    public AirportDTO() {
-
-    }
 
     public AirportDTO(Airport airport) {
         this.codeICAO = airport.getCodeICAO();

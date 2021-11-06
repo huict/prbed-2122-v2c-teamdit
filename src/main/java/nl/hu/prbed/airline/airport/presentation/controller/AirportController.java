@@ -1,4 +1,4 @@
-package nl.hu.prbed.airline.airline.presentation.controller;
+package nl.hu.prbed.airline.airport.presentation.controller;
 
 import nl.hu.prbed.airline.airport.application.AirportService;
 import nl.hu.prbed.airline.airport.domain.Airport;
