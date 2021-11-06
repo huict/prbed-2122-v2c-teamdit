@@ -7,7 +7,7 @@ import javax.validation.constraints.NotNull;
 
 
 @NoArgsConstructor
-public class RequestDTO {
+public class FlightrouteRequestDTO {
     @NotNull
     public String arrivalCode;
     @NotNull

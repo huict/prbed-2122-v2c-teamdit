@@ -4,6 +4,7 @@ import nl.hu.prbed.airline.customer.application.exception.CustomerNotFoundExcept
 import nl.hu.prbed.airline.customer.data.CustomerRepository;
 import nl.hu.prbed.airline.customer.domain.Customer;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerDTO;
+import nl.hu.prbed.airline.customer.presentation.dto.CustomerRequestDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,17 +17,17 @@ public class CustomerService {
         this.customerRepository = customerRepository;
     }
 
-    public Customer createCustomer(CustomerDTO customerDTO){
+    public Customer createCustomer(CustomerRequestDTO customerRequestDTO){
 
-        Customer customer = new Customer(customerDTO.firstName, customerDTO.lastName, customerDTO.dateOfBirth, customerDTO.phoneNumber, customerDTO.emailAddress , customerDTO.nationality);
+        Customer customer = new Customer(customerRequestDTO.firstName, customerRequestDTO.lastName, customerRequestDTO.dateOfBirth, customerRequestDTO.phoneNumber, customerRequestDTO.emailAddress , customerRequestDTO.nationality);
 
         this.customerRepository.save(customer);
         return customer;
     }
 
-    public Customer updateCustomer(CustomerDTO customerDTO) {
+    public Customer updateCustomer(CustomerRequestDTO customerRequestDTO) {
 
-        Customer updatedCustomer = new Customer(customerDTO.firstName, customerDTO.lastName, customerDTO.dateOfBirth, customerDTO.phoneNumber, customerDTO.emailAddress , customerDTO.nationality);
+        Customer updatedCustomer = new Customer(customerRequestDTO.firstName, customerRequestDTO.lastName, customerRequestDTO.dateOfBirth, customerRequestDTO.phoneNumber, customerRequestDTO.emailAddress , customerRequestDTO.nationality);
 
         customerRepository.findByid(updatedCustomer.getId())
                 .orElseThrow(() -> new CustomerNotFoundException(updatedCustomer.getId()));

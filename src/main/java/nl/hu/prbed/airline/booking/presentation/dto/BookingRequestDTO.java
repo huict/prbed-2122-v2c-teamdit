@@ -17,4 +17,5 @@ public class BookingRequestDTO {
 
     public BookingRequestDTO() {
     }
+
 }

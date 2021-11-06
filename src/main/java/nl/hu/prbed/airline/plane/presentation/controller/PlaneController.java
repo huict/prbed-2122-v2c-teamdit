@@ -3,6 +3,8 @@ package nl.hu.prbed.airline.plane.presentation.controller;
 import nl.hu.prbed.airline.plane.application.PlaneService;
 import nl.hu.prbed.airline.plane.domain.Plane;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneDTO;
+import nl.hu.prbed.airline.plane.presentation.dto.PlaneRequestDTO;
+import nl.hu.prbed.airline.plane.presentation.dto.PlaneResponseDTO;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,14 +23,16 @@ public class PlaneController {
     public List<Plane> getPlanes(){return planeService.getAllPlanes();}
 
     @GetMapping("/{id}")
-    public Plane getPlaneByID(@PathVariable Long id) {
-        return planeService.getPlaneById(id);
+    public PlaneResponseDTO getPlaneByID(@PathVariable Long id) {
+        Plane plane = planeService.getPlaneById(id);
+        return new PlaneResponseDTO(plane);
     }
 
 
     @PutMapping
-    public Plane updatePlane(@RequestBody PlaneDTO dto){
-        return planeService.updatePlane(dto);
+    public PlaneResponseDTO updatePlane(@RequestBody PlaneRequestDTO planeRequestDTO){
+        Plane plane =  planeService.updatePlane(planeRequestDTO);
+        return new PlaneResponseDTO(plane);
     }
 
     @DeleteMapping

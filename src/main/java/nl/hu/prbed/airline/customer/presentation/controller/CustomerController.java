@@ -3,6 +3,8 @@ package nl.hu.prbed.airline.customer.presentation.controller;
 import nl.hu.prbed.airline.customer.application.CustomerService;
 import nl.hu.prbed.airline.customer.domain.Customer;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerDTO;
+import nl.hu.prbed.airline.customer.presentation.dto.CustomerRequestDTO;
+import nl.hu.prbed.airline.customer.presentation.dto.CustomerResponseDTO;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,22 +27,23 @@ public class CustomerController {
 
     // Get Customer by id
     @GetMapping("/{id}")
-    public Customer getCustomerById(@PathVariable long id) {
-        return this.customerService.findCustomerById(id);
+    public CustomerResponseDTO getCustomerById(@PathVariable long id) {
+        Customer customer =  this.customerService.findCustomerById(id);
+        return new CustomerResponseDTO(customer);
     }
 
     // Add Customer
     @PostMapping
-    public CustomerDTO addCustomer(@Validated @RequestBody CustomerDTO customerDTO) {
-        Customer customer = this.customerService.createCustomer(customerDTO);
-        return new CustomerDTO(customer);
+    public CustomerResponseDTO addCustomer(@Validated @RequestBody CustomerRequestDTO CustomerRequestDTO) {
+        Customer customer = this.customerService.createCustomer(CustomerRequestDTO);
+        return new CustomerResponseDTO(customer);
     }
 
     // Update Customer
     @PutMapping
-    public CustomerDTO updateCustomer(@Validated @RequestBody CustomerDTO customerDTO) {
-        Customer customer = this.customerService.updateCustomer(customerDTO);
-        return new CustomerDTO(customer);
+    public CustomerResponseDTO updateCustomer(@Validated @RequestBody CustomerRequestDTO CustomerRequestDTO) {
+        Customer customer = this.customerService.updateCustomer(CustomerRequestDTO);
+        return new CustomerResponseDTO(customer);
     }
 
     // Delete Customer

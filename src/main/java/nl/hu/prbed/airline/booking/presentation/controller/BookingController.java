@@ -27,8 +27,9 @@ public class BookingController {
 
     // Get booking by id
     @GetMapping("/{id}")
-    public Booking getAirportByCode(@PathVariable long id) {
-        return this.bookingService.findBookingById(id);
+    public BookingResponseDTO getAirportByCode(@PathVariable long id) {
+        Booking booking = this.bookingService.findBookingById(id);
+        return new BookingResponseDTO(booking);
     }
 
     // Add booking

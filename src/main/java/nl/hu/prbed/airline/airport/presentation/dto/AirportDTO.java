@@ -5,7 +5,6 @@ import nl.hu.prbed.airline.airport.domain.Airport;
 import javax.validation.constraints.NotNull;
 
 public class AirportDTO {
-
     @NotNull
     public String code;
     @NotNull

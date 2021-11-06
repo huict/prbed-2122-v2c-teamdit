@@ -2,7 +2,7 @@ package nl.hu.prbed.airline.flightroute.presentation.dto;
 
 import javax.validation.constraints.NotNull;
 
-public class ResponseDTO {
+public class FlightrouteResponseDTO {
     @NotNull
     public Long id;
     @NotNull

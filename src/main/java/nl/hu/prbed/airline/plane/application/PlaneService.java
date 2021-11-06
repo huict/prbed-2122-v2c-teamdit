@@ -6,6 +6,7 @@ import nl.hu.prbed.airline.plane.application.exception.ReliantFlightsException;
 import nl.hu.prbed.airline.plane.data.PlaneRepository;
 import nl.hu.prbed.airline.plane.domain.Plane;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneDTO;
+import nl.hu.prbed.airline.plane.presentation.dto.PlaneRequestDTO;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -19,18 +20,18 @@ public class PlaneService {
 
     public PlaneService(PlaneRepository planeRepository){this.planeRepository = planeRepository;}
 
-    public Plane updatePlane(PlaneDTO dto){
-        if(dto.id == null){
+    public Plane updatePlane(PlaneRequestDTO planeRequestDTO){
+        if(planeRequestDTO.id == null){
             throw new InvalidDTOException("no ID specified!");
         }
         try {
-            Plane planeToUpdate = planeRepository.getById(dto.id);
-            planeToUpdate.update(dto.type, dto.seatsEconomy, dto.seatsBusiness, dto.seatsFirstClass);
+            Plane planeToUpdate = planeRepository.getById(planeRequestDTO.id);
+            planeToUpdate.update(planeRequestDTO.type, planeRequestDTO.seatsEconomy, planeRequestDTO.seatsBusiness, planeRequestDTO.seatsFirstClass);
             planeRepository.saveAndFlush(planeToUpdate);
             return planeToUpdate;
         }
         catch (EntityNotFoundException e){
-            throw new PlaneNotFoundException(dto.id);
+            throw new PlaneNotFoundException(planeRequestDTO.id);
         }
     }
 
