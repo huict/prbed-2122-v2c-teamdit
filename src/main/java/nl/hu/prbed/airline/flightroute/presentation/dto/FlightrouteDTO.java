@@ -27,8 +27,8 @@ public class FlightrouteDTO {
 
     public FlightrouteDTO(FlightRoute flightRoute) {
         this.id = flightRoute.getId();
-        this.arrivalCode = flightRoute.getArrivalLocation().getCode();
-        this.departureCode = flightRoute.getDepartureLocation().getCode();
+        this.arrivalCode = flightRoute.getArrivalLocation().getCodeICAO();
+        this.departureCode = flightRoute.getDepartureLocation().getCodeICAO();
         this.durationMinutes = flightRoute.getDurationMinutes();
         this.priceEconomy = flightRoute.getPriceEconomy();
         this.priceBusiness = flightRoute.getPriceBusiness();
