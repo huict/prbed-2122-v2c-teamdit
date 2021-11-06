@@ -5,6 +5,7 @@ import nl.hu.prbed.airline.customer.domain.Customer;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerDTO;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerRequestDTO;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerResponseDTO;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/customer")
+@PreAuthorize("hasRole('ROLE_EMPLOYEE')")
 public class CustomerController {
     private final CustomerService customerService;
 

@@ -5,6 +5,7 @@ import nl.hu.prbed.airline.booking.domain.Booking;
 import nl.hu.prbed.airline.booking.presentation.dto.BookingDTO;
 import nl.hu.prbed.airline.booking.presentation.dto.BookingRequestDTO;
 import nl.hu.prbed.airline.booking.presentation.dto.BookingResponseDTO;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/booking")
+@PreAuthorize("hasRole('ROLE_EMPLOYEE')")
 public class BookingController {
     private final BookingService bookingService;
 

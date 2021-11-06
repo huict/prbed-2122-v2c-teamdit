@@ -5,12 +5,14 @@ import nl.hu.prbed.airline.plane.domain.Plane;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneDTO;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneRequestDTO;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneResponseDTO;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/plane")
+@PreAuthorize("hasRole('ROLE_EMPLOYEE')")
 public class PlaneController {
 
     private final PlaneService planeService;

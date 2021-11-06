@@ -6,6 +6,7 @@ import nl.hu.prbed.airline.flight.presentation.dto.FlightDTO;
 import nl.hu.prbed.airline.flight.presentation.dto.FlightRequestDTO;
 import nl.hu.prbed.airline.flight.presentation.dto.FlightResponseDTO;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(path = "/flight")
+@PreAuthorize("hasRole('ROLE_EMPLOYEE')")
 public class FlightController {
     private final FlightService flightService;
 
