@@ -2,12 +2,14 @@ package nl.hu.prbed.airline.plane.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import nl.hu.prbed.airline.booking.domain.BookingClass;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Objects;
 
 @Entity
 @Component
@@ -38,8 +40,11 @@ public class Plane {
         this.seatsFirstClass = seatsFirstClass;
     }
 
-    public int getTotalSeats() {
-        return seatsBusiness + seatsEconomy + seatsFirstClass;
+    public int getSeatsFor(BookingClass bookingClass) {
+        return switch (bookingClass) {
+            case ECONOMY -> seatsEconomy;
+            case BUSINESS -> seatsBusiness;
+            case FIRST -> seatsFirstClass;
+        };
     }
-
 }

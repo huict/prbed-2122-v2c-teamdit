@@ -1,8 +1,7 @@
 package nl.hu.prbed.airline.booking.application;
 
-import nl.hu.prbed.airline.airport.domain.Airport;
-import nl.hu.prbed.airline.airport.presentation.dto.AirportResponseDTO;
 import nl.hu.prbed.airline.booking.application.exception.NoSeatsLeftForClassException;
+import nl.hu.prbed.airline.booking.domain.BookingClass;
 import nl.hu.prbed.airline.booking.presentation.dto.BookingRequestDTO;
 import nl.hu.prbed.airline.booking.presentation.dto.BookingResponseDTO;
 import nl.hu.prbed.airline.customer.application.CustomerService;
@@ -12,15 +11,12 @@ import nl.hu.prbed.airline.booking.data.BookingRepository;
 import nl.hu.prbed.airline.booking.domain.Booking;
 import nl.hu.prbed.airline.flight.domain.Flight;
 import nl.hu.prbed.airline.customer.domain.Customer;
-import nl.hu.prbed.airline.booking.presentation.dto.BookingDTO;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Transactional
 @Service
@@ -39,19 +35,23 @@ public class BookingService {
         List<Flight> flights = new ArrayList<>();
         Customer customer = customerService.findCustomerById(bookingRequestDTO.customerId);
 
-        for(Long flightId :bookingRequestDTO.flightsIds){
+        for(Long flightId : bookingRequestDTO.flightsIds){
             Flight flight = flightService.findFlightById(flightId);
             flights.add(flight);
         }
 
+        for (Flight flight: flights) {
+            int seatsLeft = getSeatsLeftForClass(flight, bookingRequestDTO.bookingClass);
+
+            if (seatsLeft < bookingRequestDTO.passengers.size() + 1) {
+                throw new NoSeatsLeftForClassException();
+            }
+        }
+
         Booking booking = new Booking(customer, bookingRequestDTO.bookingClass, flights, bookingRequestDTO.passengers);
-//        for(Flight flight: flights){
-//            if(!flight.seatsLeft(booking)){
-//                throw new NoSeatsLeftForClassException();
-//            }
-//        }
 
         this.bookingRepository.save(booking);
+
         return booking;
     }
 
@@ -91,5 +91,18 @@ public class BookingService {
     public Booking findBookingById(long id) {
         return this.bookingRepository.findByid(id)
                 .orElseThrow(() -> new BookingNotFoundException(id));
+    }
+
+    private int getSeatsLeftForClass(Flight flight, BookingClass bookingClass) {
+        List<Booking> bookings = bookingRepository.findAllByFlightsContainsAndBookingClass(flight, bookingClass);
+
+        int seatsLeft = flight.getPlane().getSeatsFor(bookingClass);
+
+
+        for (Booking booking: bookings) {
+            seatsLeft -= booking.getAmountOfPassengers();
+        }
+
+        return seatsLeft;
     }
 }
