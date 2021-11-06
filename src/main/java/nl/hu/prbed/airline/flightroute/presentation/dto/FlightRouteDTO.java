@@ -5,7 +5,7 @@ import nl.hu.prbed.airline.flightroute.domain.FlightRoute;
 
 import javax.validation.constraints.NotNull;
 
-public class FlightrouteDTO {
+public class FlightRouteDTO {
 
     public Long id;
     @NotNull
@@ -21,11 +21,11 @@ public class FlightrouteDTO {
     @NotNull
     public double priceFirstClass;
 
-    public FlightrouteDTO() {
+    public FlightRouteDTO() {
 
     }
 
-    public FlightrouteDTO(FlightRoute flightRoute) {
+    public FlightRouteDTO(FlightRoute flightRoute) {
         this.id = flightRoute.getId();
         this.arrivalCode = flightRoute.getArrivalLocation().getCodeICAO();
         this.departureCode = flightRoute.getDepartureLocation().getCodeICAO();

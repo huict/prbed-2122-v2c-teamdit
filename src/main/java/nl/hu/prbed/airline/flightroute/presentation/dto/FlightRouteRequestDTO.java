@@ -1,10 +1,13 @@
 package nl.hu.prbed.airline.flightroute.presentation.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import javax.validation.constraints.NotNull;
 
-public class FlightrouteResponseDTO {
-    @NotNull
-    public Long id;
+
+@NoArgsConstructor
+public class FlightRouteRequestDTO {
     @NotNull
     public String arrivalCode;
     @NotNull
