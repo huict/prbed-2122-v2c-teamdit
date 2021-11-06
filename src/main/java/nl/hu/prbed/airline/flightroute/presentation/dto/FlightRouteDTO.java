@@ -9,9 +9,9 @@ public class FlightRouteDTO {
 
     public Long id;
     @NotNull
-    public String arrivalCode;
+    public String arrivalCodeICAO;
     @NotNull
-    public String departureCode;
+    public String departureCodeICAO;
     @NotNull
     public int durationMinutes;
     @NotNull
@@ -27,8 +27,8 @@ public class FlightRouteDTO {
 
     public FlightRouteDTO(FlightRoute flightRoute) {
         this.id = flightRoute.getId();
-        this.arrivalCode = flightRoute.getArrivalLocation().getCodeICAO();
-        this.departureCode = flightRoute.getDepartureLocation().getCodeICAO();
+        this.arrivalCodeICAO = flightRoute.getArrivalLocation().getCodeICAO();
+        this.departureCodeICAO = flightRoute.getDepartureLocation().getCodeICAO();
         this.durationMinutes = flightRoute.getDurationMinutes();
         this.priceEconomy = flightRoute.getPriceEconomy();
         this.priceBusiness = flightRoute.getPriceBusiness();

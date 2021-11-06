@@ -6,9 +6,9 @@ public class FlightRouteResponseDTO {
     @NotNull
     public Long id;
     @NotNull
-    public String arrivalCode;
+    public String arrivalCodeICAO;
     @NotNull
-    public String departureCode;
+    public String departureCodeICAO;
     @NotNull
     public int durationMinutes;
     @NotNull

@@ -9,9 +9,9 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class FlightRouteRequestDTO {
     @NotNull
-    public String arrivalCode;
+    public String arrivalCodeICAO;
     @NotNull
-    public String departureCode;
+    public String departureCodeICAO;
     @NotNull
     public int durationMinutes;
     @NotNull
