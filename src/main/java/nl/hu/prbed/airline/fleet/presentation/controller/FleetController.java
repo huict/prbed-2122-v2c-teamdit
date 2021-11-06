@@ -12,18 +12,18 @@ import org.springframework.web.bind.annotation.*;
 @PreAuthorize("hasRole('ROLE_EMPLOYEE')")
 public class FleetController {
 
-    private final FleetService service;
+    private final FleetService fleetService;
 
-    public FleetController(FleetService service){this.service = service;}
+    public FleetController(FleetService service){this.fleetService = service;}
 
     @PostMapping
     public Plane newPlane(@RequestBody PlaneDTO dto){
-        return service.addPlane(dto);
+        return fleetService.addPlane(dto);
     }
 
     @GetMapping
     public Fleet getFleet(){
-        return service.getFleet();
+        return fleetService.getFleet();
     }
 
 
