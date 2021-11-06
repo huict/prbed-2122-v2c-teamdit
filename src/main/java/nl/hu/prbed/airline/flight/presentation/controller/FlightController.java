@@ -3,6 +3,9 @@ package nl.hu.prbed.airline.flight.presentation.controller;
 import nl.hu.prbed.airline.flight.application.FlightService;
 import nl.hu.prbed.airline.flight.domain.Flight;
 import nl.hu.prbed.airline.flight.presentation.dto.FlightDTO;
+import nl.hu.prbed.airline.flight.presentation.dto.FlightRequestDTO;
+import nl.hu.prbed.airline.flight.presentation.dto.FlightResponseDTO;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -18,34 +21,37 @@ public class FlightController {
     }
 
     @GetMapping
-    public List<Flight> getAllFlights() {
-        return this.flightService.findAllFlights();
+    public List<Flight> getAllFlights(@RequestParam(name = "departure", required = false)
+                                      @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                      LocalDateTime departure) {
+        return departure == null ? this.flightService.findAllFlights() : this.flightService.findFlightsByDeparture(departure);
     }
 
     @GetMapping("/{id}")
-    public Flight getFlightById(@PathVariable Long id) {
-        return flightService.findFlightById(id);
+    public FlightResponseDTO getFlightById(@PathVariable Long id) {
+        Flight flight = flightService.findFlightById(id);
+        return new FlightResponseDTO(flight);
     }
 
-    @GetMapping("/departure")
-    public List<Flight> getFlightsByDeparture(@RequestBody FlightDTO flightDTO) {
-        return this.flightService.findFlightsByDeparture(flightDTO.departureTime);
-    }
-
-
-    @GetMapping("/departure/route")
-    public Flight getFlightRouteAndDeparture(@RequestParam(name = "departure") LocalDateTime departure, @RequestParam(name = "route") Long routeId) {
-        return this.flightService.findFlightRouteAndDeparture(departure, routeId);
+    @GetMapping("/route")
+    public FlightResponseDTO getFlightRouteAndDeparture(@RequestParam(name = "departure")
+                                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+                                                        LocalDateTime departure,
+                                                        @RequestParam(name = "route") Long routeId) {
+        Flight flight = flightService.findFlightRouteAndDeparture(departure, routeId);
+        return new FlightResponseDTO(flight);
     }
 
     @PostMapping
-    public Flight addFlight(@RequestBody FlightDTO flightDTO) {
-        return flightService.createFlight(flightDTO);
+    public FlightResponseDTO addFlight(@RequestBody FlightRequestDTO flightRequestDTO) {
+        Flight flight = flightService.createFlight(flightRequestDTO);
+        return new FlightResponseDTO(flight);
     }
 
-    @PutMapping("/{id}")
-    public Flight updateFlightById(@PathVariable Long id, @RequestBody FlightDTO flightDTO) {
-        return flightService.updateFlight(flightDTO);
+    @PutMapping
+    public FlightResponseDTO updateFlightById(@RequestBody FlightRequestDTO flightRequestDTO) {
+        Flight flight = flightService.updateFlight(flightRequestDTO);
+        return new FlightResponseDTO(flight);
     }
 
     @DeleteMapping("/{id}")
@@ -54,18 +60,3 @@ public class FlightController {
     }
 
 }
-
-
-// get by departure
-//  @GetMapping
-//    public List<Flight> getFlightsByDeparture(@RequestParam(name = "departure") LocalDateTime departure) {
-//        return this.flightService.findFlightsByDeparture(departure);
-//    }
-
-
-
-// get by flightroute and departure
-//  @GetMapping
-//    public Flight getFlightRouteAndDeparture(@RequestParam(name = "departure") Date departure, @RequestParam(name = "route") Long routeId) {
-//        return this.flightService.findFlightRouteAndDeparture(departure, routeId);
-//    }
