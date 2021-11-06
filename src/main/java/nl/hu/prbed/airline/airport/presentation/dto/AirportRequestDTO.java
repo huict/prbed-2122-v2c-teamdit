@@ -1,6 +1,7 @@
 package nl.hu.prbed.airline.airport.presentation.dto;
 
 import lombok.NoArgsConstructor;
+import nl.hu.prbed.airline.airport.domain.Airport;
 
 import javax.validation.constraints.NotNull;
 
@@ -18,4 +19,13 @@ public class AirportRequestDTO {
     public double longitude;
     @NotNull
     public double latitude;
+
+    public Airport toAirport() {
+        return new Airport(codeICAO,
+                name,
+                city,
+                country,
+                longitude,
+                latitude);
+    }
 }

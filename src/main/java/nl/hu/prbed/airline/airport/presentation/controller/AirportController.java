@@ -3,6 +3,8 @@ package nl.hu.prbed.airline.airport.presentation.controller;
 import nl.hu.prbed.airline.airport.application.AirportService;
 import nl.hu.prbed.airline.airport.domain.Airport;
 import nl.hu.prbed.airline.airport.presentation.dto.AirportDTO;
+import nl.hu.prbed.airline.airport.presentation.dto.AirportRequestDTO;
+import nl.hu.prbed.airline.airport.presentation.dto.AirportResponseDTO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -20,7 +22,7 @@ public class AirportController {
     }
 
     @GetMapping
-    public List<AirportDTO> getAllAirports() {
+    public List<AirportResponseDTO> getAllAirports() {
         return this.airportService.getAllAirports();
     }
 
@@ -31,16 +33,16 @@ public class AirportController {
 
     // Add airport
     @PostMapping
-    public AirportDTO addAirport(@Validated @RequestBody AirportDTO airportDTO) {
-        Airport airport = this.airportService.createAirport(airportDTO);
-        return new AirportDTO(airport);
+    public AirportResponseDTO addAirport(@Validated @RequestBody AirportRequestDTO airportRequestDTO) {
+        Airport airport = this.airportService.createAirport(airportRequestDTO);
+        return new AirportResponseDTO(airport);
     }
 
     // Update airport
     @PutMapping
-    public AirportDTO updateAirport(@Validated @RequestBody AirportDTO airportDTO) {
-        Airport airport = this.airportService.updateAirport(airportDTO);
-        return new AirportDTO(airport);
+    public AirportResponseDTO updateAirport(@Validated @RequestBody AirportRequestDTO airportRequestDTO) {
+        Airport airport = this.airportService.updateAirport(airportRequestDTO);
+        return new AirportResponseDTO(airport);
     }
 
     // Delete airport

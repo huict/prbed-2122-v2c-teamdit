@@ -1,12 +1,16 @@
 package nl.hu.prbed.airline.customer.application;
 
+import nl.hu.prbed.airline.airport.domain.Airport;
+import nl.hu.prbed.airline.airport.presentation.dto.AirportResponseDTO;
 import nl.hu.prbed.airline.customer.application.exception.CustomerNotFoundException;
 import nl.hu.prbed.airline.customer.data.CustomerRepository;
 import nl.hu.prbed.airline.customer.domain.Customer;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerDTO;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerRequestDTO;
+import nl.hu.prbed.airline.customer.presentation.dto.CustomerResponseDTO;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -36,8 +40,13 @@ public class CustomerService {
         return updatedCustomer;
     }
 
-    public List<Customer> getAllCustomers() {
-        return this.customerRepository.findAll();
+    public List<CustomerResponseDTO> getAllCustomers() {
+        List<Customer> customers = this.customerRepository.findAll();
+        List<CustomerResponseDTO> customerDTOS = new ArrayList<>();
+        for (Customer customer : customers) {
+            customerDTOS.add(new CustomerResponseDTO(customer));
+        }
+        return customerDTOS;
     }
 
     public void deleteCustomer(Long id) {

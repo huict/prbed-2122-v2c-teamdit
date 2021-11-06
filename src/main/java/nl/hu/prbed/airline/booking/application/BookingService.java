@@ -1,7 +1,10 @@
 package nl.hu.prbed.airline.booking.application;
 
+import nl.hu.prbed.airline.airport.domain.Airport;
+import nl.hu.prbed.airline.airport.presentation.dto.AirportResponseDTO;
 import nl.hu.prbed.airline.booking.application.exception.NoSeatsLeftForClassException;
 import nl.hu.prbed.airline.booking.presentation.dto.BookingRequestDTO;
+import nl.hu.prbed.airline.booking.presentation.dto.BookingResponseDTO;
 import nl.hu.prbed.airline.customer.application.CustomerService;
 import nl.hu.prbed.airline.flight.application.FlightService;
 import nl.hu.prbed.airline.booking.application.exception.BookingNotFoundException;
@@ -14,6 +17,7 @@ import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.awt.print.Book;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -75,8 +79,13 @@ public class BookingService {
         this.bookingRepository.deleteById(id);
     }
 
-    public List<Booking> getAllBookings() {
-        return this.bookingRepository.findAll();
+    public List<BookingResponseDTO> getAllBookings() {
+        List<Booking> bookings = this.bookingRepository.findAll();
+        List<BookingResponseDTO> BookingDTOS = new ArrayList<>();
+        for (Booking booking : bookings) {
+            BookingDTOS.add(new BookingResponseDTO(booking));
+        }
+        return BookingDTOS;
     }
 
     public Booking findBookingById(long id) {

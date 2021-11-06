@@ -22,7 +22,7 @@ public class PlaneController {
     }
 
     @GetMapping
-    public List<Plane> getPlanes(){return planeService.getAllPlanes();}
+    public List<PlaneResponseDTO> getPlanes(){return planeService.getAllPlanes();}
 
     @GetMapping("/{id}")
     public PlaneResponseDTO getPlaneByID(@PathVariable Long id) {

@@ -1,16 +1,20 @@
 package nl.hu.prbed.airline.plane.application;
 
 import nl.hu.prbed.airline.airline.application.exception.InvalidDTOException;
+import nl.hu.prbed.airline.customer.domain.Customer;
+import nl.hu.prbed.airline.customer.presentation.dto.CustomerResponseDTO;
 import nl.hu.prbed.airline.plane.application.exception.PlaneNotFoundException;
 import nl.hu.prbed.airline.plane.application.exception.ReliantFlightsException;
 import nl.hu.prbed.airline.plane.data.PlaneRepository;
 import nl.hu.prbed.airline.plane.domain.Plane;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneDTO;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneRequestDTO;
+import nl.hu.prbed.airline.plane.presentation.dto.PlaneResponseDTO;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,8 +44,13 @@ public class PlaneService {
                 .orElseThrow(() -> new PlaneNotFoundException(id));
     }
 
-    public List<Plane> getAllPlanes(){
-        return planeRepository.findAll();
+    public List<PlaneResponseDTO> getAllPlanes(){
+        List<Plane> planes = this.planeRepository.findAll();
+        List<PlaneResponseDTO> planeDTOS = new ArrayList<>();
+        for (Plane plane : planes) {
+            planeDTOS.add(new PlaneResponseDTO(plane));
+        }
+        return planeDTOS;
     }
 
     public Boolean deletePlane(Long id) {
