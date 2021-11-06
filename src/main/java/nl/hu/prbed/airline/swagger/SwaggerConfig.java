@@ -1,4 +1,4 @@
-package nl.hu.prbed.airline.airline.presentation.controller;
+package nl.hu.prbed.airline.swagger;
 
 
 import org.springframework.context.annotation.Bean;
