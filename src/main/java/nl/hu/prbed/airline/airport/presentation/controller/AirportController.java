@@ -25,8 +25,8 @@ public class AirportController {
     }
 
     @GetMapping("/{code}")
-    public AirportDTO getAirportByCode(@PathVariable String code) {
-        return new AirportDTO(this.airportService.findAirportByCode(code));
+    public AirportDTO getAirportByCodeICAO(@PathVariable String code) {
+        return new AirportDTO(this.airportService.findAirportByCodeICAO(code));
     }
 
     // Add airport

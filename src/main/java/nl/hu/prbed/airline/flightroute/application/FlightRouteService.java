@@ -6,7 +6,7 @@ import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteAlreadyE
 import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteNotFoundException;
 import nl.hu.prbed.airline.flightroute.data.FlightRouteRepository;
 import nl.hu.prbed.airline.flightroute.domain.FlightRoute;
-import nl.hu.prbed.airline.flightroute.presentation.dto.FlightrouteDTO;
+import nl.hu.prbed.airline.flightroute.presentation.dto.FlightRouteDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,26 +22,26 @@ public class FlightRouteService {
         this.airportService = airportService;
     }
 
-    public List<FlightrouteDTO> getAllFlightRoutes() {
+    public List<FlightRouteDTO> getAllFlightRoutes() {
 
         List<FlightRoute> flightRoutes = this.flightRouteRepository.findAll();
-        List<FlightrouteDTO> flightRouteDTOS = new ArrayList<>();
+        List<FlightRouteDTO> flightRouteDTOS = new ArrayList<>();
         for (FlightRoute flightRoute : flightRoutes) {
-            flightRouteDTOS.add(new FlightrouteDTO(flightRoute));
+            flightRouteDTOS.add(new FlightRouteDTO(flightRoute));
         }
         return flightRouteDTOS;
     }
 
-    public FlightrouteDTO getFlightRouteByID(Long id) {
+    public FlightRouteDTO getFlightRouteByID(Long id) {
         FlightRoute flightRoute = this.flightRouteRepository.findById(id)
                 .orElseThrow(FlightRouteNotFoundException::new);
-        return new FlightrouteDTO(flightRoute);
+        return new FlightRouteDTO(flightRoute);
     }
 
 
-    public FlightrouteDTO createFlightRoute(FlightrouteDTO flightRouteDTO) {
-        Airport arrival = airportService.findAirportByCode(flightRouteDTO.arrivalCode);
-        Airport departure = airportService.findAirportByCode(flightRouteDTO.departureCode);
+    public FlightRouteDTO createFlightRoute(FlightRouteDTO flightRouteDTO) {
+        Airport arrival = airportService.findAirportByCodeICAO(flightRouteDTO.arrivalCodeICAO);
+        Airport departure = airportService.findAirportByCodeICAO(flightRouteDTO.departureCodeICAO);
         if (this.flightRouteRepository.existsByDepartureLocationAndArrivalLocationAndDurationMinutesAndPriceEconomyAndPriceBusinessAndPriceFirstClass(arrival, departure, flightRouteDTO.durationMinutes, flightRouteDTO.priceEconomy, flightRouteDTO.priceBusiness, flightRouteDTO.priceFirstClass)) {
             throw new FlightRouteAlreadyExistsException();
         }
@@ -52,17 +52,17 @@ public class FlightRouteService {
         FlightRoute flightRouteResult = this.flightRouteRepository.findByDepartureLocationAndArrivalLocationAndDurationMinutesAndPriceEconomyAndPriceBusinessAndPriceFirstClass(arrival, departure, flightRouteDTO.durationMinutes, flightRouteDTO.priceEconomy, flightRouteDTO.priceBusiness, flightRouteDTO.priceFirstClass)
                 .orElseThrow(FlightRouteNotFoundException::new);
 
-        return new FlightrouteDTO(flightRouteResult);
+        return new FlightRouteDTO(flightRouteResult);
     }
 
 
-    public FlightrouteDTO updateFlightRoute(FlightrouteDTO flightRouteDTO) {
+    public FlightRouteDTO updateFlightRoute(FlightRouteDTO flightRouteDTO) {
         if (flightRouteDTO.id == null) {
             throw new FlightRouteNotFoundException();
         }
 
-        Airport arrival = airportService.findAirportByCode(flightRouteDTO.arrivalCode);
-        Airport departure = airportService.findAirportByCode(flightRouteDTO.departureCode);
+        Airport arrival = airportService.findAirportByCodeICAO(flightRouteDTO.arrivalCodeICAO);
+        Airport departure = airportService.findAirportByCodeICAO(flightRouteDTO.departureCodeICAO);
 
         FlightRoute flightRoute = flightRouteDTO.toFlightroute(flightRouteDTO.id, arrival, departure);
 
@@ -70,7 +70,7 @@ public class FlightRouteService {
                 .orElseThrow(FlightRouteNotFoundException::new);
 
         this.flightRouteRepository.saveAndFlush(flightRoute);
-        return new FlightrouteDTO(flightRoute);
+        return new FlightRouteDTO(flightRoute);
     }
 
 

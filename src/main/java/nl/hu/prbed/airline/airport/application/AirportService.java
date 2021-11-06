@@ -23,8 +23,8 @@ public class AirportService {
     public Airport createAirport(AirportDTO airportDTO) {
         Airport airport = airportDTO.toAirport();
 
-        if (this.airportRepository.existsByCode(airport.getCode())) {
-            throw new AirportAlreadyExistsException(airport.getCode());
+        if (this.airportRepository.existsByCodeICAO(airport.getCodeICAO())) {
+            throw new AirportAlreadyExistsException(airport.getCodeICAO());
         }
 
         this.airportRepository.save(airport);
@@ -34,18 +34,18 @@ public class AirportService {
     public Airport updateAirport(AirportDTO airportDTO) {
         Airport updatedAirport = airportDTO.toAirport();
 
-        airportRepository.findByCode(updatedAirport.getCode())
-                .orElseThrow(() -> new AirportNotFoundException(updatedAirport.getCode()));
+        airportRepository.findByCodeICAO(updatedAirport.getCodeICAO())
+                .orElseThrow(() -> new AirportNotFoundException(updatedAirport.getCodeICAO()));
 
         airportRepository.saveAndFlush(updatedAirport);
         return updatedAirport;
     }
 
     public void deleteAirport(String code) {
-        this.airportRepository.findByCode(code)
+        this.airportRepository.findByCodeICAO(code)
             .orElseThrow(() -> new AirportNotFoundException(code));
 
-        this.airportRepository.deleteByCode(code);
+        this.airportRepository.deleteByCodeICAO(code);
     }
 
     public List<AirportDTO> getAllAirports() {
@@ -57,8 +57,8 @@ public class AirportService {
         return airportDTOS;
     }
 
-    public Airport findAirportByCode(String code) {
-        return this.airportRepository.findByCode(code)
+    public Airport findAirportByCodeICAO(String code) {
+        return this.airportRepository.findByCodeICAO(code)
                 .orElseThrow(() -> new AirportNotFoundException(code));
     }
 }

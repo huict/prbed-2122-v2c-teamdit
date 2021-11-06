@@ -6,7 +6,7 @@ import javax.validation.constraints.NotNull;
 
 public class AirportDTO {
     @NotNull
-    public String code;
+    public String codeICAO;
     @NotNull
     public String name;
     @NotNull
@@ -23,7 +23,7 @@ public class AirportDTO {
     }
 
     public AirportDTO(Airport airport) {
-        this.code = airport.getCode();
+        this.codeICAO = airport.getCodeICAO();
         this.name = airport.getAirportName();
         this.city = airport.getCity();
         this.country = airport.getCountry();
@@ -32,7 +32,7 @@ public class AirportDTO {
     }
 
     public Airport toAirport() {
-        return new Airport(code,
+        return new Airport(codeICAO,
                 name,
                 city,
                 country,

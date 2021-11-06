@@ -15,7 +15,7 @@ import javax.persistence.*;
 public class Airport {
     @Id
     @Column(length = 4, nullable = false)
-    private String code;
+    private String codeICAO;
     private String airportName;
     private String city;
     private String country;
