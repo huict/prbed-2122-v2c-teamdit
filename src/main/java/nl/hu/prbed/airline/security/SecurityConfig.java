@@ -5,14 +5,8 @@ import nl.hu.prbed.airline.security.presentation.filter.JwtAuthorizationFilter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.access.AccessDecisionVoter;
-import org.springframework.security.access.expression.SecurityExpressionHandler;
-import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
-import org.springframework.security.access.expression.method.MethodSecurityExpressionHandler;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
-import org.springframework.security.access.vote.AffirmativeBased;
-import org.springframework.security.access.vote.RoleHierarchyVoter;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,11 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
-import org.springframework.security.web.access.expression.WebExpressionVoter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * This class configures authentication and authorisation
@@ -51,6 +41,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public final static String LOGIN_PATH = "/login";
     public final static String REGISTER_PATH = "/register";
 
+    // Swagger endpoints
+    public final static String SWAGGER_UI = "/swagger-ui/**";
+    public final static String SWAGGER_DOCS = "/v2/api-docs";
+    public final static String SWAGGER_RESOURCES = "/swagger-resources/**";
+
+
     @Value("${security.jwt.secret}")
     private String jwtSecret;
 
@@ -63,8 +59,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .expressionHandler(createExpressionHandler())
+                // Authentication
                 .antMatchers(HttpMethod.POST, REGISTER_PATH).permitAll()
                 .antMatchers(HttpMethod.POST, LOGIN_PATH).permitAll()
+                // Swagger
+                .antMatchers(HttpMethod.GET, SWAGGER_UI).permitAll()
+                .antMatchers(HttpMethod.GET, SWAGGER_DOCS).permitAll()
+                .antMatchers(HttpMethod.GET, SWAGGER_RESOURCES).permitAll()
+
                 .anyRequest().hasAuthority("ROLE_USER")
                 .and()
                 .addFilterBefore(
