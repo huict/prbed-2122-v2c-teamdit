@@ -41,11 +41,11 @@ public class BookingService {
         }
 
         Booking booking = new Booking(customer, bookingRequestDTO.bookingClass, flights, bookingRequestDTO.passengers);
-        for(Flight flight: flights){
-            if(!flight.seatsLeft(booking)){
-                throw new NoSeatsLeftForClassException();
-            }
-        }
+//        for(Flight flight: flights){
+//            if(!flight.seatsLeft(booking)){
+//                throw new NoSeatsLeftForClassException();
+//            }
+//        }
 
         this.bookingRepository.save(booking);
         return booking;
