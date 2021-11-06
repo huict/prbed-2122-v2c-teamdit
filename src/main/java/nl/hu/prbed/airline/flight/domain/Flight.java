@@ -62,10 +62,13 @@ public class Flight {
         int seatsBusiness = plane.getSeatsBusiness();
         int seatsFirst = plane.getSeatsFirstClass();
 
-        return switch (booking.getBookingClass()) {
-            case ECONOMY -> seatsEconomy -= booking.getAmountOfPassengers();
-            case BUSINESS -> seatsBusiness -= booking.getAmountOfPassengers();
-            case FIRST -> seatsFirst -= booking.getAmountOfPassengers();
+        BookingClass bookingClass = booking.getBookingClass();
+        int passengers = booking.getAmountOfPassengers();
+
+        return switch (bookingClass) {
+            case ECONOMY -> seatsEconomy - passengers;
+            case BUSINESS -> seatsBusiness - passengers;
+            case FIRST -> seatsFirst - passengers;
         };
     }
 
