@@ -1,4 +1,4 @@
-package nl.hu.prbed.airline.airline.domain.user;
+package nl.hu.prbed.airline.customer.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

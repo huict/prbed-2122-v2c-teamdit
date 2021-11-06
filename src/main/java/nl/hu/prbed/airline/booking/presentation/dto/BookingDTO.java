@@ -3,7 +3,7 @@ package nl.hu.prbed.airline.booking.presentation.dto;
 import nl.hu.prbed.airline.booking.domain.Booking;
 import nl.hu.prbed.airline.booking.domain.BookingClass;
 import nl.hu.prbed.airline.flight.domain.Flight;
-import nl.hu.prbed.airline.airline.domain.user.Passenger;
+import nl.hu.prbed.airline.customer.domain.Passenger;
 
 import java.util.List;
 

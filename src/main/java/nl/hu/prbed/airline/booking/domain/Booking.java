@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import nl.hu.prbed.airline.flight.domain.Flight;
 import nl.hu.prbed.airline.customer.domain.Customer;
-import nl.hu.prbed.airline.airline.domain.user.Passenger;
+import nl.hu.prbed.airline.customer.domain.Passenger;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.springframework.stereotype.Component;

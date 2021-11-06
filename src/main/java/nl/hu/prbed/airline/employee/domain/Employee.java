@@ -1,5 +1,6 @@
-package nl.hu.prbed.airline.airline.domain.user;
+package nl.hu.prbed.airline.employee.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -11,10 +12,10 @@ import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 
-@Component
 @Entity
-@NoArgsConstructor
+@Component
 @Getter
+@NoArgsConstructor
 public class Employee {
     @Id
     @GeneratedValue
@@ -28,5 +29,20 @@ public class Employee {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public Employee(Long id, String firstName, String lastName, LocalDateTime dateOfBirth) {
+        this(firstName, lastName, dateOfBirth);
+            this.id = id;
+        }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", dateOfBirth=" + dateOfBirth +
+                '}';
     }
 }

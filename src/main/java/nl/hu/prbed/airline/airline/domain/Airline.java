@@ -2,7 +2,7 @@ package nl.hu.prbed.airline.airline.domain;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import nl.hu.prbed.airline.airline.domain.user.Employee;
+import nl.hu.prbed.airline.employee.domain.Employee;
 import nl.hu.prbed.airline.flight.domain.Flight;
 import nl.hu.prbed.airline.plane.domain.Plane;
 import org.hibernate.annotations.Cascade;
