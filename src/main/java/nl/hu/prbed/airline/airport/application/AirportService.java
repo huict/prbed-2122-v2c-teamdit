@@ -2,6 +2,7 @@ package nl.hu.prbed.airline.airport.application;
 
 import nl.hu.prbed.airline.airport.application.exception.AirportAlreadyExistsException;
 import nl.hu.prbed.airline.airport.application.exception.AirportNotFoundException;
+import nl.hu.prbed.airline.airport.application.exception.AirportcodeNotValid;
 import nl.hu.prbed.airline.airport.data.AirportRepository;
 import nl.hu.prbed.airline.airport.domain.Airport;
 import nl.hu.prbed.airline.airport.presentation.exception.AirportAlreadyExistsHTTPException;
@@ -28,6 +29,10 @@ public class AirportService {
 
         if (this.airportRepository.existsByCodeICAO(airport.getCodeICAO())) {
             throw new AirportAlreadyExistsException(airport.getCodeICAO());
+        }
+
+        if (airport.getCodeICAO().length() != 4) {
+            throw new AirportcodeNotValid(airport.getCodeICAO());
         }
 
         this.airportRepository.save(airport);
