@@ -14,7 +14,9 @@ version: "3.7"
 services:
   app:
     container_name: prbed-backend-team-dit
-    image: ghcr.io/huict/prbed-2122-v2c-teamdit/prbed-teamdit:github-workflows
+    build:
+      context: .
+      dockerfile: Dockerfile.web
     depends_on:
       - db
     ports:
