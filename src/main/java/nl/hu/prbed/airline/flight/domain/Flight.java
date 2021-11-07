@@ -30,11 +30,9 @@ public class Flight {
     private LocalDateTime departureTime;
 
     @OneToOne
-    @Cascade(CascadeType.ALL)
     private FlightRoute route;
 
     @OneToOne
-    @Cascade(CascadeType.ALL)
     private Plane plane;
 
     public Flight(LocalDateTime departureTime, FlightRoute flightRoute, Plane plane) {

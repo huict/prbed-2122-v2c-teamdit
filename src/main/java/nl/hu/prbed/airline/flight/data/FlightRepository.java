@@ -20,8 +20,6 @@ public interface FlightRepository extends JpaRepository<Flight,Long> {
     Optional<Flight> findByRouteAndDepartureTime(FlightRoute route, LocalDateTime departureTime);
     List<Flight> findAllByDepartureTime(LocalDateTime departure);
 
-    @Modifying
-    @Query(value = "DELETE FROM Flight f WHERE f.id = ?1",nativeQuery = true)
     void deleteById(Long id);
 
     Optional<Flight> findByRoute(FlightRoute arrival);
