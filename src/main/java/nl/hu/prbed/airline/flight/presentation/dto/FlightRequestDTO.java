@@ -7,18 +7,17 @@ import nl.hu.prbed.airline.plane.domain.Plane;
 import java.time.LocalDateTime;
 
 public class FlightRequestDTO {
-
     public Long flightId;
     public Long flightRouteId;
     public Long planeId;
     public LocalDateTime departureTime;
 
+    public FlightRequestDTO() {
 
+    }
 
-    public FlightRequestDTO(){};
-
-    public Flight toFlight(Long id, Plane plane, FlightRoute flightRoute, LocalDateTime departureTime){
-        return new Flight(id,departureTime,flightRoute,plane);
+    public Flight toFlight(Long id, Plane plane, FlightRoute flightRoute, LocalDateTime departureTime) {
+        return new Flight(id, departureTime, flightRoute, plane);
     }
 
 }
