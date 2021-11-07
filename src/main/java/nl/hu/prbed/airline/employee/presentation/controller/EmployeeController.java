@@ -6,9 +6,13 @@ import nl.hu.prbed.airline.airport.presentation.dto.AirportDTO;
 import nl.hu.prbed.airline.airport.presentation.dto.AirportRequestDTO;
 import nl.hu.prbed.airline.airport.presentation.dto.AirportResponseDTO;
 import nl.hu.prbed.airline.employee.application.EmployeeService;
+import nl.hu.prbed.airline.employee.application.exception.EmployeeAlreadyExistsException;
+import nl.hu.prbed.airline.employee.application.exception.EmployeeNotFoundException;
 import nl.hu.prbed.airline.employee.domain.Employee;
 import nl.hu.prbed.airline.employee.presentation.dto.EmployeeRequestDTO;
 import nl.hu.prbed.airline.employee.presentation.dto.EmployeeResponseDTO;
+import nl.hu.prbed.airline.employee.presentation.exception.EmployeeAlreadyExistsHTTPException;
+import nl.hu.prbed.airline.employee.presentation.exception.EmployeeNotFoundHTTPException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -35,27 +39,46 @@ public class EmployeeController {
     //get Employee by id
     @GetMapping("/{id}")
     public EmployeeResponseDTO getEmployeeById(@PathVariable Long id) {
-        return new EmployeeResponseDTO(this.employeeService.findEmployeeById(id));
+        try {
+            return new EmployeeResponseDTO(this.employeeService.findEmployeeById(id));
+        }
+        catch (EmployeeNotFoundException e){
+            throw new EmployeeNotFoundHTTPException(id);
+        }
     }
 
     // Add Employee
     @PostMapping
     public EmployeeResponseDTO addEmployee(@Validated @RequestBody EmployeeRequestDTO employeeRequestDTO) {
-        Employee employee = this.employeeService.createEmployee(employeeRequestDTO);
-        return new EmployeeResponseDTO(employee);
+        try {
+            Employee employee = this.employeeService.createEmployee(employeeRequestDTO);
+            return new EmployeeResponseDTO(employee);
+        } catch (EmployeeAlreadyExistsException e){
+            throw new EmployeeAlreadyExistsHTTPException(employeeRequestDTO.id);
+        }
     }
 
     // Update Employee
     @PutMapping
     public EmployeeResponseDTO updateEmployee(@Validated @RequestBody EmployeeRequestDTO employeeRequestDTO) {
-        Employee employee = this.employeeService.updateEmployee(employeeRequestDTO);
-        return new EmployeeResponseDTO(employee);
+        try {
+            Employee employee = this.employeeService.updateEmployee(employeeRequestDTO);
+            return new EmployeeResponseDTO(employee);
+        }
+        catch (EmployeeNotFoundException e){
+            throw new EmployeeNotFoundHTTPException(employeeRequestDTO.id);
+        }
     }
 
     // Delete Employee
     @DeleteMapping("/{id}")
     public void deleteAirport(@PathVariable Long id) {
-        this.employeeService.deleteEmployee(id);
+        try {
+            this.employeeService.deleteEmployee(id);
+        }
+        catch (EmployeeNotFoundException e){
+            throw new EmployeeNotFoundHTTPException(id);
+        }
     }
 
 }

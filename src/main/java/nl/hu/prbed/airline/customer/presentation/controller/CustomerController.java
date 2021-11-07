@@ -1,10 +1,12 @@
 package nl.hu.prbed.airline.customer.presentation.controller;
 
 import nl.hu.prbed.airline.customer.application.CustomerService;
+import nl.hu.prbed.airline.customer.application.exception.CustomerNotFoundException;
 import nl.hu.prbed.airline.customer.domain.Customer;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerDTO;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerRequestDTO;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerResponseDTO;
+import nl.hu.prbed.airline.customer.presentation.exception.CustomerNotFoundHTTPException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,8 +32,12 @@ public class CustomerController {
     // Get Customer by id
     @GetMapping("/{id}")
     public CustomerResponseDTO getCustomerById(@PathVariable long id) {
-        Customer customer =  this.customerService.findCustomerById(id);
-        return new CustomerResponseDTO(customer);
+        try {
+            Customer customer = this.customerService.findCustomerById(id);
+            return new CustomerResponseDTO(customer);
+        } catch (CustomerNotFoundException e){
+            throw new CustomerNotFoundHTTPException(id);
+        }
     }
 
     // Add Customer
@@ -44,14 +50,22 @@ public class CustomerController {
     // Update Customer
     @PutMapping
     public CustomerResponseDTO updateCustomer(@Validated @RequestBody CustomerRequestDTO customerRequestDTO) {
-        Customer customer = this.customerService.updateCustomer(customerRequestDTO);
-        return new CustomerResponseDTO(customer);
+        try {
+            Customer customer = this.customerService.updateCustomer(customerRequestDTO);
+            return new CustomerResponseDTO(customer);
+        } catch (CustomerNotFoundException e){
+            throw new CustomerNotFoundHTTPException(customerRequestDTO.id);
+        }
     }
 
     // Delete Customer
     @DeleteMapping("/{id}")
     public void deleteCustomer(@PathVariable Long id) {
-        this.customerService.deleteCustomer(id);
+        try {
+            this.customerService.deleteCustomer(id);
+        } catch (CustomerNotFoundException e){
+            throw new CustomerNotFoundHTTPException(id);
+        }
     }
 
 }

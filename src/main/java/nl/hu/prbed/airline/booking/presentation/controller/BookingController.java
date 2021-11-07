@@ -1,9 +1,13 @@
 package nl.hu.prbed.airline.booking.presentation.controller;
 
 import nl.hu.prbed.airline.booking.application.BookingService;
+import nl.hu.prbed.airline.booking.application.exception.BookingNotFoundException;
+import nl.hu.prbed.airline.booking.application.exception.NoSeatsLeftForClassException;
 import nl.hu.prbed.airline.booking.domain.Booking;
 import nl.hu.prbed.airline.booking.presentation.dto.BookingRequestDTO;
 import nl.hu.prbed.airline.booking.presentation.dto.BookingResponseDTO;
+import nl.hu.prbed.airline.booking.presentation.exception.BookingNotFoundHTTPException;
+import nl.hu.prbed.airline.booking.presentation.exception.NoSeatsLeftForClassHTTPException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -29,27 +33,44 @@ public class BookingController {
     // Get booking by id
     @GetMapping("/{id}")
     public BookingResponseDTO getBookingByCode(@PathVariable long id) {
-        Booking booking = this.bookingService.findBookingById(id);
-        return new BookingResponseDTO(booking);
+        try{
+            Booking booking = this.bookingService.findBookingById(id);
+            return new BookingResponseDTO(booking);
+        } catch (BookingNotFoundException e){
+            throw new BookingNotFoundHTTPException(id);
+        }
+
     }
 
     // Add booking
     @PostMapping
     public BookingResponseDTO addBooking(@Validated @RequestBody BookingRequestDTO bookingRequestDTO) {
-        Booking booking = this.bookingService.createBooking(bookingRequestDTO);
-        return new BookingResponseDTO(booking);
+        try {
+            Booking booking = this.bookingService.createBooking(bookingRequestDTO);
+            return new BookingResponseDTO(booking);
+        } catch (NoSeatsLeftForClassException e){
+            throw new NoSeatsLeftForClassHTTPException();
+        }
     }
 
     // Update booking
     @PutMapping
     public BookingResponseDTO updateBooking(@Validated @RequestBody BookingRequestDTO BookingRequestDTO) {
-        Booking booking = this.bookingService.updateBooking(BookingRequestDTO);
-        return new BookingResponseDTO(booking);
+        try {
+            Booking booking = this.bookingService.updateBooking(BookingRequestDTO);
+            return new BookingResponseDTO(booking);
+        } catch (BookingNotFoundException e){
+            throw new BookingNotFoundHTTPException(BookingRequestDTO.id);
+        }
     }
 
     // Delete booking
     @DeleteMapping("/{id}")
     public void deleteBooking(@PathVariable Long id) {
-        this.bookingService.deleteBooking(id);
+        try {
+            this.bookingService.deleteBooking(id);
+        } catch (BookingNotFoundException e){
+            throw new BookingNotFoundHTTPException(id);
+        };
     }
 }

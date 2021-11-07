@@ -1,10 +1,16 @@
 package nl.hu.prbed.airline.plane.presentation.controller;
 
 import nl.hu.prbed.airline.plane.application.PlaneService;
+import nl.hu.prbed.airline.plane.application.exception.DuplicatePlaneException;
+import nl.hu.prbed.airline.plane.application.exception.PlaneNotFoundException;
+import nl.hu.prbed.airline.plane.application.exception.ReliantFlightsException;
 import nl.hu.prbed.airline.plane.domain.Plane;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneDTO;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneRequestDTO;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneResponseDTO;
+import nl.hu.prbed.airline.plane.presentation.exception.DuplicatePlaneHTTPException;
+import nl.hu.prbed.airline.plane.presentation.exception.PlaneNotFoundHTTPException;
+import nl.hu.prbed.airline.plane.presentation.exception.ReliantFlightsHTTPException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,22 +33,44 @@ public class PlaneController {
 
     @PostMapping
     public PlaneResponseDTO addPlane(@RequestBody PlaneRequestDTO planeRequestDTO) {
-        return this.planeService.addPlane(planeRequestDTO);
+        try {
+            return this.planeService.addPlane(planeRequestDTO);
+        } catch (DuplicatePlaneException e){
+            throw new DuplicatePlaneHTTPException(e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
     public PlaneResponseDTO getPlaneByID(@PathVariable Long id) {
-        Plane plane = this.planeService.getPlaneById(id);
-        return new PlaneResponseDTO(plane);
+        try {
+            Plane plane = this.planeService.getPlaneById(id);
+            return new PlaneResponseDTO(plane);
+        }
+        catch (PlaneNotFoundException e){
+            throw new PlaneNotFoundHTTPException(id);
+        }
     }
 
     @PutMapping
     public PlaneResponseDTO updatePlane(@RequestBody PlaneRequestDTO planeRequestDTO) {
-        return this.planeService.updatePlane(planeRequestDTO);
+        try {
+            return this.planeService.updatePlane(planeRequestDTO);
+        }
+        catch (PlaneNotFoundException e){
+            throw new PlaneNotFoundHTTPException(planeRequestDTO.id);
+        }
     }
 
     @DeleteMapping("/{id}")
     public Boolean deletePlane(@PathVariable Long id) {
-        return this.planeService.deletePlane(id);
+        try {
+            return this.planeService.deletePlane(id);
+        }
+        catch (PlaneNotFoundException e){
+            throw new PlaneNotFoundHTTPException(id);
+        }
+        catch (ReliantFlightsException e){
+            throw new ReliantFlightsHTTPException("This plane still has reliant flights");
+        }
     }
 }

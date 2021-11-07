@@ -1,10 +1,14 @@
 package nl.hu.prbed.airline.flight.presentation.controller;
 
 import nl.hu.prbed.airline.flight.application.FlightService;
+import nl.hu.prbed.airline.flight.application.exception.FlightAlreadyExistsException;
+import nl.hu.prbed.airline.flight.application.exception.FlightNotFoundException;
 import nl.hu.prbed.airline.flight.domain.Flight;
 import nl.hu.prbed.airline.flight.presentation.dto.FlightDTO;
 import nl.hu.prbed.airline.flight.presentation.dto.FlightRequestDTO;
 import nl.hu.prbed.airline.flight.presentation.dto.FlightResponseDTO;
+import nl.hu.prbed.airline.flight.presentation.exception.FlightAlreadyExistsHTTPException;
+import nl.hu.prbed.airline.flight.presentation.exception.FlightNotFoundHTTPException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +35,13 @@ public class FlightController {
 
     @GetMapping("/{id}")
     public FlightResponseDTO getFlightById(@PathVariable Long id) {
-        Flight flight = flightService.findFlightById(id);
-        return new FlightResponseDTO(flight);
+        try {
+            Flight flight = flightService.findFlightById(id);
+            return new FlightResponseDTO(flight);
+        }
+        catch (FlightNotFoundException e){
+            throw new FlightNotFoundHTTPException();
+        }
     }
 
     @GetMapping("/route")
@@ -40,25 +49,45 @@ public class FlightController {
                                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                                                         LocalDateTime departure,
                                                         @RequestParam(name = "route") Long routeId) {
-        Flight flight = flightService.findFlightRouteAndDeparture(departure, routeId);
-        return new FlightResponseDTO(flight);
+        try {
+            Flight flight = flightService.findFlightRouteAndDeparture(departure, routeId);
+            return new FlightResponseDTO(flight);
+        }
+        catch (FlightNotFoundException e){
+            throw new FlightNotFoundHTTPException();
+        }
+
     }
 
     @PostMapping
     public FlightResponseDTO addFlight(@RequestBody FlightRequestDTO flightRequestDTO) {
-        Flight flight = flightService.createFlight(flightRequestDTO);
-        return new FlightResponseDTO(flight);
+        try {
+            Flight flight = flightService.createFlight(flightRequestDTO);
+            return new FlightResponseDTO(flight);
+        } catch (FlightAlreadyExistsException e){
+            throw new FlightAlreadyExistsHTTPException();
+        }
     }
 
     @PutMapping
     public FlightResponseDTO updateFlightById(@RequestBody FlightRequestDTO flightRequestDTO) {
-        Flight flight = flightService.updateFlight(flightRequestDTO);
-        return new FlightResponseDTO(flight);
+        try {
+            Flight flight = flightService.updateFlight(flightRequestDTO);
+            return new FlightResponseDTO(flight);
+        }
+        catch (FlightNotFoundException e){
+            throw new FlightNotFoundHTTPException();
+        }
     }
 
     @DeleteMapping("/{id}")
     public void deleteFlightById(@PathVariable Long id) {
-        flightService.deleteFlightById(id);
+        try {
+            flightService.deleteFlightById(id);
+        }
+        catch (FlightNotFoundException e){
+            throw new FlightNotFoundHTTPException();
+        }
     }
 
 }

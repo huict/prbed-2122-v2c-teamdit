@@ -25,9 +25,7 @@ public class FleetService {
 
     public void addPlane(Plane plane) {
         Fleet fleet = getFleetForAirline();
-
         fleet.addPlane(plane);
-
         fleetRepository.saveAndFlush(fleet);
     }
 
