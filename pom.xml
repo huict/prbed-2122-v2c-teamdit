@@ -14,7 +14,7 @@
 	<name>Team Dit</name>
 	<description>Vliegmaatschappij project voor PRBED van Team Dit</description>
 	<properties>
-		<java.version>16</java.version>
+		<java.version>11</java.version>
 	</properties>
 	<dependencies>
 

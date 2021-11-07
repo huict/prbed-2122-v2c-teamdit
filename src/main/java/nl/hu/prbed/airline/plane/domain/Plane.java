@@ -41,10 +41,17 @@ public class Plane {
     }
 
     public int getSeatsFor(BookingClass bookingClass) {
-        return switch (bookingClass) {
-            case ECONOMY -> seatsEconomy;
-            case BUSINESS -> seatsBusiness;
-            case FIRST -> seatsFirstClass;
+        int seats = 0;
+
+        switch (bookingClass) {
+            case ECONOMY:
+                seats = seatsEconomy;
+            case BUSINESS:
+                seats = seatsBusiness;
+            case FIRST:
+                seats = seatsFirstClass;
         };
+
+        return seats;
     }
 }
