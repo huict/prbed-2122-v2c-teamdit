@@ -2,11 +2,9 @@ package nl.hu.prbed.airline.airport.application;
 
 import nl.hu.prbed.airline.airport.application.exception.AirportAlreadyExistsException;
 import nl.hu.prbed.airline.airport.application.exception.AirportNotFoundException;
-import nl.hu.prbed.airline.airport.application.exception.AirportcodeNotValid;
+import nl.hu.prbed.airline.airport.application.exception.AirportcodeNotValidException;
 import nl.hu.prbed.airline.airport.data.AirportRepository;
 import nl.hu.prbed.airline.airport.domain.Airport;
-import nl.hu.prbed.airline.airport.presentation.exception.AirportAlreadyExistsHTTPException;
-import nl.hu.prbed.airline.airport.presentation.exception.AirportNotFoundHTTPException;
 import nl.hu.prbed.airline.airport.presentation.dto.AirportRequestDTO;
 import nl.hu.prbed.airline.airport.presentation.dto.AirportResponseDTO;
 import org.springframework.stereotype.Service;
@@ -32,7 +30,7 @@ public class AirportService {
         }
 
         if (airport.getCodeICAO().length() != 4) {
-            throw new AirportcodeNotValid(airport.getCodeICAO());
+            throw new AirportcodeNotValidException(airport.getCodeICAO());
         }
 
         this.airportRepository.save(airport);
