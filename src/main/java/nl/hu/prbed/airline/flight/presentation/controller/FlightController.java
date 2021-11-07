@@ -28,17 +28,10 @@ public class FlightController {
 
     @GetMapping
     public List<Flight> getAllFlights(@RequestParam(name = "departure", required = false)
-                                      @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                                              LocalDateTime departure, @RequestParam(name = "departureLocation" ,required = false) String departureLocation,
+                                      @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime departure,
+                                      @RequestParam(name = "departureLocation", required = false) String departureLocation,
                                       @RequestParam(name = "arrivalLocation", required = false) String arrivalLocation) {
-        if (departure != null && departureLocation == null && arrivalLocation == null) {
-            return flightService.findFlightsByDeparture(departure);
-        } else if (departure == null && departureLocation != null && arrivalLocation == null) {
-            return flightService.findFlightByDepartureLocation(departureLocation);
-        } else if (departure == null && departureLocation == null && arrivalLocation != null) {
-            return flightService.findFlightByArrivalLocation(arrivalLocation);
-        }
-        return flightService.findAllFlights();
+        return this.flightService.findFlightsByFilter(departure, departureLocation, arrivalLocation);
     }
 
     @GetMapping("/{id}")
@@ -46,8 +39,7 @@ public class FlightController {
         try {
             Flight flight = flightService.findFlightById(id);
             return new FlightResponseDTO(flight);
-        }
-        catch (FlightNotFoundException e){
+        } catch (FlightNotFoundException e) {
             throw new FlightNotFoundHTTPException();
         }
     }
@@ -60,8 +52,7 @@ public class FlightController {
         try {
             Flight flight = flightService.findFlightRouteAndDeparture(departure, routeId);
             return new FlightResponseDTO(flight);
-        }
-        catch (FlightNotFoundException e){
+        } catch (FlightNotFoundException e) {
             throw new FlightNotFoundHTTPException();
         }
 
@@ -72,7 +63,7 @@ public class FlightController {
         try {
             Flight flight = flightService.createFlight(flightRequestDTO);
             return new FlightResponseDTO(flight);
-        } catch (FlightAlreadyExistsException e){
+        } catch (FlightAlreadyExistsException e) {
             throw new FlightAlreadyExistsHTTPException();
         }
     }
@@ -82,8 +73,7 @@ public class FlightController {
         try {
             Flight flight = flightService.updateFlight(flightRequestDTO);
             return new FlightResponseDTO(flight);
-        }
-        catch (FlightNotFoundException e){
+        } catch (FlightNotFoundException e) {
             throw new FlightNotFoundHTTPException();
         }
     }
@@ -92,8 +82,7 @@ public class FlightController {
     public void deleteFlightById(@PathVariable Long id) {
         try {
             flightService.deleteFlightById(id);
-        }
-        catch (FlightNotFoundException e){
+        } catch (FlightNotFoundException e) {
             throw new FlightNotFoundHTTPException();
         }
     }
