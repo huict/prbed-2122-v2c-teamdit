@@ -2,6 +2,7 @@ package nl.hu.prbed.airline.flightroute.application;
 
 import nl.hu.prbed.airline.airport.application.AirportService;
 import nl.hu.prbed.airline.airport.domain.Airport;
+import nl.hu.prbed.airline.airport.presentation.dto.AirportDTO;
 import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteAlreadyExistsException;
 import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteNotFoundException;
 import nl.hu.prbed.airline.flightroute.data.FlightRouteRepository;
@@ -31,6 +32,17 @@ public class FlightRouteService {
         }
         return flightRouteDTOS;
     }
+
+    public List<FlightRoute> getFlightRouteByArrivalLocation(String codeICAO){
+        Airport airport = airportService.findAirportByCodeICAO(codeICAO);
+        return flightRouteRepository.findAllByArrivalLocation(airport);
+    }
+
+    public List<FlightRoute> getFlightRouteByDepartureLocation(String codeICAO){
+        Airport airport = airportService.findAirportByCodeICAO(codeICAO);
+        return flightRouteRepository.findAllByDepartureLocation(airport);
+    }
+
 
     public FlightRouteDTO getFlightRouteByID(Long id) {
         FlightRoute flightRoute = this.flightRouteRepository.findById(id)

@@ -1,5 +1,7 @@
 package nl.hu.prbed.airline.flight.application;
 
+import nl.hu.prbed.airline.airport.domain.Airport;
+import nl.hu.prbed.airline.airport.presentation.dto.AirportDTO;
 import nl.hu.prbed.airline.booking.domain.BookingClass;
 import nl.hu.prbed.airline.flight.application.exception.FlightAlreadyExistsException;
 import nl.hu.prbed.airline.flight.application.exception.FlightNotFoundException;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.sql.Date;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 //@Transactional
@@ -83,6 +86,28 @@ public class FlightService {
         }
     }
 
+    public List<Flight> findFlightByArrivalLocation(String arrivalLocation){
+        List<Flight> flights = new ArrayList<>();
+        List<FlightRoute> flightRoutes = flightRouteService.getFlightRouteByArrivalLocation(arrivalLocation);
+        for(FlightRoute flightRoute: flightRoutes){
+            if(flightRepository.findByRoute(flightRoute).isPresent()){
+            flights.add(flightRepository.findByRoute(flightRoute).get());
+        }
+    }
+        return flights;
+    }
+
+    public List<Flight> findFlightByDepartureLocation(String departureLocation){
+        List<Flight> flights = new ArrayList<>();
+        List<FlightRoute> flightRoutes = flightRouteService.getFlightRouteByDepartureLocation(departureLocation);
+        for(FlightRoute flightRoute: flightRoutes){
+            if(flightRepository.findByRoute(flightRoute).isPresent()) {
+                flights.add(flightRepository.findByRoute(flightRoute).get());
+            }
+        }
+        return flights;
+    }
+
     public Flight updateFlight(FlightRequestDTO flightDTO) {
         try {
             FlightRoute flightRoute = flightRouteService.findFlightRouteByID(flightDTO.flightRouteId);
@@ -94,6 +119,7 @@ public class FlightService {
             throw new InvalidDTOException("Missing input variables to send!");
         }
     }
+
 
     public void deleteFlightById(Long id) {
         findFlightById(id);

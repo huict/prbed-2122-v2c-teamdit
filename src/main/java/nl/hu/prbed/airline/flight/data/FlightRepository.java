@@ -1,5 +1,6 @@
 package nl.hu.prbed.airline.flight.data;
 
+import nl.hu.prbed.airline.airport.domain.Airport;
 import nl.hu.prbed.airline.flight.domain.Flight;
 import nl.hu.prbed.airline.flightroute.domain.FlightRoute;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,5 +23,8 @@ public interface FlightRepository extends JpaRepository<Flight,Long> {
     @Modifying
     @Query(value = "DELETE FROM Flight f WHERE f.id = ?1",nativeQuery = true)
     void deleteById(Long id);
+
+    Optional<Flight> findByRoute(FlightRoute arrival);
+
 
 }

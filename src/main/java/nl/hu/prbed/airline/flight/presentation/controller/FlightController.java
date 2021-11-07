@@ -29,8 +29,16 @@ public class FlightController {
     @GetMapping
     public List<Flight> getAllFlights(@RequestParam(name = "departure", required = false)
                                       @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                                      LocalDateTime departure) {
-        return departure == null ? this.flightService.findAllFlights() : this.flightService.findFlightsByDeparture(departure);
+                                              LocalDateTime departure, @RequestParam(name = "departureLocation" ,required = false) String departureLocation,
+                                      @RequestParam(name = "arrivalLocation", required = false) String arrivalLocation) {
+        if (departure != null && departureLocation == null && arrivalLocation == null) {
+            return flightService.findFlightsByDeparture(departure);
+        } else if (departure == null && departureLocation != null && arrivalLocation == null) {
+            return flightService.findFlightByDepartureLocation(departureLocation);
+        } else if (departure == null && departureLocation == null && arrivalLocation != null) {
+            return flightService.findFlightByArrivalLocation(arrivalLocation);
+        }
+        return flightService.findAllFlights();
     }
 
     @GetMapping("/{id}")
@@ -47,7 +55,7 @@ public class FlightController {
     @GetMapping("/route")
     public FlightResponseDTO getFlightRouteAndDeparture(@RequestParam(name = "departure")
                                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                                                        LocalDateTime departure,
+                                                                LocalDateTime departure,
                                                         @RequestParam(name = "route") Long routeId) {
         try {
             Flight flight = flightService.findFlightRouteAndDeparture(departure, routeId);
