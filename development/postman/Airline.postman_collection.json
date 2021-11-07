@@ -216,13 +216,23 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if(pm.response.code === 500){\r",
+									"    throw new Error(\"Internal Server error!\");\r",
+									"}\r",
+									"\r",
+									"if (responseJson.length == 0) {return}\r",
+									"\r",
 									"pm.test(\"Status code is 200\", () => {\r",
 									"  pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"const responseJson = pm.response.json();\r",
 									"\r",
-									"if (responseJson.length == 0) {return}\r",
 									"\r",
 									"//from https://learning.postman.com/docs/writing-scripts/script-references/test-examples\r",
 									"pm.test(\"Content-Type header is application/json\", () => {\r",
@@ -231,14 +241,15 @@
 									"\r",
 									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
 									"    responseJson.forEach(airport => {\r",
-									"    pm.expect(airport.code).to.be.a('string');\r",
-									"    pm.expect(airport.airportName).to.be.a('string');\r",
+									"    pm.expect(airport.codeICAO).to.be.a('string');\r",
+									"    pm.expect(airport.name).to.be.a('string');\r",
 									"    pm.expect(airport.city).to.be.a('string');\r",
 									"    pm.expect(airport.country).to.be.a('string');\r",
 									"    pm.expect(airport.longitude).to.be.a('number');\r",
 									"    pm.expect(airport.latitude).to.be.a('number');\r",
 									"    })\r",
-									"})"
+									"})\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -280,6 +291,12 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if (pm.response.code == 404) {throw new Error(\"Didn't found the airport with code \"+ pm.request.url.path[1]);} \r",
+									"\r",
 									"pm.test(\"Status code is 200 or 404, no other status codes possible\", () => {\r",
 									"    if (pm.response.code == 200) {\r",
 									"        pm.response.to.have.status(200);\r",
@@ -288,7 +305,6 @@
 									"    }\r",
 									"});\r",
 									"\r",
-									"if (pm.response.code == 404) {return} \r",
 									"\r",
 									"const responseJson = pm.response.json();\r",
 									"\r",
@@ -297,15 +313,19 @@
 									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
 									"});\r",
 									"\r",
-									"//add test \r",
-									"\r",
 									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
-									"    pm.expect(responseJson.code).to.be.a('string');\r",
-									"    pm.expect(responseJson.airportName).to.be.a('string');\r",
+									"    pm.expect(responseJson.codeICAO).to.be.a('string');\r",
+									"    pm.expect(responseJson.name).to.be.a('string');\r",
 									"    pm.expect(responseJson.city).to.be.a('string');\r",
 									"    pm.expect(responseJson.country).to.be.a('string');\r",
 									"    pm.expect(responseJson.longitude).to.be.a('number');\r",
 									"    pm.expect(responseJson.latitude).to.be.a('number');\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Test if getting the requested object\",() => {\r",
+									"let airportCode = pm.request.url.path[1];\r",
+									"pm.expect(responseJson.codeICAO).to.eql(airportCode);\r",
+									"\r",
 									"})"
 								],
 								"type": "text/javascript"
@@ -328,7 +348,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/airport/SHIP",
+							"raw": "http://localhost:8080/airport/SHIA",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -336,7 +356,7 @@
 							"port": "8080",
 							"path": [
 								"airport",
-								"SHIP"
+								"SHIA"
 							]
 						}
 					},
@@ -349,13 +369,18 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"pm.test(\"airport succesfully deleted!\", () => {\r",
+									"   if(pm.response.code === 403){\r",
+									"        throw new Error(\"Unauthorized error, you must be authorized to delete an airport!\");}\r",
 									"\r",
-									"   if(pm.response.code === 403 || pm.response.code === 401){\r",
-									"        throw new Error(\"Unauthorized\");\r",
-									"    };\r",
-									"    \r",
-									"    pm.expect(pm.response.code).to.be.oneOf([200,202,204,404]);\r",
+									"    if(pm.response.code === 404){\r",
+									"        throw new Error(\"Airport doesn't exist!\");\r",
+									"    }        \r",
+									"\r",
+									"    if(pm.response.code === 500){\r",
+									"        throw new Error(\"Server error!\")\r",
+									"    }\r",
+									"pm.test(\"airport succesfully deleted!\", () => {\r",
+									"     pm.expect(pm.response.code).to.be.oneOf([200,202,204]);\r",
 									"    \r",
 									"\r",
 									"});"
@@ -377,7 +402,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/airport/SHIP",
+							"raw": "http://localhost:8080/airport/SHIT",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -385,7 +410,7 @@
 							"port": "8080",
 							"path": [
 								"airport",
-								"SHIP"
+								"SHIT"
 							]
 						}
 					},
@@ -393,12 +418,66 @@
 				},
 				{
 					"name": "Post Airport",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									"if(pm.response.code === 500){\r",
+									"throw new Error(\"Something was going wrong on the server!\")\r",
+									"}\r",
+									"\r",
+									" const responseJson = pm.response.json();\r",
+									" const requestJson = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"\r",
+									"if(pm.response.code === 409){\r",
+									"    throw new Error(\"There is already an airport made with this codeICAO!\");\r",
+									"}\r",
+									"\r",
+									"if(requestJson.codeICAO.length != 4){\r",
+									"    throw new Error(\"The codeICAO length must be equal to 4!\");\r",
+									"}\r",
+									"\r",
+									"pm.test(\"airport is succesfully made!\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    \r",
+									"    let airport = {\r",
+									"    \"codeICAO\": requestJson.codeICAO,\r",
+									"    \"name\": requestJson.name,\r",
+									"    \"city\": requestJson.city,\r",
+									"    \"country\": requestJson.country,\r",
+									"    \"longitude\": requestJson.longitude,\r",
+									"    \"latitude\": requestJson.latitude\r",
+									"    }\r",
+									"    pm.expect(responseJson).to.eql(airport);\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(requestJson.codeICAO.length).to.eql(4);\r",
+									"    pm.expect(responseJson.codeICAO).to.be.a('string');\r",
+									"    pm.expect(responseJson.name).to.be.a('string');\r",
+									"    pm.expect(responseJson.city).to.be.a('string');\r",
+									"    pm.expect(responseJson.country).to.be.a('string');\r",
+									"    pm.expect(responseJson.longitude).to.be.a('number');\r",
+									"    pm.expect(responseJson.latitude).to.be.a('number');\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"codeICAO\": \"SHIP\",\r\n    \"name\": \"schiphol\",\r\n    \"city\": \"amsterdam\",\r\n    \"country\": \"netherlands\",\r\n    \"longitude\": 132,\r\n    \"latitude\": 83838\r\n}",
+							"raw": "{\r\n    \"codeICAO\": \"SHIM\",\r\n    \"name\": \"schiphol\",\r\n    \"city\": \"amsterdam\",\r\n    \"country\": \"netherlands\",\r\n    \"longitude\": 132,\r\n    \"latitude\": 83838\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -426,37 +505,52 @@
 							"listen": "test",
 							"script": {
 								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"const requestJson = JSON.parse(pm.request.body.raw);\r",
+									"    \r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if(pm.response.code === 404){\r",
+									"    throw new Error(\"Airport doesn't exist!\");\r",
+									"}\r",
+									"\r",
+									"if(requestJson.codeICAO.length != 4){\r",
+									"    throw new Error(\"The codeICAO length must be equal to 4!\");\r",
+									"}\r",
+									"\r",
+									"if(pm.response.code === 500){\r",
+									"throw new Error(\"Something was going wrong on the server!\")\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"\r",
 									"pm.test(\"airport succesfully changed!\",() => {\r",
-									"   if(pm.response.code === 403 || pm.response.code === 401){\r",
-									"        throw new Error(\"Unauthorized\");\r",
-									"    };\r",
-									"    \r",
-									" const data = pm.response.json();\r",
-									" const input = JSON.parse(pm.request.body.raw);\r",
-									"    \r",
-									"    pm.expect(pm.response.code).to.be.oneOf([200,204]);\r",
-									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
-									"    pm.expect(Object.values(pm.request.auth.bearer)[1].token.value != \"\");\r",
-									" \r",
-									"    pm.expect(data).to.have.all.keys('code', 'name','city','country','longitude','latitude');\r",
-									"    pm.expect(input).to.have.all.keys('code', 'name','city','country','longitude','latitude');\r",
-									"    \r",
-									"    pm.expect(pm.request.method === \"PUT\");\r",
+									"    pm.response.to.have.status(200);\r",
 									"\r",
-									"    \r",
-									"    pm.expect(typeof data.name == \"string\");\r",
-									"    pm.expect(typeof data.code == \"string\");\r",
-									"    pm.expect(typeof data.country == \"string\");\r",
-									"    pm.expect(typeof data.longitude == \"number\");\r",
-									"    pm.expect(typeof data.latitude == \"number\");\r",
-									" \r",
-									"    pm.expect(input.name != null && typeof input.name == \"string\");\r",
-									"    pm.expect(input.code != null && typeof input.code == \"string\");\r",
-									"    pm.expect(input.country != null && typeof input.country == \"string\");\r",
-									"    pm.expect(input.longitude != null && typeof input.longitude == \"number\");\r",
-									"    pm.expect(input.latitude != null && typeof input.latitude == \"number\");\r",
-									" \r",
+									"    let airport = {\r",
+									"    \"codeICAO\": requestJson.codeICAO,\r",
+									"    \"name\": requestJson.name,\r",
+									"    \"city\": requestJson.city,\r",
+									"    \"country\": requestJson.country,\r",
+									"    \"longitude\": requestJson.longitude,\r",
+									"    \"latitude\": requestJson.latitude\r",
+									"    }\r",
+									"    pm.expect(responseJson).to.eql(airport);\r",
+									"});\r",
 									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(requestJson.codeICAO.length).to.eql(4);\r",
+									"    pm.expect(responseJson.codeICAO).to.be.a('string');\r",
+									"    pm.expect(responseJson.name).to.be.a('string');\r",
+									"    pm.expect(responseJson.city).to.be.a('string');\r",
+									"    pm.expect(responseJson.country).to.be.a('string');\r",
+									"    pm.expect(responseJson.longitude).to.be.a('number');\r",
+									"    pm.expect(responseJson.latitude).to.be.a('number');\r",
 									"});\r",
 									""
 								],
@@ -469,7 +563,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"codeICAO\": \"SHIP\",\r\n    \"name\": \"schiphol\",\r\n    \"city\": \"schiphol\",\r\n    \"country\": \"Belgium\",\r\n    \"longitude\": 13200,\r\n    \"latitude\": 83838\r\n}",
+							"raw": "{\r\n    \"codeICAO\": \"SHPL\",\r\n    \"name\": \"schiphol\",\r\n    \"city\": \"schiphol\",\r\n    \"country\": \"Belgium\",\r\n    \"longitude\": 13200,\r\n    \"latitude\": 83838\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -497,6 +591,48 @@
 			"item": [
 				{
 					"name": "Get FlightRoutes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if(pm.response.code === 500){\r",
+									"    throw new Error(\"Internal Server error!\");\r",
+									"}\r",
+									"\r",
+									"if (responseJson.length == 0) {return}\r",
+									"\r",
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    responseJson.forEach(flightRoute => {\r",
+									"    pm.expect(flightRoute.id).to.be.a('number');\r",
+									"    pm.expect(flightRoute.arrivalCodeICAO).to.be.a('string');\r",
+									"    pm.expect(flightRoute.departureCodeICAO).to.be.a('string');\r",
+									"    pm.expect(flightRoute.durationMinutes).to.be.a('number');\r",
+									"    pm.expect(flightRoute.priceEconomy).to.be.a('number');\r",
+									"    pm.expect(flightRoute.priceBusiness).to.be.a('number');\r",
+									"    pm.expect(flightRoute.priceFirstClass).to.be.a('number');\r",
+									"    })\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -528,6 +664,57 @@
 				},
 				{
 					"name": "Get FlightRoute by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if(pm.response.code === 500){\r",
+									"    throw new Error(\"Internal server error!\");\r",
+									"}\r",
+									"\r",
+									"if (pm.response.code == 404) {throw new Error(\"Didn't found the flightroute with code \"+ pm.request.url.path[1]);} \r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200 or 404, no other status codes possible\", () => {\r",
+									"    if (pm.response.code == 200) {\r",
+									"        pm.response.to.have.status(200);\r",
+									"    } else {\r",
+									"        pm.response.to.have.status(404);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"//from https://learning.postman.com/docs/writing-scripts/script-references/test-examples\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"\r",
+									"    pm.expect(responseJson.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.arrivalCodeICAO).to.be.a('string');\r",
+									"    pm.expect(responseJson.departureCodeICAO).to.be.a('string');\r",
+									"    pm.expect(responseJson.durationMinutes).to.be.a('number');\r",
+									"    pm.expect(responseJson.priceEconomy).to.be.a('number');\r",
+									"    pm.expect(responseJson.priceBusiness).to.be.a('number');\r",
+									"    pm.expect(responseJson.priceFirstClass).to.be.a('number');\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Test if getting the requested object\",() => {\r",
+									"let flightrouteId = Number(pm.request.url.path[1]);\r",
+									"pm.expect(responseJson.id).to.eql(flightrouteId);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -560,12 +747,72 @@
 				},
 				{
 					"name": "Post FlightRoute",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if(pm.response.code === 500){\r",
+									"throw new Error(\"Something was going wrong on the server!\")\r",
+									"}\r",
+									"\r",
+									" const responseJson = pm.response.json();\r",
+									" const requestJson = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"\r",
+									"if(pm.response.code === 409){\r",
+									"    throw new Error(\"There is already an FlightRoute made with this arrivalcode/departurecode!\");\r",
+									"}\r",
+									"\r",
+									"\r",
+									"pm.test(\"FlightRoute is succesfully made!\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    \r",
+									"    let flightRoute = {\r",
+									"    \"arrivalCodeICAO\": requestJson.arrivalCodeICAO,\r",
+									"    \"departureCodeICAO\": requestJson.departureCodeICAO,\r",
+									"    \"durationMinutes\": requestJson.durationMinutes,\r",
+									"    \"priceEconomy\": requestJson.priceEconomy,\r",
+									"    \"priceBusiness\": requestJson.priceBusiness,\r",
+									"    \"priceFirstClass\": requestJson.priceFirstClass\r",
+									"    }\r",
+									"\r",
+									"    pm.expect(requestJson.arrivalCodeICAO).to.eql(flightRoute.arrivalCodeICAO);\r",
+									"    pm.expect(requestJson.departureCodeICAO).to.eql(flightRoute.departureCodeICAO);\r",
+									"    pm.expect(requestJson.durationMinutes).to.eql(flightRoute.durationMinutes);\r",
+									"    pm.expect(requestJson.priceEconomy).to.eql(flightRoute.priceEconomy);\r",
+									"    pm.expect(requestJson.priceBusiness).to.eql(flightRoute.priceBusiness);\r",
+									"    pm.expect(requestJson.priceFirstClass).to.eql(flightRoute.priceFirstClass);\r",
+									"\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(requestJson.arrivalCodeICAO.length).to.eql(4);\r",
+									"    pm.expect(requestJson.departureCodeICAO.length).to.eql(4);\r",
+									"    pm.expect(responseJson.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.arrivalCodeICAO).to.be.a('string');\r",
+									"    pm.expect(responseJson.departureCodeICAO).to.be.a('string');\r",
+									"    pm.expect(responseJson.durationMinutes).to.be.a('number');\r",
+									"    pm.expect(responseJson.priceEconomy).to.be.a('number');\r",
+									"    pm.expect(responseJson.priceBusiness).to.be.a('number');\r",
+									"    pm.expect(responseJson.priceFirstClass).to.be.a('number');\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"arrivalCodeICAO\": \"SHIT\",\r\n    \"departureCodeICAO\": \"SHIP\",\r\n    \"durationMinutes\": 120,\r\n    \"priceEconomy\": 100.00,\r\n    \"priceBusiness\": 150.00,\r\n    \"priceFirstClass\": 200.00\r\n}",
+							"raw": "{\r\n    \"arrivalCodeICAO\": \"SLDP\",\r\n    \"departureCodeICAO\": \"SHIP\",\r\n    \"durationMinutes\": 120,\r\n    \"priceEconomy\": 100.00,\r\n    \"priceBusiness\": 150.00,\r\n    \"priceFirstClass\": 200.00\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -588,12 +835,71 @@
 				},
 				{
 					"name": "Update FlightRoute",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"const requestJson = JSON.parse(pm.request.body.raw);\r",
+									"    \r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if(pm.response.code === 404){\r",
+									"    throw new Error(\"FlightRoute doesn't exist!\");\r",
+									"}\r",
+									"\r",
+									"if(pm.response.code === 500){\r",
+									"throw new Error(\"Something was going wrong on the server!\")\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"FlightRoute is succesfully made!\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    \r",
+									"    let flightRoute = {\r",
+									"    \"id\":requestJson.id,\r",
+									"    \"arrivalCodeICAO\": requestJson.arrivalCodeICAO,\r",
+									"    \"departureCodeICAO\": requestJson.departureCodeICAO,\r",
+									"    \"durationMinutes\": requestJson.durationMinutes,\r",
+									"    \"priceEconomy\": requestJson.priceEconomy,\r",
+									"    \"priceBusiness\": requestJson.priceBusiness,\r",
+									"    \"priceFirstClass\": requestJson.priceFirstClass\r",
+									"    }\r",
+									"\r",
+									"    pm.expect(responseJson).to.eql(flightRoute);\r",
+									"    \r",
+									"\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(responseJson.arrivalCodeICAO.length).to.eql(4);\r",
+									"    pm.expect(responseJson.departureCodeICAO.length).to.eql(4);\r",
+									"    pm.expect(responseJson.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.arrivalCodeICAO).to.be.a('string');\r",
+									"    pm.expect(responseJson.departureCodeICAO).to.be.a('string');\r",
+									"    pm.expect(responseJson.durationMinutes).to.be.a('number');\r",
+									"    pm.expect(responseJson.priceEconomy).to.be.a('number');\r",
+									"    pm.expect(responseJson.priceBusiness).to.be.a('number');\r",
+									"    pm.expect(responseJson.priceFirstClass).to.be.a('number');\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n        \"id\": 8,\r\n        \"arrivalCodeICAO\": \"SHIP\",\r\n        \"departureCodeICAO\": \"NIFO\",\r\n        \"durationMinutes\": 120,\r\n        \"priceEconomy\": 1000.0,\r\n        \"priceBusiness\": 1500.0,\r\n        \"priceFirstClass\": 2000.0\r\n}",
+							"raw": "{\r\n        \"id\": 9,\r\n        \"arrivalCodeICAO\": \"SHIM\",\r\n        \"departureCodeICAO\": \"SHIP\",\r\n        \"durationMinutes\": 121,\r\n        \"priceEconomy\": 0.0,\r\n        \"priceBusiness\": 101202.0,\r\n        \"priceFirstClass\": 20.0\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -616,6 +922,29 @@
 				},
 				{
 					"name": "Delete FlightRoute by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"   if(pm.response.code === 403){\r",
+									"        throw new Error(\"Unauthorized error, you must be authorized to delete an FlightRoute!\");}\r",
+									"\r",
+									"    if(pm.response.code === 404){\r",
+									"        throw new Error(\"FlightRoute doesn't exist!\");\r",
+									"    }        \r",
+									"\r",
+									"    if(pm.response.code === 500){\r",
+									"        throw new Error(\"Server error!\")\r",
+									"    }\r",
+									"pm.test(\"FlightRoute succesfully deleted!\", () => {\r",
+									"     pm.expect(pm.response.code).to.be.oneOf([200,202,204]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -1104,7 +1433,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/flight",
+							"raw": "http://localhost:8080/flight?departure=2022-10-17T16:20",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1116,7 +1445,16 @@
 							"query": [
 								{
 									"key": "departure",
-									"value": "2022-10-17T16:20",
+									"value": "2022-10-17T16:20"
+								},
+								{
+									"key": "departureLocation",
+									"value": "SHIT",
+									"disabled": true
+								},
+								{
+									"key": "arrivalLocation",
+									"value": "SHIP",
 									"disabled": true
 								}
 							]
@@ -1181,7 +1519,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"flightRouteId\": 14,\r\n\"planeId\": 15,\r\n\"departureTime\": \"2022-10-17T16:20\"\r\n}",
+							"raw": "{\"flightRouteId\":8,\r\n\"planeId\":10,\r\n\"departureTime\":\"2022-10-17T16:20\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1280,7 +1618,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/plane/15",
+							"raw": "http://localhost:8080/plane/7",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -1288,7 +1626,7 @@
 							"port": "8080",
 							"path": [
 								"plane",
-								"15"
+								"7"
 							]
 						}
 					},
@@ -1329,7 +1667,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"type\": \"Boeing\",\r\n    \"seatsEconomy\": 5,\r\n    \"seatsBusiness\": 50,\r\n    \"seatsFirstClass\": 20\r\n}",
+							"raw": "{\r\n    \"type\": \"Airbus\",\r\n    \"seatsEconomy\": 5,\r\n    \"seatsBusiness\": 50,\r\n    \"seatsFirstClass\": 20\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1357,18 +1695,31 @@
 			"item": [
 				{
 					"name": "Documentation",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "localhost:8080/v2/api-docs",
+							"raw": "http://localhost:8080/swagger-ui/",
+							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "8080",
 							"path": [
-								"v2",
-								"api-docs"
+								"swagger-ui",
+								""
 							]
 						}
 					},
