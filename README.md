@@ -12,7 +12,8 @@ https://prbed-team-dit-app.herokuapp.com/
 
 All documentation can be found on the [Wiki](https://github.com/huict/prbed-2122-v2c-teamdit/wiki).
 
-Swagger-link: http://localhost:8080/swagger-ui/#/
+Swagger-link local: http://localhost:8080/swagger-ui/#/  
+Swagger-link live: https://prbed-team-dit-app.herokuapp.com/swagger-ui/#/
 
 ## Tests
 
