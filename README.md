@@ -19,18 +19,19 @@ Swagger-link: http://localhost:8080/swagger-ui/#/
 Appline is being tested using [Postman](https://www.postman.com/).  
 Tests can be found in [here](../development/postman).
 
+<br>
 
 ## Project Setup
 1. Clone the project using your prefered git tool.  
-
+<br>
 2. Copy `example.env` and paste it as `.env`. Do not delete example.env, this is required for deployment.  
-
+<br>
 3. In your IDE's run configurations, point the environment variables to the `.env` file or if necessary, insert the variables into your run config manually.  
-
+<br>
 4. Run maven package  
-![Maven](https://i.imgur.com/2pTRQnp.png)  
-
+![image](https://i.imgur.com/2pTRQnp.png)  
+<br>
 5. Run the application with `docker-compose up` to deploy the application
    1. Add `db` or `api` at the end of the line to only compose one of these services  
-
+<br>
 6. Tip: Run `docker-compose up db`, and then run the Spring Boot application through Intellij during development for faster and easier testing
