@@ -3,6 +3,7 @@ package nl.hu.prbed.airline.airline.domain;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import nl.hu.prbed.airline.employee.domain.Employee;
+import nl.hu.prbed.airline.fleet.domain.Fleet;
 import nl.hu.prbed.airline.flight.domain.Flight;
 import nl.hu.prbed.airline.plane.domain.Plane;
 import org.hibernate.annotations.Cascade;
@@ -22,9 +23,9 @@ public class Airline {
     @Column(nullable = false)
     private Long id;
 
-    @OneToMany
+    @OneToOne
     @Cascade(CascadeType.ALL)
-    private List<Plane> fleet;
+    private Fleet fleet;
 
     @OneToMany
     @Cascade(CascadeType.ALL)
@@ -34,13 +35,9 @@ public class Airline {
     @Cascade(CascadeType.ALL)
     private List<Flight> flights;
 
-    public Airline(List<Plane> fleet, List<Employee> employees, List<Flight> flights) {
+    public Airline(Fleet fleet, List<Employee> employees, List<Flight> flights) {
         this.fleet = fleet;
         this.employees = employees;
         this.flights = flights;
-    }
-
-    public void addPlane(Plane plane) {
-        this.fleet.add(plane);
     }
 }
