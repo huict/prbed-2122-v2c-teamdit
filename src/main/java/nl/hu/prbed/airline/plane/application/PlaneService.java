@@ -2,7 +2,6 @@ package nl.hu.prbed.airline.plane.application;
 
 import nl.hu.prbed.airline.airline.application.exception.InvalidDTOException;
 import nl.hu.prbed.airline.fleet.application.FleetService;
-import nl.hu.prbed.airline.fleet.domain.Fleet;
 import nl.hu.prbed.airline.plane.application.exception.DuplicatePlaneException;
 import nl.hu.prbed.airline.plane.application.exception.PlaneNotFoundException;
 import nl.hu.prbed.airline.plane.application.exception.ReliantFlightsException;
