@@ -1,6 +1,11 @@
 package nl.hu.prbed.airline.airline.domain;
 
-import nl.hu.prbed.airline.airline.domain.user.Employee;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import nl.hu.prbed.airline.employee.domain.Employee;
+import nl.hu.prbed.airline.fleet.domain.Fleet;
+import nl.hu.prbed.airline.flight.domain.Flight;
+import nl.hu.prbed.airline.plane.domain.Plane;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.springframework.stereotype.Component;
@@ -10,6 +15,8 @@ import java.util.List;
 
 @Entity
 @Component
+@NoArgsConstructor
+@Getter
 public class Airline {
     @Id
     @GeneratedValue
@@ -27,10 +34,6 @@ public class Airline {
     @OneToMany
     @Cascade(CascadeType.ALL)
     private List<Flight> flights;
-
-    public Airline() {
-
-    }
 
     public Airline(Fleet fleet, List<Employee> employees, List<Flight> flights) {
         this.fleet = fleet;

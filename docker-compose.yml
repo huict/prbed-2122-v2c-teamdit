@@ -1,8 +1,10 @@
 # Running "docker-compose up" (active process)
 # or "docker-compose start" (background process)
-# will setup our development database
+# will setup our development database and backend API
 #
-# One can connect to it using your DB client
+# Use docker-compose up <service-name> will launch the services individually
+#
+# One can connect to the database using your DB client
 # (IntelliJ, DataGrip, pqadmin, psql, ...),
 # using the following parameters (see: application.properties):
 #   url = jdbc:postgresql://localhost:15432/prbed-vliegmaatschappij
@@ -10,15 +12,27 @@
 #   password = prbed-vliegmaatschappij
 version: "3.7"
 services:
+  app:
+    container_name: prbed-backend-team-dit
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    depends_on:
+      - db
+    ports:
+      - '8080:8080'
+    env_file:
+      - .env
+    environment:
+      POSTGRES_HOST: prbed-postgres-team-dit
+      POSTGRES_PORT: 5432
+
   db:
+    container_name: prbed-postgres-team-dit
     build: development/db
     ports:
       - "15432:5432"
-    environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=admin
-      - DB_APP_NAME=prbed-vliegmaatschappij
-      - DB_APP_USER=prbed-vliegmaatschappij
-      - DB_APP_PASS=prbed-vliegmaatschappij
+    env_file:
+      - .env
     volumes:
       - "./data:/var/data/db"

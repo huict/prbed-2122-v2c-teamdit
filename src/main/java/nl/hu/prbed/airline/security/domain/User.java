@@ -5,6 +5,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -21,6 +22,14 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
 
+    private boolean isEnabled = true;
+    private boolean isAccountExpired = false;
+    private boolean isAccountLocked = false;
+    private boolean areCredentialsExpired = false;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Role> roles;
+
     public User() {
     }
 
@@ -29,6 +38,7 @@ public class User implements UserDetails {
         this.password = password;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.roles = new ArrayList<>();
     }
 
     public Long getId() {
@@ -52,28 +62,46 @@ public class User implements UserDetails {
         return lastName;
     }
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
+    public void addRole(Role role) {
+        this.roles.add(role);
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return this.isEnabled;
+    }
+
+    public void enable() {
+        this.isEnabled = true;
+    }
+
+    public void disable() {
+        this.isEnabled = false;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return !this.isAccountExpired;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return !this.isAccountLocked;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return !areCredentialsExpired;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
+
+        return authorities;
     }
 }

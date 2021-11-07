@@ -1,0 +1,12 @@
+package nl.hu.prbed.airline.flight.application.exception;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+public class FlightAlreadyExistsException extends RuntimeException {
+    public FlightAlreadyExistsException(){
+        super("Flight already exists");
+
+    }
+}
