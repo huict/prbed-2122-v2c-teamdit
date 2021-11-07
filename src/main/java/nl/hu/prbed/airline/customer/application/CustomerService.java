@@ -30,8 +30,7 @@ public class CustomerService {
     }
 
     public Customer updateCustomer(CustomerRequestDTO customerRequestDTO) {
-
-        Customer updatedCustomer = new Customer(customerRequestDTO.firstName, customerRequestDTO.lastName, customerRequestDTO.dateOfBirth, customerRequestDTO.phoneNumber, customerRequestDTO.emailAddress , customerRequestDTO.nationality);
+        Customer updatedCustomer = new Customer(customerRequestDTO.id, customerRequestDTO.firstName, customerRequestDTO.lastName, customerRequestDTO.dateOfBirth, customerRequestDTO.phoneNumber, customerRequestDTO.emailAddress , customerRequestDTO.nationality);
 
         customerRepository.findByid(updatedCustomer.getId())
                 .orElseThrow(() -> new CustomerNotFoundException(updatedCustomer.getId()));

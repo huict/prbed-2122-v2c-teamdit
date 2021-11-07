@@ -1,5 +1,6 @@
 package nl.hu.prbed.airline.customer.domain;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import nl.hu.prbed.airline.booking.domain.Booking;
@@ -37,4 +38,13 @@ public class Customer {
         this.nationality = nationality;
     }
 
+    public Customer(Long id, String firstName, String lastName, LocalDateTime dateOfBirth, Integer phoneNumber, String emailAddress, String nationality) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.phoneNumber = phoneNumber;
+        this.emailAddress = emailAddress;
+        this.nationality = nationality;
+    }
 }

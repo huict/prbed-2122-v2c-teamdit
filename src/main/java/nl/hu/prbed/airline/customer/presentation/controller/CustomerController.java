@@ -36,15 +36,15 @@ public class CustomerController {
 
     // Add Customer
     @PostMapping
-    public CustomerResponseDTO addCustomer(@Validated @RequestBody CustomerRequestDTO CustomerRequestDTO) {
-        Customer customer = this.customerService.createCustomer(CustomerRequestDTO);
+    public CustomerResponseDTO addCustomer(@Validated @RequestBody CustomerRequestDTO customerRequestDTO) {
+        Customer customer = this.customerService.createCustomer(customerRequestDTO);
         return new CustomerResponseDTO(customer);
     }
 
     // Update Customer
     @PutMapping
-    public CustomerResponseDTO updateCustomer(@Validated @RequestBody CustomerRequestDTO CustomerRequestDTO) {
-        Customer customer = this.customerService.updateCustomer(CustomerRequestDTO);
+    public CustomerResponseDTO updateCustomer(@Validated @RequestBody CustomerRequestDTO customerRequestDTO) {
+        Customer customer = this.customerService.updateCustomer(customerRequestDTO);
         return new CustomerResponseDTO(customer);
     }
 
