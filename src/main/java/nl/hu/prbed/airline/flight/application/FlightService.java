@@ -61,15 +61,21 @@ public class FlightService {
 
     //todo: collections.removeIf filters
     public List<Flight> findFlightsByFilter(LocalDateTime departure, String departureLocation, String arrivalLocation) {
-        if (departure != null && departureLocation == null && arrivalLocation == null) {
-            return findFlightsByDeparture(departure);
-        } else if (departure == null && departureLocation != null && arrivalLocation == null) {
-            return findFlightByDepartureLocation(departureLocation);
-        } else if (departure == null && departureLocation == null && arrivalLocation != null) {
-            return findFlightByArrivalLocation(arrivalLocation);
-        }
-        return findAllFlights();
+        List<Flight> flights = new ArrayList<Flight>(this.findAllFlights());
 
+        if (departure != null){
+            flights.removeIf(flight -> (!flight.getDepartureTime().equals(departure)));
+        }
+
+        if (departureLocation != null){
+            flights.removeIf(flight -> (!flight.getRoute().getDepartureLocation().equals(departureLocation)));
+        }
+
+        if (arrivalLocation != null){
+            flights.removeIf(flight -> (!flight.getRoute().getArrivalLocation().equals(arrivalLocation)));
+        }
+
+        return flights;
     }
 
     public List<Flight> findFlightsByDeparture(LocalDateTime departure) {
