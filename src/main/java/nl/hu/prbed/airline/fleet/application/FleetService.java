@@ -5,9 +5,7 @@ import nl.hu.prbed.airline.airline.domain.Airline;
 import nl.hu.prbed.airline.fleet.data.FleetRepository;
 import nl.hu.prbed.airline.fleet.domain.Fleet;
 import nl.hu.prbed.airline.fleet.presentation.dto.FleetResponseDTO;
-import nl.hu.prbed.airline.plane.application.PlaneService;
 import nl.hu.prbed.airline.plane.domain.Plane;
-import nl.hu.prbed.airline.plane.presentation.dto.PlaneResponseDTO;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;

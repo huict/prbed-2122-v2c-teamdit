@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface AirportRepository extends JpaRepository<Airport,Long> {
     Optional<Airport> findByCodeICAO(String codeICAO);
     void deleteByCodeICAO(String codeICAO);
-    boolean existsByCodeICAO(String ICAO);
+    boolean existsByCodeICAO(String codeICAO);
 }

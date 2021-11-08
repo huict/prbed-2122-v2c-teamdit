@@ -1,6 +1,5 @@
 package nl.hu.prbed.airline.customer.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import nl.hu.prbed.airline.booking.domain.Booking;

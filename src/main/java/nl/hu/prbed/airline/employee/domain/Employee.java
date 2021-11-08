@@ -1,6 +1,5 @@
 package nl.hu.prbed.airline.employee.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;

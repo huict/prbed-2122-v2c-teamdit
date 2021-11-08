@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import nl.hu.prbed.airline.employee.domain.Employee;
 import nl.hu.prbed.airline.fleet.domain.Fleet;
 import nl.hu.prbed.airline.flight.domain.Flight;
-import nl.hu.prbed.airline.plane.domain.Plane;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.springframework.stereotype.Component;

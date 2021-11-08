@@ -1,12 +1,9 @@
 package nl.hu.prbed.airline.flightroute.data;
 
 
-
 import nl.hu.prbed.airline.airport.domain.Airport;
-import nl.hu.prbed.airline.flight.domain.Flight;
 import nl.hu.prbed.airline.flightroute.domain.FlightRoute;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;

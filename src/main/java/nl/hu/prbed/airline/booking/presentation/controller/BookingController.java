@@ -71,6 +71,6 @@ public class BookingController {
             this.bookingService.deleteBooking(id);
         } catch (BookingNotFoundException e){
             throw new BookingNotFoundHTTPException(id);
-        };
+        }
     }
 }

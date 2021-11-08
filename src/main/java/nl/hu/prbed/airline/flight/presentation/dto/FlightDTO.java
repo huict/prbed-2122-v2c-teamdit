@@ -14,6 +14,5 @@ public class FlightDTO {
         this.departureTime = departureTime;
         this.flightRouteId = flightRouteId;
         this.planeId = planeId;
-
     }
 }

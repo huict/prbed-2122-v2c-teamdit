@@ -7,5 +7,5 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class FlightRouteNotFoundHTTPException extends RuntimeException {
     public FlightRouteNotFoundHTTPException() {
         super("No flightroute with that id");
-    };
+    }
 }

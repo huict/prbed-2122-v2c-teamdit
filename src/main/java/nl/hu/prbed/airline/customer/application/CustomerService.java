@@ -1,11 +1,8 @@
 package nl.hu.prbed.airline.customer.application;
 
-import nl.hu.prbed.airline.airport.domain.Airport;
-import nl.hu.prbed.airline.airport.presentation.dto.AirportResponseDTO;
 import nl.hu.prbed.airline.customer.application.exception.CustomerNotFoundException;
 import nl.hu.prbed.airline.customer.data.CustomerRepository;
 import nl.hu.prbed.airline.customer.domain.Customer;
-import nl.hu.prbed.airline.customer.presentation.dto.CustomerDTO;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerRequestDTO;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerResponseDTO;
 import org.springframework.stereotype.Service;
