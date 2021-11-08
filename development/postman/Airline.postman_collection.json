@@ -30,67 +30,12 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/register",
+							"raw": "{{ip}}/register",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login as Admin",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"pm.test(\"Succesfully logged in!\", () => {\r",
-									"    pm.expect(pm.response.code === 200);\r",
-									"\r",
-									"})\r",
-									"\r",
-									"if (pm.response.code === 200) {\r",
-									"    const authHeader = pm.response.headers.get(\"Authorization\");\r",
-									"    const token = authHeader.substring(7);\r",
-									"    pm.collectionVariables.set(\"authToken\", token);\r",
-									"}"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Accept",
-								"value": "application/hal+json",
-								"type": "text",
-								"disabled": true
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"admin\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "localhost:8080/login",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"login"
 							]
 						}
 					},
@@ -138,11 +83,10 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/login",
+							"raw": "{{ip}}/login",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"login"
 							]
@@ -192,11 +136,63 @@
 							}
 						},
 						"url": {
-							"raw": "localhost:8080/login",
+							"raw": "{{ip}}/login",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login as Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Succesfully logged in!\", () => {\r",
+									"    pm.expect(pm.response.code === 200);\r",
+									"\r",
+									"})\r",
+									"\r",
+									"if (pm.response.code === 200) {\r",
+									"    const authHeader = pm.response.headers.get(\"Authorization\");\r",
+									"    const token = authHeader.substring(7);\r",
+									"    pm.collectionVariables.set(\"authToken\", token);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/hal+json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/login",
+							"host": [
+								"{{ip}}"
+							],
 							"path": [
 								"login"
 							]
@@ -271,12 +267,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/airport",
-							"protocol": "http",
+							"raw": "{{ip}}/airport",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"airport"
 							]
@@ -348,69 +342,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/airport/SHIA",
-							"protocol": "http",
+							"raw": "{{ip}}/airport/SHIA",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"airport",
 								"SHIA"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Airport by Code",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"exec": [
-									"   if(pm.response.code === 403){\r",
-									"        throw new Error(\"Unauthorized error, you must be authorized to delete an airport!\");}\r",
-									"\r",
-									"    if(pm.response.code === 404){\r",
-									"        throw new Error(\"Airport doesn't exist!\");\r",
-									"    }        \r",
-									"\r",
-									"    if(pm.response.code === 500){\r",
-									"        throw new Error(\"Server error!\")\r",
-									"    }\r",
-									"pm.test(\"airport succesfully deleted!\", () => {\r",
-									"     pm.expect(pm.response.code).to.be.oneOf([200,202,204]);\r",
-									"    \r",
-									"\r",
-									"});"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/airport/SHIT",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"airport",
-								"SHIT"
 							]
 						}
 					},
@@ -485,12 +423,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/airport",
-							"protocol": "http",
+							"raw": "{{ip}}/airport",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"airport"
 							]
@@ -571,14 +507,64 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/airport",
-							"protocol": "http",
+							"raw": "{{ip}}/airport",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"airport"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Airport by Code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"   if(pm.response.code === 403){\r",
+									"        throw new Error(\"Unauthorized error, you must be authorized to delete an airport!\");}\r",
+									"\r",
+									"    if(pm.response.code === 404){\r",
+									"        throw new Error(\"Airport doesn't exist!\");\r",
+									"    }        \r",
+									"\r",
+									"    if(pm.response.code === 500){\r",
+									"        throw new Error(\"Server error!\")\r",
+									"    }\r",
+									"pm.test(\"airport succesfully deleted!\", () => {\r",
+									"     pm.expect(pm.response.code).to.be.oneOf([200,202,204]);\r",
+									"    \r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/airport/SHIT",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"airport",
+								"SHIT"
 							]
 						}
 					},
@@ -649,12 +635,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/flightroute",
-							"protocol": "http",
+							"raw": "{{ip}}/flightroute",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"flightroute"
 							]
@@ -731,12 +715,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/flightroute/8",
-							"protocol": "http",
+							"raw": "{{ip}}/flightroute/8",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"flightroute",
 								"8"
@@ -820,12 +802,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/flightroute",
-							"protocol": "http",
+							"raw": "{{ip}}/flightroute",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"flightroute"
 							]
@@ -907,12 +887,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/flightroute",
-							"protocol": "http",
+							"raw": "{{ip}}/flightroute",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"flightroute"
 							]
@@ -949,12 +927,10 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/flightroute/8",
-							"protocol": "http",
+							"raw": "{{ip}}/flightroute/8",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"flightroute",
 								"8"
@@ -986,12 +962,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/customer",
-							"protocol": "http",
+							"raw": "{{ip}}/customer",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"customer"
 							]
@@ -1017,12 +991,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/customer/10",
-							"protocol": "http",
+							"raw": "{{ip}}/customer/10",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"customer",
 								"10"
@@ -1046,12 +1018,36 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/customer",
-							"protocol": "http",
+							"raw": "{{ip}}/customer",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"path": [
+								"customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Customer",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 19,\r\n    \"firstName\": \"Ayoub\",\r\n    \"lastName\": \"aa\",\r\n    \"dateOfBirth\": \"2022-10-17T16:20\",\r\n    \"phoneNumber\": 612345672,\r\n    \"emailAddress\": \"ayoub@hu.nl\",\r\n    \"nationality\": \"purple\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/customer",
+							"host": [
+								"{{ip}}"
+							],
 							"path": [
 								"customer"
 							]
@@ -1074,196 +1070,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/customer/11",
-							"protocol": "http",
+							"raw": "{{ip}}/customer/11",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"customer",
 								"11"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Customer",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"id\": 19,\r\n    \"firstName\": \"Ayoub\",\r\n    \"lastName\": \"aa\",\r\n    \"dateOfBirth\": \"2022-10-17T16:20\",\r\n    \"phoneNumber\": 612345672,\r\n    \"emailAddress\": \"ayoub@hu.nl\",\r\n    \"nationality\": \"purple\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/customer",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"customer"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Employeet",
-			"item": [
-				{
-					"name": "Get Employee",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/employee",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"employee"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Get Employee by ID",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/employee/12",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"employee",
-								"12"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Post Employee",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{   \r\n    \"firstName\": \"Ayoub\",\r\n    \"lastName\": \"aa\",\r\n    \"dateOfBirth\": \"2200-03-16T13:56\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/employee",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"employee"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Employee",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/employee/12",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"employee",
-								"12"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Employee",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"id\": 12,\r\n    \"firstName\": \"samde man\",\r\n    \"lastName\": \"aa\",\r\n    \"dateOfBirth\": \"2022-10-17T16:20\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:8080/employee",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"employee"
 							]
 						}
 					},
@@ -1292,12 +1105,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/booking",
-							"protocol": "http",
+							"raw": "{{ip}}/booking",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"booking"
 							]
@@ -1323,12 +1134,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/booking/17",
-							"protocol": "http",
+							"raw": "{{ip}}/booking/17",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"booking",
 								"17"
@@ -1352,12 +1161,36 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/booking",
-							"protocol": "http",
+							"raw": "{{ip}}/booking",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Booking",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 17,\r\n    \"customerId\": 19,\r\n    \"bookingClass\": \"FIRST\",\r\n    \"passengers\": [],\r\n    \"flightsIds\": [16]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/booking",
+							"host": [
+								"{{ip}}"
+							],
 							"path": [
 								"booking"
 							]
@@ -1380,12 +1213,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/booking/3",
-							"protocol": "http",
+							"raw": "{{ip}}/booking/3",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"booking",
 								"3"
@@ -1393,15 +1224,55 @@
 						}
 					},
 					"response": []
+				}
+			]
+		},
+		{
+			"name": "Plane",
+			"item": [
+				{
+					"name": "Get Planes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ip}}/plane",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"plane"
+							]
+						}
+					},
+					"response": []
 				},
 				{
-					"name": "Update Booking",
+					"name": "Get Plane By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ip}}/plane/7",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"plane",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Plane",
 					"request": {
 						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 17,\r\n    \"customerId\": 19,\r\n    \"bookingClass\": \"FIRST\",\r\n    \"passengers\": [],\r\n    \"flightsIds\": [16]\r\n}",
+							"raw": "{\"type\":\"F17\",\r\n\"id\": 15,\r\n \"seatsEconomy\":120,\r\n \"seatsBusiness\":123,\r\n\"seatsFirstClass\":130}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1409,14 +1280,56 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/booking",
-							"protocol": "http",
+							"raw": "{{ip}}/plane",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
-								"booking"
+								"plane"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Plane",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": \"Airbus\",\r\n    \"seatsEconomy\": 5,\r\n    \"seatsBusiness\": 50,\r\n    \"seatsFirstClass\": 20\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/plane",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"plane"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Plane",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{ip}}/plane/7",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"plane",
+								"7"
 							]
 						}
 					},
@@ -1433,12 +1346,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/flight?departure=2022-10-17T16:20",
-							"protocol": "http",
+							"raw": "{{ip}}/flight?departure=2022-10-17T16:20",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"flight"
 							],
@@ -1468,12 +1379,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/flight/32",
-							"protocol": "http",
+							"raw": "{{ip}}/flight/32",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"flight",
 								"32"
@@ -1488,12 +1397,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/flight/route?departure=2022-10-17T16:20&route=30",
-							"protocol": "http",
+							"raw": "{{ip}}/flight/route?departure=2022-10-17T16:20&route=30",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"flight",
 								"route"
@@ -1527,34 +1434,12 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/flight",
-							"protocol": "http",
+							"raw": "{{ip}}/flight",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"flight"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Delete Flight By Id",
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/flight/38",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"flight",
-								"38"
 							]
 						}
 					},
@@ -1575,14 +1460,30 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/flight",
-							"protocol": "http",
+							"raw": "{{ip}}/flight",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"flight"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Flight By Id",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{ip}}/flight/38",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"flight",
+								"38"
 							]
 						}
 					},
@@ -1591,55 +1492,41 @@
 			]
 		},
 		{
-			"name": "Plane",
+			"name": "Fleet",
 			"item": [
 				{
-					"name": "Get Planes",
+					"name": "Get Fleet",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/plane",
-							"protocol": "http",
+							"raw": "{{ip}}/fleet",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
-								"plane"
+								"fleet"
 							]
 						}
 					},
 					"response": []
-				},
+				}
+			]
+		},
+		{
+			"name": "Employee",
+			"item": [
 				{
-					"name": "Get Plane By Id",
+					"name": "Get Employee",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
 					"request": {
 						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/plane/7",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"plane",
-								"7"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Update Plane",
-					"request": {
-						"method": "PUT",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"type\":\"F17\",\r\n\"id\": 15,\r\n \"seatsEconomy\":120,\r\n \"seatsBusiness\":123,\r\n\"seatsFirstClass\":130}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1647,27 +1534,55 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/plane",
-							"protocol": "http",
+							"raw": "{{ip}}/employee",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
-								"plane"
+								"employee"
 							]
 						}
 					},
 					"response": []
 				},
 				{
-					"name": "Post Plane",
+					"name": "Get Employee by ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/employee/12",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"employee",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Employee",
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"type\": \"Airbus\",\r\n    \"seatsEconomy\": 5,\r\n    \"seatsBusiness\": 50,\r\n    \"seatsFirstClass\": 20\r\n}",
+							"raw": "{   \r\n    \"firstName\": \"Ayoub\",\r\n    \"lastName\": \"aa\",\r\n    \"dateOfBirth\": \"2200-03-16T13:56\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1675,14 +1590,65 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/plane",
-							"protocol": "http",
+							"raw": "{{ip}}/employee",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
-								"plane"
+								"employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Employee",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 12,\r\n    \"firstName\": \"samde man\",\r\n    \"lastName\": \"aa\",\r\n    \"dateOfBirth\": \"2022-10-17T16:20\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/employee",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Employee",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/employee/12",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"employee",
+								"12"
 							]
 						}
 					},
@@ -1711,39 +1677,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/swagger-ui/",
-							"protocol": "http",
+							"raw": "{{ip}}/swagger-ui/",
 							"host": [
-								"localhost"
+								"{{ip}}"
 							],
-							"port": "8080",
 							"path": [
 								"swagger-ui",
 								""
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "Fleet",
-			"item": [
-				{
-					"name": "Get Fleet",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8080/fleet",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8080",
-							"path": [
-								"fleet"
 							]
 						}
 					},
@@ -1786,6 +1726,10 @@
 		{
 			"key": "authToken",
 			"value": ""
+		},
+		{
+			"key": "ip",
+			"value": "http://localhost:8080"
 		}
 	]
 }
