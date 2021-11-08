@@ -20,19 +20,19 @@ public class FlightRoute {
     private Long id;
 
     @ManyToOne
-    private Airport departureLocation;
+    private Airport arrivalLocation;
 
     @ManyToOne
-    private Airport arrivalLocation;
+    private Airport departureLocation;
 
     private Integer durationMinutes;
     private Double priceEconomy;
     private Double priceBusiness;
     private Double priceFirstClass;
 
-    public FlightRoute(Airport departureLocation, Airport arrivalLocation, Integer durationMinutes, Double priceEconomy, Double priceBusiness, Double priceFirstClass){
-        this.departureLocation = departureLocation;
+    public FlightRoute(Airport arrivalLocation,Airport departureLocation, Integer durationMinutes, Double priceEconomy, Double priceBusiness, Double priceFirstClass){
         this.arrivalLocation = arrivalLocation;
+        this.departureLocation = departureLocation;
         this.durationMinutes = durationMinutes;
         this.priceEconomy = priceEconomy;
         this.priceBusiness = priceBusiness;
