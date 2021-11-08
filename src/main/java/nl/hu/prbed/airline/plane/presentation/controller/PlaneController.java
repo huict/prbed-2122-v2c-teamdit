@@ -2,6 +2,7 @@ package nl.hu.prbed.airline.plane.presentation.controller;
 
 import nl.hu.prbed.airline.plane.application.PlaneService;
 import nl.hu.prbed.airline.plane.application.exception.DuplicatePlaneException;
+import nl.hu.prbed.airline.plane.application.exception.InvalidDTOException;
 import nl.hu.prbed.airline.plane.application.exception.PlaneNotFoundException;
 import nl.hu.prbed.airline.plane.application.exception.ReliantFlightsException;
 import nl.hu.prbed.airline.plane.domain.Plane;
@@ -9,6 +10,7 @@ import nl.hu.prbed.airline.plane.presentation.dto.PlaneDTO;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneRequestDTO;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneResponseDTO;
 import nl.hu.prbed.airline.plane.presentation.exception.DuplicatePlaneHTTPException;
+import nl.hu.prbed.airline.plane.presentation.exception.InvalidDTOHTTPException;
 import nl.hu.prbed.airline.plane.presentation.exception.PlaneNotFoundHTTPException;
 import nl.hu.prbed.airline.plane.presentation.exception.ReliantFlightsHTTPException;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,6 +39,8 @@ public class PlaneController {
             return this.planeService.addPlane(planeRequestDTO);
         } catch (DuplicatePlaneException e){
             throw new DuplicatePlaneHTTPException(e.getMessage());
+        } catch (InvalidDTOException e) {
+            throw new InvalidDTOHTTPException("Invalid input");
         }
     }
 
