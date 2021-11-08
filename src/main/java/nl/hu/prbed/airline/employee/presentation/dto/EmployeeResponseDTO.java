@@ -1,10 +1,8 @@
 package nl.hu.prbed.airline.employee.presentation.dto;
 
 import lombok.NoArgsConstructor;
-import nl.hu.prbed.airline.airport.domain.Airport;
 import nl.hu.prbed.airline.employee.domain.Employee;
 
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor

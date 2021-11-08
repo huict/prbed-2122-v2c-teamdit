@@ -29,6 +29,8 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     private final UserRepository userRepository;
     private final AirlineRepository airlineRepository;
     private final FleetRepository fleetRepository;
+    private static final String admin = "admin";
+    private static final String employee = "employee";
 
     public SetupDataLoader(RoleRepository roleRepository, PasswordEncoder passwordEncoder, UserRepository userRepository, AirlineRepository airlineRepository, FleetRepository fleetRepository) {
         this.roleRepository = roleRepository;
@@ -50,17 +52,17 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             createRoleIfNotFound(roleName);
         }
 
-        if (!userRepository.existsByUsername("admin")) {
+        if (!userRepository.existsByUsername(admin)) {
             Role adminRole = roleRepository.findByName("ROLE_ADMIN");
-            User user = new User("admin", passwordEncoder.encode("admin"), "Ad", "Min");
+            User user = new User(admin, passwordEncoder.encode(admin), "Ad", "Min");
             user.addRole(adminRole);
             userRepository.save(user);
         }
 
 
-        if (!userRepository.existsByUsername("employee")) {
+        if (!userRepository.existsByUsername(employee)) {
             Role employeeRole = roleRepository.findByName("ROLE_EMPLOYEE");
-            User user = new User("employee", passwordEncoder.encode("employee"), "emplo", "yee");
+            User user = new User(employee, passwordEncoder.encode(employee), "emplo", "yee");
             user.addRole(employeeRole);
             userRepository.save(user);
         }

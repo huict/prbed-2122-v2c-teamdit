@@ -36,9 +36,7 @@ public class EmployeeService {
 
     public Employee createEmployee(EmployeeRequestDTO employeeRequestDTO) {
         Employee employee = new Employee(employeeRequestDTO.firstName, employeeRequestDTO.lastName, employeeRequestDTO.dateOfBirth);
-        System.out.println(employee.toString());
         this.employeeRepository.save(employee);
-        System.out.println(employee.toString());
         return employee;
     }
 

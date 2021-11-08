@@ -1,6 +1,5 @@
 package nl.hu.prbed.airline.employee.data;
 
-import nl.hu.prbed.airline.airport.domain.Airport;
 import nl.hu.prbed.airline.employee.domain.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 

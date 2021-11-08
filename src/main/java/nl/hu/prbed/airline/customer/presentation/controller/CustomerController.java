@@ -3,7 +3,6 @@ package nl.hu.prbed.airline.customer.presentation.controller;
 import nl.hu.prbed.airline.customer.application.CustomerService;
 import nl.hu.prbed.airline.customer.application.exception.CustomerNotFoundException;
 import nl.hu.prbed.airline.customer.domain.Customer;
-import nl.hu.prbed.airline.customer.presentation.dto.CustomerDTO;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerRequestDTO;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerResponseDTO;
 import nl.hu.prbed.airline.customer.presentation.exception.CustomerNotFoundHTTPException;

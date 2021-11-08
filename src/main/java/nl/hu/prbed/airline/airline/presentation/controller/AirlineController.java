@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.*;
 public class AirlineController {
 
     public AirlineController() {
-
+        //Doesn't do anything yet
     }
 }

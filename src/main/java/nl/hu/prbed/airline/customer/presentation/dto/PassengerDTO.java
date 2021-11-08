@@ -1,10 +1,11 @@
 package nl.hu.prbed.airline.customer.presentation.dto;
 
-import nl.hu.prbed.airline.customer.domain.Customer;
+import lombok.NoArgsConstructor;
 import nl.hu.prbed.airline.customer.domain.Passenger;
 
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
 public class PassengerDTO {
     public Long id;
     public String firstName;
@@ -13,8 +14,6 @@ public class PassengerDTO {
     public Integer phoneNumber;
     public String emailAddress;
     public String nationality;
-
-    public PassengerDTO(){}
 
     public PassengerDTO(Passenger passenger){
         this.id = passenger.getId();

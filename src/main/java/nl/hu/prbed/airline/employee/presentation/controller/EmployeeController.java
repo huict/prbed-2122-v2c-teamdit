@@ -1,10 +1,5 @@
 package nl.hu.prbed.airline.employee.presentation.controller;
 
-import nl.hu.prbed.airline.airport.application.AirportService;
-import nl.hu.prbed.airline.airport.domain.Airport;
-import nl.hu.prbed.airline.airport.presentation.dto.AirportDTO;
-import nl.hu.prbed.airline.airport.presentation.dto.AirportRequestDTO;
-import nl.hu.prbed.airline.airport.presentation.dto.AirportResponseDTO;
 import nl.hu.prbed.airline.employee.application.EmployeeService;
 import nl.hu.prbed.airline.employee.application.exception.EmployeeAlreadyExistsException;
 import nl.hu.prbed.airline.employee.application.exception.EmployeeNotFoundException;
