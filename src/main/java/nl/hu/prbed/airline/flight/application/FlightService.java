@@ -59,6 +59,7 @@ public class FlightService {
                 .orElseThrow(FlightNotFoundException::new);
     }
 
+    //todo: collections.removeIf filters
     public List<Flight> findFlightsByFilter(LocalDateTime departure, String departureLocation, String arrivalLocation) {
         if (departure != null && departureLocation == null && arrivalLocation == null) {
             return findFlightsByDeparture(departure);
