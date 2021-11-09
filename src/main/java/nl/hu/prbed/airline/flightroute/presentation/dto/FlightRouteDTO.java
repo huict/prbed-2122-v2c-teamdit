@@ -1,10 +1,12 @@
 package nl.hu.prbed.airline.flightroute.presentation.dto;
 
+import lombok.NoArgsConstructor;
 import nl.hu.prbed.airline.airport.domain.Airport;
 import nl.hu.prbed.airline.flightroute.domain.FlightRoute;
 
 import javax.validation.constraints.NotNull;
 
+@NoArgsConstructor
 public class FlightRouteDTO {
 
     public Long id;
@@ -20,10 +22,6 @@ public class FlightRouteDTO {
     public double priceBusiness;
     @NotNull
     public double priceFirstClass;
-
-    public FlightRouteDTO() {
-
-    }
 
     public FlightRouteDTO(FlightRoute flightRoute) {
         this.id = flightRoute.getId();
