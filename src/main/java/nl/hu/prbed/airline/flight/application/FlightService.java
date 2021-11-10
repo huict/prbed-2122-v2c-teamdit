@@ -59,6 +59,15 @@ public class FlightService {
                 .orElseThrow(FlightNotFoundException::new);
     }
 
+    public List<Flight> findAvailableFlights() {
+        try {
+            LocalDateTime dateTimeNow = LocalDateTime.now();
+            return flightRepository.findAllByDepartureTimeAfter(dateTimeNow);
+        } catch (NullPointerException nullPointerException) {
+            throw new InvalidDTOException("Missing departure variable to send!");
+        }
+    }
+
     //todo: collections.removeIf filters
     public List<Flight> findFlightsByFilter(LocalDateTime departure, String departureLocation, String arrivalLocation) {
         List<Flight> flights = new ArrayList<Flight>(this.findAllFlights());

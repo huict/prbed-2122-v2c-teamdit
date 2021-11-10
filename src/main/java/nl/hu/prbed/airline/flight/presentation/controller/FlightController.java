@@ -34,6 +34,12 @@ public class FlightController {
         return this.flightService.findFlightsByFilter(departure, departureLocation, arrivalLocation);
     }
 
+    @GetMapping("/available")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public List<Flight> getAllAvailableFlights() {
+        return this.flightService.findAvailableFlights();
+    }
+
     @GetMapping("/{id}")
     public FlightResponseDTO getFlightById(@PathVariable Long id) {
         try {
