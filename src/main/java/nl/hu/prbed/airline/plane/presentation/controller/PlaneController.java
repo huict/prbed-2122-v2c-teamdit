@@ -6,7 +6,6 @@ import nl.hu.prbed.airline.plane.application.exception.InvalidDTOException;
 import nl.hu.prbed.airline.plane.application.exception.PlaneNotFoundException;
 import nl.hu.prbed.airline.plane.application.exception.ReliantFlightsException;
 import nl.hu.prbed.airline.plane.domain.Plane;
-import nl.hu.prbed.airline.plane.presentation.dto.PlaneDTO;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneRequestDTO;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneResponseDTO;
 import nl.hu.prbed.airline.plane.presentation.exception.DuplicatePlaneHTTPException;

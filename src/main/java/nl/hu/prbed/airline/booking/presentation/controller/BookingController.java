@@ -55,12 +55,12 @@ public class BookingController {
 
     // Update booking
     @PutMapping
-    public BookingResponseDTO updateBooking(@Validated @RequestBody BookingRequestDTO BookingRequestDTO) {
+    public BookingResponseDTO updateBooking(@Validated @RequestBody BookingRequestDTO bookingRequestDTO) {
         try {
-            Booking booking = this.bookingService.updateBooking(BookingRequestDTO);
+            Booking booking = this.bookingService.updateBooking(bookingRequestDTO);
             return new BookingResponseDTO(booking);
         } catch (BookingNotFoundException e){
-            throw new BookingNotFoundHTTPException(BookingRequestDTO.id);
+            throw new BookingNotFoundHTTPException(bookingRequestDTO.id);
         }
     }
 

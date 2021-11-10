@@ -81,11 +81,11 @@ public class BookingService {
 
     public List<BookingResponseDTO> getAllBookings() {
         List<Booking> bookings = this.bookingRepository.findAll();
-        List<BookingResponseDTO> BookingDTOS = new ArrayList<>();
+        List<BookingResponseDTO> bookingDTOs = new ArrayList<>();
         for (Booking booking : bookings) {
-            BookingDTOS.add(new BookingResponseDTO(booking));
+            bookingDTOs.add(new BookingResponseDTO(booking));
         }
-        return BookingDTOS;
+        return bookingDTOs;
     }
 
     public Booking findBookingById(long id) {

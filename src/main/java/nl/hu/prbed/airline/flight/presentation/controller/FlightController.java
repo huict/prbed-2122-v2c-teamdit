@@ -4,7 +4,6 @@ import nl.hu.prbed.airline.flight.application.FlightService;
 import nl.hu.prbed.airline.flight.application.exception.FlightAlreadyExistsException;
 import nl.hu.prbed.airline.flight.application.exception.FlightNotFoundException;
 import nl.hu.prbed.airline.flight.domain.Flight;
-import nl.hu.prbed.airline.flight.presentation.dto.FlightDTO;
 import nl.hu.prbed.airline.flight.presentation.dto.FlightRequestDTO;
 import nl.hu.prbed.airline.flight.presentation.dto.FlightResponseDTO;
 import nl.hu.prbed.airline.flight.presentation.exception.FlightAlreadyExistsHTTPException;

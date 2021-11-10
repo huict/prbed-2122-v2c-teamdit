@@ -11,8 +11,8 @@ import java.util.Optional;
 public interface FlightRouteRepository extends JpaRepository<FlightRoute,Long> {
     List<FlightRoute> findAll();
     boolean existsById(Long id);
-    boolean existsByDepartureLocationAndArrivalLocationAndDurationMinutesAndPriceEconomyAndPriceBusinessAndPriceFirstClass(Airport departure_location_code, Airport arrival_location_code, int duration_minutes, double price_economy, double price_business, double price_first_class);
-    Optional<FlightRoute> findByDepartureLocationAndArrivalLocationAndDurationMinutesAndPriceEconomyAndPriceBusinessAndPriceFirstClass(Airport departure_location_code, Airport arrival_location_code, int duration_minutes, double price_economy, double price_business, double price_first_class);
+    boolean existsByDepartureLocationAndArrivalLocationAndDurationMinutesAndPriceEconomyAndPriceBusinessAndPriceFirstClass(Airport departureLocationCode, Airport arrivalLocationCode, int durationMinutes, double priceEconomy, double priceBusiness, double priceFirstClass);
+    Optional<FlightRoute> findByDepartureLocationAndArrivalLocationAndDurationMinutesAndPriceEconomyAndPriceBusinessAndPriceFirstClass(Airport departureLocationCode, Airport arrivalLocationCode, int durationMinutes, double priceEconomy, double priceBusiness, double priceFirstClass);
     List<FlightRoute> findAllByArrivalLocation(Airport arrivalLocation);
     List<FlightRoute> findAllByDepartureLocation(Airport departureLocation);
 }

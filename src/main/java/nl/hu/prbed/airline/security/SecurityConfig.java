@@ -38,13 +38,13 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         jsr250Enabled = true
 )
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    public final static String LOGIN_PATH = "/login";
-    public final static String REGISTER_PATH = "/register";
+    public static final String LOGIN_PATH = "/login";
+    public static final String REGISTER_PATH = "/register";
 
     // Swagger endpoints
-    public final static String SWAGGER_UI = "/swagger-ui/**";
-    public final static String SWAGGER_DOCS = "/v2/api-docs";
-    public final static String SWAGGER_RESOURCES = "/swagger-resources/**";
+    public static final String SWAGGER_UI = "/swagger-ui/**";
+    public static final String SWAGGER_DOCS = "/v2/api-docs";
+    public static final String SWAGGER_RESOURCES = "/swagger-resources/**";
 
 
     @Value("${security.jwt.secret}")

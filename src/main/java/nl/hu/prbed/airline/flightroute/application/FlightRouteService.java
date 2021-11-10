@@ -2,7 +2,6 @@ package nl.hu.prbed.airline.flightroute.application;
 
 import nl.hu.prbed.airline.airport.application.AirportService;
 import nl.hu.prbed.airline.airport.domain.Airport;
-import nl.hu.prbed.airline.airport.presentation.dto.AirportDTO;
 import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteAlreadyExistsException;
 import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteNotFoundException;
 import nl.hu.prbed.airline.flightroute.data.FlightRouteRepository;

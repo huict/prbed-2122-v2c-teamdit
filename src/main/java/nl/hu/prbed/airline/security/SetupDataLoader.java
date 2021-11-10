@@ -2,7 +2,6 @@ package nl.hu.prbed.airline.security;
 
 import nl.hu.prbed.airline.airline.data.AirlineRepository;
 import nl.hu.prbed.airline.airline.domain.Airline;
-import nl.hu.prbed.airline.fleet.data.FleetRepository;
 import nl.hu.prbed.airline.fleet.domain.Fleet;
 import nl.hu.prbed.airline.security.data.RoleRepository;
 import nl.hu.prbed.airline.security.data.UserRepository;
@@ -28,16 +27,14 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final AirlineRepository airlineRepository;
-    private final FleetRepository fleetRepository;
     private static final String admin = "admin";
     private static final String employee = "employee";
 
-    public SetupDataLoader(RoleRepository roleRepository, PasswordEncoder passwordEncoder, UserRepository userRepository, AirlineRepository airlineRepository, FleetRepository fleetRepository) {
+    public SetupDataLoader(RoleRepository roleRepository, PasswordEncoder passwordEncoder, UserRepository userRepository, AirlineRepository airlineRepository) {
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.airlineRepository = airlineRepository;
-        this.fleetRepository = fleetRepository;
     }
 
     // Temporary replacement for this being a non-production environment
