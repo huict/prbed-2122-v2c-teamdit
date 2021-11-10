@@ -7,6 +7,8 @@ import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteNotFound
 import nl.hu.prbed.airline.flightroute.data.FlightRouteRepository;
 import nl.hu.prbed.airline.flightroute.domain.FlightRoute;
 import nl.hu.prbed.airline.flightroute.presentation.dto.FlightRouteDTO;
+import nl.hu.prbed.airline.flightroute.presentation.dto.FlightRouteRequestDTO;
+import nl.hu.prbed.airline.flightroute.presentation.dto.FlightRouteResponseDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,12 +24,12 @@ public class FlightRouteService {
         this.airportService = airportService;
     }
 
-    public List<FlightRouteDTO> getAllFlightRoutes() {
+    public List<FlightRouteResponseDTO> getAllFlightRoutes() {
 
         List<FlightRoute> flightRoutes = this.flightRouteRepository.findAll();
-        List<FlightRouteDTO> flightRouteDTOS = new ArrayList<>();
+        List<FlightRouteResponseDTO> flightRouteDTOS = new ArrayList<>();
         for (FlightRoute flightRoute : flightRoutes) {
-            flightRouteDTOS.add(new FlightRouteDTO(flightRoute));
+            flightRouteDTOS.add(new FlightRouteResponseDTO(flightRoute));
         }
         return flightRouteDTOS;
     }
@@ -43,14 +45,16 @@ public class FlightRouteService {
     }
 
 
-    public FlightRouteDTO getFlightRouteByID(Long id) {
+    public FlightRouteResponseDTO getFlightRouteByID(Long id) {
         FlightRoute flightRoute = this.flightRouteRepository.findById(id)
                 .orElseThrow(FlightRouteNotFoundException::new);
-        return new FlightRouteDTO(flightRoute);
+        return new FlightRouteResponseDTO(flightRoute);
     }
 
 
-    public FlightRouteDTO createFlightRoute(FlightRouteDTO flightRouteDTO) {
+    public FlightRouteResponseDTO createFlightRoute(FlightRouteRequestDTO flightRouteRequestDTO) {
+        FlightRouteDTO flightRouteDTO = new FlightRouteDTO(flightRouteRequestDTO);
+
         Airport arrival = airportService.findAirportByCodeICAO(flightRouteDTO.arrivalCodeICAO);
         Airport departure = airportService.findAirportByCodeICAO(flightRouteDTO.departureCodeICAO);
         if (this.flightRouteRepository.existsByDepartureLocationAndArrivalLocationAndDurationMinutesAndPriceEconomyAndPriceBusinessAndPriceFirstClass(departure, arrival, flightRouteDTO.durationMinutes, flightRouteDTO.priceEconomy, flightRouteDTO.priceBusiness, flightRouteDTO.priceFirstClass)) {
@@ -63,11 +67,13 @@ public class FlightRouteService {
         FlightRoute flightRouteResult = this.flightRouteRepository.findByDepartureLocationAndArrivalLocationAndDurationMinutesAndPriceEconomyAndPriceBusinessAndPriceFirstClass(departure, arrival, flightRouteDTO.durationMinutes, flightRouteDTO.priceEconomy, flightRouteDTO.priceBusiness, flightRouteDTO.priceFirstClass)
                 .orElseThrow(FlightRouteNotFoundException::new);
 
-        return new FlightRouteDTO(flightRouteResult);
+        return new FlightRouteResponseDTO(flightRouteResult);
     }
 
 
-    public FlightRouteDTO updateFlightRoute(FlightRouteDTO flightRouteDTO) {
+    public FlightRouteResponseDTO updateFlightRoute(FlightRouteRequestDTO flightRouteRequestDTO) {
+        FlightRouteDTO flightRouteDTO = new FlightRouteDTO(flightRouteRequestDTO);
+
         if (flightRouteDTO.id == null) {
             throw new FlightRouteNotFoundException();
         }
@@ -81,9 +87,8 @@ public class FlightRouteService {
                 .orElseThrow(FlightRouteNotFoundException::new);
 
         this.flightRouteRepository.saveAndFlush(flightRoute);
-        return new FlightRouteDTO(flightRoute);
+        return new FlightRouteResponseDTO(flightRoute);
     }
-
 
     public FlightRoute findFlightRouteByID(Long id) {
         return flightRouteRepository.findById(id).orElseThrow(FlightRouteNotFoundException::new);

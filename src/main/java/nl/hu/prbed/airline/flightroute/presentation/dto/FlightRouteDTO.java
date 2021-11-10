@@ -23,14 +23,16 @@ public class FlightRouteDTO {
     @NotNull
     public double priceFirstClass;
 
-    public FlightRouteDTO(FlightRoute flightRoute) {
-        this.id = flightRoute.getId();
-        this.arrivalCodeICAO = flightRoute.getArrivalLocation().getCodeICAO();
-        this.departureCodeICAO = flightRoute.getDepartureLocation().getCodeICAO();
-        this.durationMinutes = flightRoute.getDurationMinutes();
-        this.priceEconomy = flightRoute.getPriceEconomy();
-        this.priceBusiness = flightRoute.getPriceBusiness();
-        this.priceFirstClass = flightRoute.getPriceFirstClass();
+    public FlightRouteDTO(FlightRouteRequestDTO flightRouteRequestDTO) {
+        if (flightRouteRequestDTO != null) {
+            this.id = flightRouteRequestDTO.id;
+        }
+        this.arrivalCodeICAO = flightRouteRequestDTO.arrivalCodeICAO;
+        this.departureCodeICAO = flightRouteRequestDTO.departureCodeICAO;
+        this.durationMinutes = flightRouteRequestDTO.durationMinutes;
+        this.priceEconomy = flightRouteRequestDTO.priceEconomy;
+        this.priceBusiness = flightRouteRequestDTO.priceBusiness;
+        this.priceFirstClass = flightRouteRequestDTO.priceFirstClass;
     }
 
     public FlightRoute toFlightroute(Airport arrival, Airport departure) {
