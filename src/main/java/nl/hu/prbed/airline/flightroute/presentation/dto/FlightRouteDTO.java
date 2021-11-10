@@ -24,7 +24,7 @@ public class FlightRouteDTO {
     public double priceFirstClass;
 
     public FlightRouteDTO(FlightRouteRequestDTO flightRouteRequestDTO) {
-        if (!flightRouteRequestDTO.id.equals(null)) {
+        if (flightRouteRequestDTO != null) {
             this.id = flightRouteRequestDTO.id;
         }
         this.arrivalCodeICAO = flightRouteRequestDTO.arrivalCodeICAO;
