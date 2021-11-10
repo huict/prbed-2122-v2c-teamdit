@@ -11,6 +11,7 @@ import nl.hu.prbed.airline.flight.presentation.exception.FlightAlreadyExistsHTTP
 import nl.hu.prbed.airline.flight.presentation.exception.FlightNotFoundHTTPException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -51,12 +52,15 @@ public class FlightController {
     }
 
     @GetMapping("/route")
-    public FlightResponseDTO getFlightRouteAndDeparture(@RequestParam(name = "departure")
+    @PreAuthorize("hasRole('ROLE_USER')")
+    public FlightResponseDTO getFlightRouteAndDeparture(Authentication authentication,
+                                                        @RequestParam(name = "departure")
                                                         @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
                                                                 LocalDateTime departure,
                                                         @RequestParam(name = "route") Long routeId) {
         try {
-            Flight flight = flightService.findFlightRouteAndDeparture(departure, routeId);
+            String role = authentication.getAuthorities().toString();
+            Flight flight = flightService.findFlightRouteAndDeparture(role,departure, routeId);
             return new FlightResponseDTO(flight);
         } catch (FlightNotFoundException e) {
             throw new FlightNotFoundHTTPException();

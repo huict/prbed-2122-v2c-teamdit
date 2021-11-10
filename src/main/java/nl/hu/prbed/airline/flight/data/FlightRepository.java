@@ -14,6 +14,7 @@ import java.util.Optional;
 @Transactional
 public interface FlightRepository extends JpaRepository<Flight,Long> {
     Optional<Flight> findByRouteAndDepartureTime(FlightRoute route, LocalDateTime departureTime);
+    Optional<Flight> findByRouteAndDepartureTimeAfter(FlightRoute route, LocalDateTime departureTime);
     List<Flight> findAllByDepartureTimeAfter(LocalDateTime departureTime);
     List<Flight> findAllByDepartureTime(LocalDateTime departure);
 

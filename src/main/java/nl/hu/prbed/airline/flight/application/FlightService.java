@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class FlightService {
@@ -95,10 +96,17 @@ public class FlightService {
         }
     }
 
-    public Flight findFlightRouteAndDeparture(LocalDateTime departure, Long flightRouteId) {
+    public Flight findFlightRouteAndDeparture(String role, LocalDateTime departure, Long flightRouteId) {
         try {
             FlightRoute flightRoute = flightRouteService.findFlightRouteByID(flightRouteId);
-            return flightRepository.findByRouteAndDepartureTime(flightRoute, departure).orElseThrow(FlightNotFoundException::new);
+            if (Objects.equals(role, "[ROLE_USER]")){
+                LocalDateTime dateTimeNow = LocalDateTime.now();
+                return flightRepository.findByRouteAndDepartureTimeAfter(flightRoute, dateTimeNow)
+                    .orElseThrow(FlightNotFoundException::new);
+            }else {
+                return flightRepository.findByRouteAndDepartureTime(flightRoute, departure)
+                        .orElseThrow(FlightNotFoundException::new);
+            }
         } catch (NullPointerException nullPointerException) {
             throw new InvalidDTOException("Missing input variables to send!");
         }
