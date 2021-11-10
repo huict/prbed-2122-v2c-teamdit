@@ -4,6 +4,8 @@ import nl.hu.prbed.airline.flightroute.application.FlightRouteService;
 import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteAlreadyExistsException;
 import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteNotFoundException;
 import nl.hu.prbed.airline.flightroute.presentation.dto.FlightRouteDTO;
+import nl.hu.prbed.airline.flightroute.presentation.dto.FlightRouteRequestDTO;
+import nl.hu.prbed.airline.flightroute.presentation.dto.FlightRouteResponseDTO;
 import nl.hu.prbed.airline.flightroute.presentation.exception.FlightRouteAlreadyExistsHTTPException;
 import nl.hu.prbed.airline.flightroute.presentation.exception.FlightRouteNotFoundHTTPException;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,12 +25,12 @@ public class FlightRouteController {
     }
 
     @GetMapping
-    public List<FlightRouteDTO> getAllFlightRoutes() {
+    public List<FlightRouteResponseDTO> getAllFlightRoutes() {
         return this.flightRouteService.getAllFlightRoutes();
     }
 
     @GetMapping("/{id}")
-    public FlightRouteDTO getFlightrouteById(@PathVariable Long id) {
+    public FlightRouteResponseDTO getFlightrouteById(@PathVariable Long id) {
         try {
             return this.flightRouteService.getFlightRouteByID(id);
         }
@@ -38,18 +40,18 @@ public class FlightRouteController {
     }
 
     @PostMapping
-    public FlightRouteDTO addFlightroute(@Validated @RequestBody FlightRouteDTO flightRouteDTO) {
+    public FlightRouteResponseDTO addFlightroute(@Validated @RequestBody FlightRouteRequestDTO flightRouteRequestDTO) {
         try {
-            return this.flightRouteService.createFlightRoute(flightRouteDTO);
+            return this.flightRouteService.createFlightRoute(flightRouteRequestDTO);
         } catch (FlightRouteAlreadyExistsException e){
             throw new FlightRouteAlreadyExistsHTTPException();
         }
     }
 
     @PutMapping
-    public FlightRouteDTO updateFlightroute(@Validated @RequestBody FlightRouteDTO flightRouteDTO) {
+    public FlightRouteResponseDTO updateFlightroute(@Validated @RequestBody FlightRouteRequestDTO flightRouteRequestDTO) {
         try {
-            return this.flightRouteService.updateFlightRoute(flightRouteDTO);
+            return this.flightRouteService.updateFlightRoute(flightRouteRequestDTO);
         }
         catch (FlightRouteNotFoundException e){
             throw new FlightRouteNotFoundHTTPException();
