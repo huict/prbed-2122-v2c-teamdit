@@ -28,13 +28,4 @@ public class AirportDTO {
         this.longitude = airport.getLongitude();
         this.latitude = airport.getLatitude();
     }
-
-    public Airport toAirport() {
-        return new Airport(codeICAO,
-                name,
-                city,
-                country,
-                longitude,
-                latitude);
-    }
 }

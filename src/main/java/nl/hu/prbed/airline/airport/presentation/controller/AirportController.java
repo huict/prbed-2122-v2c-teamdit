@@ -31,9 +31,9 @@ public class AirportController {
     }
 
     @GetMapping("/{code}")
-    public AirportDTO getAirportByCodeICAO(@PathVariable String code) {
+    public AirportResponseDTO getAirportByCodeICAO(@PathVariable String code) {
         try{
-            return new AirportDTO(this.airportService.findAirportByCodeICAO(code));
+            return new AirportResponseDTO(this.airportService.findAirportByCodeICAO(code));
         } catch (AirportNotFoundException e){
             throw new AirportNotFoundHTTPException(code);
         }

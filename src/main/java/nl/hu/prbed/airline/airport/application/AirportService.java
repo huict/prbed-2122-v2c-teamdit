@@ -22,6 +22,20 @@ public class AirportService {
         this.airportRepository = airportRepository;
     }
 
+    public List<AirportResponseDTO> getAllAirports() {
+        List<Airport> airports = this.airportRepository.findAll();
+        List<AirportResponseDTO> airportDTOS = new ArrayList<>();
+        for (Airport airport : airports) {
+            airportDTOS.add(new AirportResponseDTO(airport));
+        }
+        return airportDTOS;
+    }
+
+    public Airport findAirportByCodeICAO(String code) {
+        return this.airportRepository.findByCodeICAO(code)
+                .orElseThrow(() -> new AirportNotFoundException(code));
+    }
+
     public Airport createAirport(AirportRequestDTO airportRequestDTO) {
         Airport airport = airportRequestDTO.toAirport();
 
@@ -54,17 +68,4 @@ public class AirportService {
         this.airportRepository.deleteByCodeICAO(code);
     }
 
-    public List<AirportResponseDTO> getAllAirports() {
-        List<Airport> airports = this.airportRepository.findAll();
-        List<AirportResponseDTO> airportDTOS = new ArrayList<>();
-        for (Airport airport : airports) {
-            airportDTOS.add(new AirportResponseDTO(airport));
-        }
-        return airportDTOS;
-    }
-
-    public Airport findAirportByCodeICAO(String code) {
-        return this.airportRepository.findByCodeICAO(code)
-                .orElseThrow(() -> new AirportNotFoundException(code));
-    }
 }
