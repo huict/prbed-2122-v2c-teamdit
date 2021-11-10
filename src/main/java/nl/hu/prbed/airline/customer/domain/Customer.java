@@ -21,14 +21,15 @@ public class Customer {
     private String firstName;
     private String lastName;
     private LocalDateTime dateOfBirth;
-    private Integer phoneNumber;
+    private Long phoneNumber;
     private String emailAddress;
     private String nationality;
 
     @OneToMany
     private List<Booking> bookings;
 
-    public Customer(String firstName, String lastName, LocalDateTime dateOfBirth, Integer phoneNumber, String emailAddress, String nationality) {
+    public Customer(Long id, String firstName, String lastName, LocalDateTime dateOfBirth, Long phoneNumber, String emailAddress, String nationality) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;

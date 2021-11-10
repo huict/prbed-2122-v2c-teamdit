@@ -22,11 +22,11 @@ public class Passenger {
     private String firstName;
     private String lastName;
     private LocalDateTime dateOfBirth;
-    private Integer phoneNumber;
+    private Long phoneNumber;
     private String emailAddress;
     private String nationality;
 
-    public Passenger(String firstName, String lastName, LocalDateTime dateOfBirth, Integer phoneNumber, String emailAddress, String nationality) {
+    public Passenger(String firstName, String lastName, LocalDateTime dateOfBirth, Long phoneNumber, String emailAddress, String nationality) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;

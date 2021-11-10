@@ -9,7 +9,7 @@ public class PassengerResponseDTO {
     public String firstName;
     public String lastName;
     public LocalDateTime dateOfBirth;
-    public Integer phoneNumber;
+    public Long phoneNumber;
     public String emailAddress;
     public String nationality;
 
