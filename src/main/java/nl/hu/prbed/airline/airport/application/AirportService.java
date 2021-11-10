@@ -1,6 +1,7 @@
 package nl.hu.prbed.airline.airport.application;
 
 import nl.hu.prbed.airline.airport.application.exception.AirportAlreadyExistsException;
+import nl.hu.prbed.airline.airport.application.exception.AirportInUseException;
 import nl.hu.prbed.airline.airport.application.exception.AirportNotFoundException;
 import nl.hu.prbed.airline.airport.application.exception.AirportcodeNotValidException;
 import nl.hu.prbed.airline.airport.data.AirportRepository;
@@ -63,9 +64,13 @@ public class AirportService {
 
     public void deleteAirport(String code) {
         this.airportRepository.findByCodeICAO(code)
-            .orElseThrow(() -> new AirportNotFoundException(code));
+                .orElseThrow(() -> new AirportNotFoundException(code));
 
-        this.airportRepository.deleteByCodeICAO(code);
+        try {
+            this.airportRepository.deleteByCodeICAO(code);
+        } catch(Exception e) {
+            throw new AirportInUseException(code);
+        }
     }
 
 }

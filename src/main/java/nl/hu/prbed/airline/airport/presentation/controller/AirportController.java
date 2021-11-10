@@ -8,6 +8,7 @@ import nl.hu.prbed.airline.airport.presentation.dto.AirportDTO;
 import nl.hu.prbed.airline.airport.presentation.dto.AirportRequestDTO;
 import nl.hu.prbed.airline.airport.presentation.dto.AirportResponseDTO;
 import nl.hu.prbed.airline.airport.presentation.exception.AirportAlreadyExistsHTTPException;
+import nl.hu.prbed.airline.airport.presentation.exception.AirportInUseHTTPException;
 import nl.hu.prbed.airline.airport.presentation.exception.AirportNotFoundHTTPException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -32,9 +33,9 @@ public class AirportController {
 
     @GetMapping("/{code}")
     public AirportResponseDTO getAirportByCodeICAO(@PathVariable String code) {
-        try{
+        try {
             return new AirportResponseDTO(this.airportService.findAirportByCodeICAO(code));
-        } catch (AirportNotFoundException e){
+        } catch (AirportNotFoundException e) {
             throw new AirportNotFoundHTTPException(code);
         }
     }
@@ -42,10 +43,10 @@ public class AirportController {
     // Add airport
     @PostMapping
     public AirportResponseDTO addAirport(@Validated @RequestBody AirportRequestDTO airportRequestDTO) {
-        try{
+        try {
             Airport airport = this.airportService.createAirport(airportRequestDTO);
             return new AirportResponseDTO(airport);
-        } catch (AirportAlreadyExistsException e){
+        } catch (AirportAlreadyExistsException e) {
             throw new AirportAlreadyExistsHTTPException(airportRequestDTO.codeICAO);
         }
     }
@@ -56,7 +57,7 @@ public class AirportController {
         try {
             Airport airport = this.airportService.updateAirport(airportRequestDTO);
             return new AirportResponseDTO(airport);
-        } catch (AirportNotFoundException e){
+        } catch (AirportNotFoundException e) {
             throw new AirportNotFoundHTTPException(airportRequestDTO.codeICAO);
         }
     }
@@ -66,9 +67,11 @@ public class AirportController {
     public void deleteAirport(@PathVariable String code) {
         try {
             this.airportService.deleteAirport(code);
-        }
-        catch (AirportNotFoundException e){
-            throw new AirportNotFoundHTTPException(code);
+        } catch (Exception e) {
+            if (e instanceof AirportNotFoundException) {
+                throw new AirportNotFoundHTTPException(code);
+            }
+            throw new AirportInUseHTTPException(code);
         }
     }
 }
