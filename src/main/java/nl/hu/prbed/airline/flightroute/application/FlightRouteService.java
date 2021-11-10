@@ -53,14 +53,14 @@ public class FlightRouteService {
     public FlightRouteDTO createFlightRoute(FlightRouteDTO flightRouteDTO) {
         Airport arrival = airportService.findAirportByCodeICAO(flightRouteDTO.arrivalCodeICAO);
         Airport departure = airportService.findAirportByCodeICAO(flightRouteDTO.departureCodeICAO);
-        if (this.flightRouteRepository.existsByDepartureLocationAndArrivalLocationAndDurationMinutesAndPriceEconomyAndPriceBusinessAndPriceFirstClass(arrival, departure, flightRouteDTO.durationMinutes, flightRouteDTO.priceEconomy, flightRouteDTO.priceBusiness, flightRouteDTO.priceFirstClass)) {
+        if (this.flightRouteRepository.existsByDepartureLocationAndArrivalLocationAndDurationMinutesAndPriceEconomyAndPriceBusinessAndPriceFirstClass(departure, arrival, flightRouteDTO.durationMinutes, flightRouteDTO.priceEconomy, flightRouteDTO.priceBusiness, flightRouteDTO.priceFirstClass)) {
             throw new FlightRouteAlreadyExistsException();
         }
 
         FlightRoute flightRoute = flightRouteDTO.toFlightroute(arrival, departure);
 
         this.flightRouteRepository.saveAndFlush(flightRoute);
-        FlightRoute flightRouteResult = this.flightRouteRepository.findByDepartureLocationAndArrivalLocationAndDurationMinutesAndPriceEconomyAndPriceBusinessAndPriceFirstClass(arrival, departure, flightRouteDTO.durationMinutes, flightRouteDTO.priceEconomy, flightRouteDTO.priceBusiness, flightRouteDTO.priceFirstClass)
+        FlightRoute flightRouteResult = this.flightRouteRepository.findByDepartureLocationAndArrivalLocationAndDurationMinutesAndPriceEconomyAndPriceBusinessAndPriceFirstClass(departure, arrival, flightRouteDTO.durationMinutes, flightRouteDTO.priceEconomy, flightRouteDTO.priceBusiness, flightRouteDTO.priceFirstClass)
                 .orElseThrow(FlightRouteNotFoundException::new);
 
         return new FlightRouteDTO(flightRouteResult);
