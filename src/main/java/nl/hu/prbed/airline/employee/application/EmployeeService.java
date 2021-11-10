@@ -5,6 +5,8 @@ import nl.hu.prbed.airline.employee.data.EmployeeRepository;
 import nl.hu.prbed.airline.employee.domain.Employee;
 import nl.hu.prbed.airline.employee.presentation.dto.EmployeeRequestDTO;
 import nl.hu.prbed.airline.employee.presentation.dto.EmployeeResponseDTO;
+import nl.hu.prbed.airline.security.application.UserService;
+import nl.hu.prbed.airline.security.domain.User;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -15,9 +17,11 @@ import java.util.List;
 @Service
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
+    private final UserService userService;
 
-    public EmployeeService(EmployeeRepository employeeRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository, UserService userService) {
         this.employeeRepository = employeeRepository;
+        this.userService = userService;
     }
 
     public List<EmployeeResponseDTO> getAllEmployees() {
@@ -35,7 +39,8 @@ public class EmployeeService {
     }
 
     public Employee createEmployee(EmployeeRequestDTO employeeRequestDTO) {
-        Employee employee = new Employee(employeeRequestDTO.firstName, employeeRequestDTO.lastName, employeeRequestDTO.dateOfBirth);
+        User user = userService.createUser(employeeRequestDTO);
+        Employee employee = new Employee(user.getId(), employeeRequestDTO.firstName, employeeRequestDTO.lastName, employeeRequestDTO.dateOfBirth);
         this.employeeRepository.save(employee);
         return employee;
     }

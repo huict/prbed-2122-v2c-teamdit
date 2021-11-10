@@ -15,8 +15,6 @@ import java.util.List;
 @Getter
 public class Customer {
     @Id
-    @GeneratedValue
-    @Column(nullable = false)
     private Long id;
     private String firstName;
     private String lastName;
@@ -38,13 +36,7 @@ public class Customer {
         this.nationality = nationality;
     }
 
-    public Customer(Long id, String firstName, String lastName, LocalDateTime dateOfBirth, Integer phoneNumber, String emailAddress, String nationality) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
-        this.phoneNumber = phoneNumber;
-        this.emailAddress = emailAddress;
-        this.nationality = nationality;
+    public void addBooking(Booking booking) {
+        this.bookings.add(booking);
     }
 }

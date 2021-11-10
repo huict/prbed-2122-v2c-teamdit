@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 public class CustomerDTO {
     public Long id;
+    public String username;
     public String firstName;
     public String lastName;
     public LocalDateTime dateOfBirth;
@@ -13,9 +14,7 @@ public class CustomerDTO {
     public String emailAddress;
     public String nationality;
 
-    public CustomerDTO(){}
-
-    public CustomerDTO(Customer customer){
+    public CustomerDTO(Customer customer) {
         this.id = customer.getId();
         this.firstName = customer.getFirstName();
         this.lastName = customer.getLastName();
@@ -25,4 +24,19 @@ public class CustomerDTO {
         this.nationality = customer.getNationality();
     }
 
+    public CustomerDTO(Long id,
+                       String firstName,
+                       String lastName,
+                       LocalDateTime dateOfBirth,
+                       Long phoneNumber,
+                       String emailAddress,
+                       String nationality) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dateOfBirth = dateOfBirth;
+        this.phoneNumber = phoneNumber;
+        this.emailAddress = emailAddress;
+        this.nationality = nationality;
+    }
 }

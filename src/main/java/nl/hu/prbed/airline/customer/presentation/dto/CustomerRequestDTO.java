@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class CustomerRequestDTO {
     public Long id;
+    public String username;
+    public String password;
     public String firstName;
     public String lastName;
     public LocalDateTime dateOfBirth;

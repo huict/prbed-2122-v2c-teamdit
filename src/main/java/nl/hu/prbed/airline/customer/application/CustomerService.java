@@ -3,8 +3,12 @@ package nl.hu.prbed.airline.customer.application;
 import nl.hu.prbed.airline.customer.application.exception.CustomerNotFoundException;
 import nl.hu.prbed.airline.customer.data.CustomerRepository;
 import nl.hu.prbed.airline.customer.domain.Customer;
+import nl.hu.prbed.airline.customer.presentation.dto.CustomerDTO;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerRequestDTO;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerResponseDTO;
+import nl.hu.prbed.airline.security.application.UserService;
+import nl.hu.prbed.airline.security.domain.User;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -13,14 +17,23 @@ import java.util.List;
 @Service
 public class CustomerService {
     private final CustomerRepository customerRepository;
+    private final UserService userService;
 
-    public CustomerService(CustomerRepository customerRepository) {
+    public CustomerService(CustomerRepository customerRepository, @Lazy UserService userService) {
         this.customerRepository = customerRepository;
+        this.userService = userService;
     }
 
-    public Customer createCustomer(CustomerRequestDTO customerRequestDTO){
+    public Customer createCustomer(CustomerRequestDTO customerRequestDTO) {
+        User user = userService.createUser(customerRequestDTO);
 
-        Customer customer = new Customer(customerRequestDTO.firstName, customerRequestDTO.lastName, customerRequestDTO.dateOfBirth, customerRequestDTO.phoneNumber, customerRequestDTO.emailAddress , customerRequestDTO.nationality);
+        Customer customer = new Customer(user.getId(),
+                customerRequestDTO.firstName,
+                customerRequestDTO.lastName,
+                customerRequestDTO.dateOfBirth,
+                customerRequestDTO.phoneNumber,
+                customerRequestDTO.emailAddress,
+                customerRequestDTO.nationality);
 
         this.customerRepository.save(customer);
         return customer;
@@ -55,5 +68,17 @@ public class CustomerService {
     public Customer findCustomerById(long id) {
         return this.customerRepository.findByid(id)
                 .orElseThrow(() -> new CustomerNotFoundException(id));
+    }
+
+    public void createCustomer(CustomerDTO customerDTO) {
+        Customer customer = new Customer(customerDTO.id,
+                customerDTO.firstName,
+                customerDTO.lastName,
+                customerDTO.dateOfBirth,
+                customerDTO.phoneNumber,
+                customerDTO.emailAddress,
+                customerDTO.nationality);
+
+        this.customerRepository.save(customer);
     }
 }

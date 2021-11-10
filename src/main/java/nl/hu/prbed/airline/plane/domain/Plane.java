@@ -45,11 +45,14 @@ public class Plane {
         switch (bookingClass) {
             case ECONOMY:
                 seats = seatsEconomy;
+                break;
             case BUSINESS:
                 seats = seatsBusiness;
+                break;
             case FIRST:
                 seats = seatsFirstClass;
-        };
+                break;
+        }
 
         return seats;
     }

@@ -16,11 +16,6 @@ public class RegistrationController {
 
     @PostMapping
     public void register(@Validated @RequestBody Registration registration) {
-        this.userService.register(
-                registration.username,
-                registration.password,
-                registration.firstName,
-                registration.lastName
-        );
+        this.userService.register(registration);
     }
 }

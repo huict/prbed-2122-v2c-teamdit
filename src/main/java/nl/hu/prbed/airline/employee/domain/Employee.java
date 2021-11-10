@@ -4,9 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.time.LocalDateTime;
 
@@ -17,23 +15,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Employee {
     @Id
-    @GeneratedValue
-    @Column(nullable = false)
     private Long id;
     private String firstName;
     private String lastName;
     private LocalDateTime dateOfBirth;
 
-    public Employee(String firstName, String lastName, LocalDateTime dateOfBirth) {
+    public Employee(Long id, String firstName, String lastName, LocalDateTime dateOfBirth) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
     }
-
-    public Employee(Long id, String firstName, String lastName, LocalDateTime dateOfBirth) {
-        this(firstName, lastName, dateOfBirth);
-            this.id = id;
-        }
 
     @Override
     public String toString() {
