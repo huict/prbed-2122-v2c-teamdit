@@ -3,6 +3,10 @@ package nl.hu.prbed.airline.flight.application;
 import nl.hu.prbed.airline.airline.application.exception.InvalidDTOException;
 import nl.hu.prbed.airline.flight.application.exception.FlightAlreadyExistsException;
 import nl.hu.prbed.airline.flight.application.exception.FlightNotFoundException;
+import nl.hu.prbed.airline.flight.application.filter.Criteria;
+import nl.hu.prbed.airline.flight.application.filter.CriteriaArrivalLocation;
+import nl.hu.prbed.airline.flight.application.filter.CriteriaDepartureLocation;
+import nl.hu.prbed.airline.flight.application.filter.CriteriaDepartureTime;
 import nl.hu.prbed.airline.flight.data.FlightRepository;
 import nl.hu.prbed.airline.flight.domain.Flight;
 import nl.hu.prbed.airline.flight.presentation.dto.FlightRequestDTO;
@@ -68,28 +72,34 @@ public class FlightService {
             throw new InvalidDTOException("Missing departure variable to send!");
         }
     }
+    
+    public List<Flight> findFlightsByFilter(LocalDateTime departureTime, String departureLocation, String arrivalLocation) {
+        List<Flight> allFlights = new ArrayList<>(this.findAllFlights());
+        List<Flight> filterResult = new ArrayList<>();
 
-    //todo: collections.removeIf filters
-    // departure time var name, list van params
-    //andersom doen
-    // https://www.tutorialspoint.com/design_pattern/filter_pattern.htm
-    public List<Flight> findFlightsByFilter(LocalDateTime departure, String departureLocation, String arrivalLocation) {
-        List<Flight> flights = new ArrayList<>(this.findAllFlights());
+        Criteria departureTimeFilter = new CriteriaDepartureTime();
+        Criteria departureLocationFilter = new CriteriaDepartureLocation();
+        Criteria arrivalLocationFilter = new CriteriaArrivalLocation();
 
-        if (departure != null){
-            flights.removeIf(flight -> (!flight.getDepartureTime().equals(departure)));
+        if (departureTime != null) {
+            filterResult = departureTimeFilter.meetCriteria(allFlights, departureTime);
+        } else {
+            filterResult = allFlights;
         }
 
-        // TODO: Rework
-        if (departureLocation != null){
-            flights.removeIf(flight -> (!flight.getRoute().getDepartureLocation().equals(departureLocation)));
+        if (departureLocation != null) {
+            filterResult = departureLocationFilter.meetCriteria(filterResult, departureLocation);
+        } else {
+            filterResult = allFlights;
         }
 
-        if (arrivalLocation != null){
-            flights.removeIf(flight -> (!flight.getRoute().getArrivalLocation().equals(arrivalLocation)));
+        if (arrivalLocation != null) {
+            filterResult = arrivalLocationFilter.meetCriteria(filterResult, departureLocation);
+        } else {
+            filterResult = allFlights;
         }
 
-        return flights;
+        return filterResult;
     }
 
     public List<Flight> findFlightsByDeparture(LocalDateTime departure) {
@@ -103,11 +113,11 @@ public class FlightService {
     public Flight findFlightRouteAndDeparture(String role, LocalDateTime departure, Long flightRouteId) {
         try {
             FlightRoute flightRoute = flightRouteService.findFlightRouteByID(flightRouteId);
-            if (Objects.equals(role, "[ROLE_USER]")){
+            if (Objects.equals(role, "[ROLE_USER]")) {
                 LocalDateTime dateTimeNow = LocalDateTime.now();
                 return flightRepository.findByRouteAndDepartureTimeAfter(flightRoute, dateTimeNow)
-                    .orElseThrow(FlightNotFoundException::new);
-            }else {
+                        .orElseThrow(FlightNotFoundException::new);
+            } else {
                 return flightRepository.findByRouteAndDepartureTime(flightRoute, departure)
                         .orElseThrow(FlightNotFoundException::new);
             }
