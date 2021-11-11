@@ -9,13 +9,13 @@ public class CriteriaArrivalLocation implements Criteria {
     @Override
     public List<Flight> meetCriteria(List<Flight> flights, Object criteria) {
         String arrivalLocation = (String) criteria;
-        List<Flight> flightsWithArrivalLocationLocation = new ArrayList<>();
+        List<Flight> flightsWithArrivalLocation = new ArrayList<>();
 
         for (Flight flight : flights) {
             if (flight.getRoute().getArrivalLocation().getCodeICAO().equals(arrivalLocation)) {
-                flightsWithArrivalLocationLocation.add(flight);
+                flightsWithArrivalLocation.add(flight);
             }
         }
-        return flightsWithArrivalLocationLocation;
+        return flightsWithArrivalLocation;
     }
 }
