@@ -72,7 +72,7 @@ public class FlightService {
             throw new InvalidDTOException("Missing departure variable to send!");
         }
     }
-    
+
     public List<Flight> findFlightsByFilter(LocalDateTime departureTime, String departureLocation, String arrivalLocation) {
         List<Flight> allFlights = new ArrayList<>(this.findAllFlights());
         List<Flight> filterResult = new ArrayList<>();
@@ -89,14 +89,10 @@ public class FlightService {
 
         if (departureLocation != null) {
             filterResult = departureLocationFilter.meetCriteria(filterResult, departureLocation);
-        } else {
-            filterResult = allFlights;
         }
 
         if (arrivalLocation != null) {
             filterResult = arrivalLocationFilter.meetCriteria(filterResult, departureLocation);
-        } else {
-            filterResult = allFlights;
         }
 
         return filterResult;
