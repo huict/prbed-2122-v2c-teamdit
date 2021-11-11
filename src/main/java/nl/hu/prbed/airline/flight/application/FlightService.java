@@ -70,6 +70,9 @@ public class FlightService {
     }
 
     //todo: collections.removeIf filters
+    // departure time var name, list van params
+    //andersom doen
+    // https://www.tutorialspoint.com/design_pattern/filter_pattern.htm
     public List<Flight> findFlightsByFilter(LocalDateTime departure, String departureLocation, String arrivalLocation) {
         List<Flight> flights = new ArrayList<>(this.findAllFlights());
 
