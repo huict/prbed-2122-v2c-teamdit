@@ -32,7 +32,7 @@ public class BookingController {
 
     // Get booking by id
     @GetMapping("/{id}")
-    public BookingResponseDTO getBookingByCode(@PathVariable long id) {
+    public BookingResponseDTO getBookingById(@PathVariable long id) {
         try{
             Booking booking = this.bookingService.findBookingById(id);
             return new BookingResponseDTO(booking);
