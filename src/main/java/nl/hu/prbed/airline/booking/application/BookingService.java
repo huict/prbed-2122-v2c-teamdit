@@ -5,6 +5,7 @@ import nl.hu.prbed.airline.booking.domain.BookingClass;
 import nl.hu.prbed.airline.booking.presentation.dto.BookingRequestDTO;
 import nl.hu.prbed.airline.booking.presentation.dto.BookingResponseDTO;
 import nl.hu.prbed.airline.customer.application.CustomerService;
+import nl.hu.prbed.airline.email.EmailService;
 import nl.hu.prbed.airline.flight.application.FlightService;
 import nl.hu.prbed.airline.booking.application.exception.BookingNotFoundException;
 import nl.hu.prbed.airline.booking.data.BookingRepository;
@@ -24,17 +25,18 @@ public class BookingService {
     private final BookingRepository bookingRepository;
     private final CustomerService customerService;
     private final FlightService flightService;
+    private final EmailService emailService;
 
-    public BookingService(BookingRepository bookingRepository, CustomerService customerService,@Lazy FlightService flightService) {
+    public BookingService(BookingRepository bookingRepository, CustomerService customerService,@Lazy FlightService flightService, EmailService emailService) {
         this.bookingRepository = bookingRepository;
         this.customerService = customerService;
         this.flightService = flightService;
+        this.emailService = emailService;
     }
 
     public Booking createBooking(BookingRequestDTO bookingRequestDTO){
         List<Flight> flights = new ArrayList<>();
         Customer customer = customerService.findCustomerById(bookingRequestDTO.customerId);
-
         for(Long flightId : bookingRequestDTO.flightsIds){
             Flight flight = flightService.findFlightById(flightId);
             flights.add(flight);
@@ -49,8 +51,10 @@ public class BookingService {
         }
 
         Booking booking = new Booking(customer, bookingRequestDTO.bookingClass, flights, bookingRequestDTO.passengers);
+        this.emailService.sendEmail(customer.getEmailAddress(), booking);
 
         this.bookingRepository.save(booking);
+
 
         return booking;
     }
