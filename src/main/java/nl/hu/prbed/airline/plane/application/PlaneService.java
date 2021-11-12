@@ -2,7 +2,6 @@ package nl.hu.prbed.airline.plane.application;
 
 import nl.hu.prbed.airline.airline.application.exception.InvalidDTOException;
 import nl.hu.prbed.airline.fleet.application.FleetService;
-import nl.hu.prbed.airline.plane.application.exception.DuplicatePlaneException;
 import nl.hu.prbed.airline.plane.application.exception.PlaneNotFoundException;
 import nl.hu.prbed.airline.plane.application.exception.ReliantFlightsException;
 import nl.hu.prbed.airline.plane.data.PlaneRepository;
@@ -29,10 +28,7 @@ public class PlaneService {
     }
 
     public PlaneResponseDTO addPlane(PlaneRequestDTO pro) {
-        if (planeRepository.existsByTypeAndSeatsBusinessAndSeatsEconomyAndSeatsFirstClass(
-                pro.type, pro.seatsBusiness, pro.seatsEconomy, pro.seatsFirstClass)) {
-            throw new DuplicatePlaneException("A plane with these details already exists");
-        } else if (pro.type == null) {
+       if (pro.type == null) {
             throw new InvalidDTOException("No type specified");
         }
 
