@@ -13,6 +13,7 @@ import nl.hu.prbed.airline.flight.presentation.dto.FlightRequestDTO;
 import nl.hu.prbed.airline.flightroute.application.FlightRouteService;
 import nl.hu.prbed.airline.flightroute.domain.FlightRoute;
 import nl.hu.prbed.airline.plane.application.PlaneService;
+import nl.hu.prbed.airline.plane.application.exception.PlaneNotFoundException;
 import nl.hu.prbed.airline.plane.domain.Plane;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +39,12 @@ public class FlightService {
 
     public Flight createFlight(FlightRequestDTO flightDTO) {
         try {
-            Plane plane = planeService.getPlaneById(flightDTO.planeId);
+            Plane plane;
+            try {
+                plane = planeService.getPlaneById(flightDTO.planeId);
+            } catch (PlaneNotFoundException planeNotFoundException) {
+                throw planeNotFoundException;
+            }
             FlightRoute flightRoute = flightRouteService.findFlightRouteByID(flightDTO.flightRouteId);
             Flight flight = new Flight(flightDTO.departureTime, flightRoute, plane);
 

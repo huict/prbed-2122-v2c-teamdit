@@ -3,6 +3,7 @@ package nl.hu.prbed.airline.flightroute.application;
 import nl.hu.prbed.airline.airport.application.AirportService;
 import nl.hu.prbed.airline.airport.domain.Airport;
 import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteAlreadyExistsException;
+import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteInUseException;
 import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteNotFoundException;
 import nl.hu.prbed.airline.flightroute.data.FlightRouteRepository;
 import nl.hu.prbed.airline.flightroute.domain.FlightRoute;
@@ -34,12 +35,12 @@ public class FlightRouteService {
         return flightRouteDTOS;
     }
 
-    public List<FlightRoute> getFlightRouteByArrivalLocation(String codeICAO){
+    public List<FlightRoute> getFlightRouteByArrivalLocation(String codeICAO) {
         Airport airport = airportService.findAirportByCodeICAO(codeICAO);
         return flightRouteRepository.findAllByArrivalLocation(airport);
     }
 
-    public List<FlightRoute> getFlightRouteByDepartureLocation(String codeICAO){
+    public List<FlightRoute> getFlightRouteByDepartureLocation(String codeICAO) {
         Airport airport = airportService.findAirportByCodeICAO(codeICAO);
         return flightRouteRepository.findAllByDepartureLocation(airport);
     }
@@ -97,6 +98,10 @@ public class FlightRouteService {
     public void deleteFlightRoute(Long id) {
         this.flightRouteRepository.findById(id)
                 .orElseThrow(FlightRouteNotFoundException::new);
-        this.flightRouteRepository.deleteById(id);
+        try {
+            this.flightRouteRepository.deleteById(id);
+        } catch (Exception e) {
+            throw new FlightRouteInUseException(id);
+        }
     }
 }

@@ -7,6 +7,7 @@ import nl.hu.prbed.airline.flightroute.presentation.dto.FlightRouteDTO;
 import nl.hu.prbed.airline.flightroute.presentation.dto.FlightRouteRequestDTO;
 import nl.hu.prbed.airline.flightroute.presentation.dto.FlightRouteResponseDTO;
 import nl.hu.prbed.airline.flightroute.presentation.exception.FlightRouteAlreadyExistsHTTPException;
+import nl.hu.prbed.airline.flightroute.presentation.exception.FlightRouteInUseHTTPException;
 import nl.hu.prbed.airline.flightroute.presentation.exception.FlightRouteNotFoundHTTPException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -33,8 +34,7 @@ public class FlightRouteController {
     public FlightRouteResponseDTO getFlightrouteById(@PathVariable Long id) {
         try {
             return this.flightRouteService.getFlightRouteByID(id);
-        }
-        catch (FlightRouteNotFoundException e){
+        } catch (FlightRouteNotFoundException e) {
             throw new FlightRouteNotFoundHTTPException();
         }
     }
@@ -43,7 +43,7 @@ public class FlightRouteController {
     public FlightRouteResponseDTO addFlightroute(@Validated @RequestBody FlightRouteRequestDTO flightRouteRequestDTO) {
         try {
             return this.flightRouteService.createFlightRoute(flightRouteRequestDTO);
-        } catch (FlightRouteAlreadyExistsException e){
+        } catch (FlightRouteAlreadyExistsException e) {
             throw new FlightRouteAlreadyExistsHTTPException();
         }
     }
@@ -52,19 +52,20 @@ public class FlightRouteController {
     public FlightRouteResponseDTO updateFlightroute(@Validated @RequestBody FlightRouteRequestDTO flightRouteRequestDTO) {
         try {
             return this.flightRouteService.updateFlightRoute(flightRouteRequestDTO);
-        }
-        catch (FlightRouteNotFoundException e){
+        } catch (FlightRouteNotFoundException e) {
             throw new FlightRouteNotFoundHTTPException();
         }
     }
 
     @DeleteMapping("/{id}")
     public void deleteFlightRouteById(@PathVariable Long id) {
-        try{
+        try {
             this.flightRouteService.deleteFlightRoute(id);
-        }
-        catch (FlightRouteNotFoundException e){
-            throw new FlightRouteNotFoundHTTPException();
+        } catch (Exception e) {
+            if (e instanceof FlightRouteNotFoundException) {
+                throw new FlightRouteNotFoundHTTPException();
+            }
+            throw new FlightRouteInUseHTTPException(id);
         }
     }
 }

@@ -8,6 +8,7 @@ import nl.hu.prbed.airline.flight.presentation.dto.FlightRequestDTO;
 import nl.hu.prbed.airline.flight.presentation.dto.FlightResponseDTO;
 import nl.hu.prbed.airline.flight.presentation.exception.FlightAlreadyExistsHTTPException;
 import nl.hu.prbed.airline.flight.presentation.exception.FlightNotFoundHTTPException;
+import nl.hu.prbed.airline.plane.presentation.exception.PlaneNotFoundHTTPException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -59,7 +60,7 @@ public class FlightController {
                                                         @RequestParam(name = "route") Long routeId) {
         try {
             String role = authentication.getAuthorities().toString();
-            Flight flight = flightService.findFlightRouteAndDeparture(role,departure, routeId);
+            Flight flight = flightService.findFlightRouteAndDeparture(role, departure, routeId);
             return new FlightResponseDTO(flight);
         } catch (FlightNotFoundException e) {
             throw new FlightNotFoundHTTPException();
@@ -72,8 +73,11 @@ public class FlightController {
         try {
             Flight flight = flightService.createFlight(flightRequestDTO);
             return new FlightResponseDTO(flight);
-        } catch (FlightAlreadyExistsException e) {
-            throw new FlightAlreadyExistsHTTPException();
+        } catch (Exception e) {
+            if (e instanceof FlightAlreadyExistsException) {
+                throw new FlightAlreadyExistsHTTPException();
+            }
+            throw new PlaneNotFoundHTTPException(flightRequestDTO.planeId);
         }
     }
 
