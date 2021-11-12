@@ -39,4 +39,13 @@ public class FlightRoute {
         this.priceFirstClass = priceFirstClass;
     }
 
+    @Override
+    public String toString() {
+        return "\narrival-location: " + arrivalLocation +
+                "\n\ndeparture-location: " + departureLocation +
+                "\nduration-minutes: " + durationMinutes +
+                "\npriceEconomy: " + priceEconomy +
+                "\npriceBusiness: " + priceBusiness +
+                "\npriceFirstClass: " + priceFirstClass;
+    }
 }

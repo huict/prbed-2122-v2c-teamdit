@@ -34,4 +34,14 @@ public class Passenger {
         this.emailAddress = emailAddress;
         this.nationality = nationality;
     }
+
+    @Override
+    public String toString() {
+        return "\nfirstName: " + firstName  +
+                "\nlastName: " + lastName +
+                "\ndateOfBirth: " + dateOfBirth +
+                "\nphoneNumber: " + phoneNumber +
+                "\nemailAddress: " + emailAddress +
+                "\nnationality: " + nationality;
+    }
 }

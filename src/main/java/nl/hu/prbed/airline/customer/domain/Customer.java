@@ -39,4 +39,15 @@ public class Customer {
     public void addBooking(Booking booking) {
         this.bookings.add(booking);
     }
+
+
+    @Override
+    public String toString() {
+        return "\nfirstName: " + firstName +
+                "\nlastName: " + lastName +
+                "\ndateOfBirth: " + dateOfBirth +
+                "\nphoneNumber: " + phoneNumber +
+                "\nemailAddress: " + emailAddress +
+                "\nnationality: " + nationality;
+    }
 }

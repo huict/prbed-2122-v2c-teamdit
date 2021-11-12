@@ -45,8 +45,8 @@ public class Booking {
 
     public Booking(Long id, Customer customer, BookingClass bookingClass, List<Flight> flights, List<Passenger> passengers) {
         this(customer, bookingClass, flights, passengers);
-            this.id = id;
-        }
+        this.id = id;
+    }
 
     public int getAmountOfPassengers() {
         return passengers.size() + 1;
@@ -56,4 +56,22 @@ public class Booking {
         return flights;
     }
 
+    @Override
+    public String toString() {
+        String passengerList = "";
+        String flightList = "";
+
+        for (Passenger passenger : passengers) {
+            passengerList += "\n"+passenger.toString();
+        }
+
+        for (Flight flight : flights) {
+            flightList += "\n"+flight.toString();
+        }
+
+        return  "\n\ncustomer: " + customer.toString() +
+                "\nbookingClass: " + bookingClass.toString().toLowerCase() +
+                "\nflights: " + flightList+
+                "\npassengers: " + passengerList.toString();
+    }
 }

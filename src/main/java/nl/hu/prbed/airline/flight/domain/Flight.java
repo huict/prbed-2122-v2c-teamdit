@@ -65,4 +65,11 @@ public class Flight {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "\ndeparture-time: " + departureTime +
+                "\nroute: \n" + route +
+                "\nplane: \n" + plane;
+    }
 }

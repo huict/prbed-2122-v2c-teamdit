@@ -30,4 +30,12 @@ public class Airport {
         this.longitude = longitude;
         this.latitude = latitude;
     }
+
+    @Override
+    public String toString() {
+        return "\ncodeICAO: " + codeICAO +
+                "\nairportName: " + airportName +
+                "\ncity: " + city +
+                "\ncountry: " + country;
+    }
 }
