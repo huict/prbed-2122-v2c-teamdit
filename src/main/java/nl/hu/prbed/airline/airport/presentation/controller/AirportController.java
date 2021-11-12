@@ -68,6 +68,7 @@ public class AirportController {
         try {
             this.airportService.deleteAirport(code);
         } catch (Exception e) {
+            // TODO: Cleanup
             if (e instanceof AirportNotFoundException) {
                 throw new AirportNotFoundHTTPException(code);
             }
