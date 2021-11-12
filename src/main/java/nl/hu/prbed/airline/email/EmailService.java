@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmailService {
-
     @Autowired
     private JavaMailSender emailSender;
 
@@ -18,7 +17,7 @@ public class EmailService {
         String standardMessage = "Dear "+ booking.getCustomer().getFirstName() +
                 " " + booking.getCustomer().getLastName() +
                 " this is a confirm message for the following made booking.\n"
-                + "\nBooking information:"+booking.toString();
+                + "\nBooking information: "+ booking.toString();
 
         message.setFrom("teamditcj@gmail.com");
         message.setTo(to);

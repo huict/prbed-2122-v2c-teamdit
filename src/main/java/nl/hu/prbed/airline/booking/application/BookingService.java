@@ -49,12 +49,9 @@ public class BookingService {
                 throw new NoSeatsLeftForClassException();
             }
         }
-
         Booking booking = new Booking(customer, bookingRequestDTO.bookingClass, flights, bookingRequestDTO.passengers);
         this.emailService.sendEmail(customer.getEmailAddress(), booking);
-
         this.bookingRepository.save(booking);
-
 
         return booking;
     }

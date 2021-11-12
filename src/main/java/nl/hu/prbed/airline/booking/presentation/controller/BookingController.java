@@ -44,6 +44,7 @@ public class BookingController {
 
     // Add booking
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_USER')")
     public BookingResponseDTO addBooking(@Validated @RequestBody BookingRequestDTO bookingRequestDTO) {
         try {
             Booking booking = this.bookingService.createBooking(bookingRequestDTO);
