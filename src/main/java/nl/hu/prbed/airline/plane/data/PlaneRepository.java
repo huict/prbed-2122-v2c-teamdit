@@ -8,9 +8,4 @@ import java.util.Optional;
 
 public interface PlaneRepository extends JpaRepository<Plane, Long> {
     Optional<Plane> findById(Long id);
-
-    boolean existsByTypeAndSeatsBusinessAndSeatsEconomyAndSeatsFirstClass(String type,
-                                                                          int seatsBusiness,
-                                                                          int seatsEconomy,
-                                                                          int seatsFirstClass);
 }
