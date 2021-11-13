@@ -1,9 +1,9 @@
 package nl.hu.prbed.airline.flightroute.presentation.controller;
 
 import nl.hu.prbed.airline.flightroute.application.FlightRouteService;
+import nl.hu.prbed.airline.flightroute.application.FlightRouteServiceImpl;
 import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteAlreadyExistsException;
 import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteNotFoundException;
-import nl.hu.prbed.airline.flightroute.presentation.dto.FlightRouteDTO;
 import nl.hu.prbed.airline.flightroute.presentation.dto.FlightRouteRequestDTO;
 import nl.hu.prbed.airline.flightroute.presentation.dto.FlightRouteResponseDTO;
 import nl.hu.prbed.airline.flightroute.presentation.exception.FlightRouteAlreadyExistsHTTPException;
@@ -21,7 +21,7 @@ import java.util.List;
 public class FlightRouteController {
     private final FlightRouteService flightRouteService;
 
-    public FlightRouteController(FlightRouteService flightRouteService) {
+    public FlightRouteController(FlightRouteServiceImpl flightRouteService) {
         this.flightRouteService = flightRouteService;
     }
 

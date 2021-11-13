@@ -1,6 +1,7 @@
 package nl.hu.prbed.airline.plane.presentation.controller;
 
 import nl.hu.prbed.airline.plane.application.PlaneService;
+import nl.hu.prbed.airline.plane.application.PlaneServiceImpl;
 import nl.hu.prbed.airline.plane.application.exception.InvalidDTOException;
 import nl.hu.prbed.airline.plane.application.exception.PlaneNotFoundException;
 import nl.hu.prbed.airline.plane.application.exception.ReliantFlightsException;
@@ -21,7 +22,7 @@ import java.util.List;
 public class PlaneController {
     private final PlaneService planeService;
 
-    public PlaneController(PlaneService planeService) {
+    public PlaneController(PlaneServiceImpl planeService) {
         this.planeService = planeService;
     }
 

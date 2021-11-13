@@ -1,6 +1,6 @@
 package nl.hu.prbed.airline.security.application;
 
-import nl.hu.prbed.airline.customer.application.CustomerService;
+import nl.hu.prbed.airline.customer.application.CustomerServiceImpl;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerDTO;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerRequestDTO;
 import nl.hu.prbed.airline.employee.presentation.dto.EmployeeRequestDTO;
@@ -23,9 +23,9 @@ public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-    private final CustomerService customerService;
+    private final CustomerServiceImpl customerService;
 
-    public UserService(UserRepository repository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, CustomerService customerService) {
+    public UserService(UserRepository repository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, CustomerServiceImpl customerService) {
         this.userRepository = repository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;

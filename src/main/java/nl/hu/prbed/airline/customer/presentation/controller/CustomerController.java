@@ -1,6 +1,7 @@
 package nl.hu.prbed.airline.customer.presentation.controller;
 
 import nl.hu.prbed.airline.customer.application.CustomerService;
+import nl.hu.prbed.airline.customer.application.CustomerServiceImpl;
 import nl.hu.prbed.airline.customer.application.exception.CustomerNotFoundException;
 import nl.hu.prbed.airline.customer.domain.Customer;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerRequestDTO;
@@ -18,7 +19,7 @@ import java.util.List;
 public class CustomerController {
     private final CustomerService customerService;
 
-    public CustomerController(CustomerService customerService) {
+    public CustomerController(CustomerServiceImpl customerService) {
         this.customerService = customerService;
     }
 

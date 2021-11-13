@@ -1,6 +1,7 @@
 package nl.hu.prbed.airline.booking.presentation.controller;
 
 import nl.hu.prbed.airline.booking.application.BookingService;
+import nl.hu.prbed.airline.booking.application.BookingServiceImpl;
 import nl.hu.prbed.airline.booking.application.exception.BookingNotFoundException;
 import nl.hu.prbed.airline.booking.application.exception.NoSeatsLeftForClassException;
 import nl.hu.prbed.airline.booking.domain.Booking;
@@ -20,7 +21,7 @@ import java.util.List;
 public class BookingController {
     private final BookingService bookingService;
 
-    public BookingController(BookingService bookingService){
+    public BookingController(BookingServiceImpl bookingService){
         this.bookingService = bookingService;
     }
 

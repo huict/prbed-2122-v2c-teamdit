@@ -1,6 +1,8 @@
 package nl.hu.prbed.airline.flight.presentation.controller;
 
+import nl.hu.prbed.airline.fleet.application.FleetService;
 import nl.hu.prbed.airline.flight.application.FlightService;
+import nl.hu.prbed.airline.flight.application.FlightServiceImpl;
 import nl.hu.prbed.airline.flight.application.exception.FlightAlreadyExistsException;
 import nl.hu.prbed.airline.flight.application.exception.FlightNotFoundException;
 import nl.hu.prbed.airline.flight.domain.Flight;
@@ -23,7 +25,7 @@ import java.util.List;
 public class FlightController {
     private final FlightService flightService;
 
-    public FlightController(FlightService flightService) {
+    public FlightController(FlightServiceImpl flightService) {
         this.flightService = flightService;
     }
 

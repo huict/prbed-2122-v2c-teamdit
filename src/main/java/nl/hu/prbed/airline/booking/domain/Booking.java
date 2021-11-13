@@ -16,7 +16,7 @@ import java.util.List;
 @Component
 @Getter
 @NoArgsConstructor
-public class Booking {
+public class Booking{
     @Id
     @GeneratedValue
     @Column(nullable = false)
