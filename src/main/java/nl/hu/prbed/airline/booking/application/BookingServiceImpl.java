@@ -1,22 +1,21 @@
 package nl.hu.prbed.airline.booking.application;
 
+import nl.hu.prbed.airline.booking.application.exception.BookingNotFoundException;
 import nl.hu.prbed.airline.booking.application.exception.NoSeatsLeftForClassException;
+import nl.hu.prbed.airline.booking.data.BookingRepository;
+import nl.hu.prbed.airline.booking.domain.Booking;
 import nl.hu.prbed.airline.booking.domain.BookingClass;
 import nl.hu.prbed.airline.booking.presentation.dto.BookingRequestDTO;
 import nl.hu.prbed.airline.booking.presentation.dto.BookingResponseDTO;
 import nl.hu.prbed.airline.customer.application.CustomerService;
 import nl.hu.prbed.airline.customer.application.CustomerServiceImpl;
 import nl.hu.prbed.airline.customer.application.exception.CustomerNotFoundException;
+import nl.hu.prbed.airline.customer.domain.Customer;
 import nl.hu.prbed.airline.email.EmailService;
 import nl.hu.prbed.airline.flight.application.FlightService;
-import nl.hu.prbed.airline.flight.application.FlightServiceImpl;
-import nl.hu.prbed.airline.booking.application.exception.BookingNotFoundException;
-import nl.hu.prbed.airline.booking.data.BookingRepository;
-import nl.hu.prbed.airline.booking.domain.Booking;
-import nl.hu.prbed.airline.flight.application.exception.FlightNotFoundException;
 import nl.hu.prbed.airline.flight.domain.Flight;
-import nl.hu.prbed.airline.customer.domain.Customer;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -43,7 +42,7 @@ public class BookingServiceImpl implements BookingService {
         try {
             customer = customerService.findCustomerById(bookingRequestDTO.customerId);
         }
-        catch (Exception e){
+        catch (DataIntegrityViolationException e){
             throw new CustomerNotFoundException(bookingRequestDTO.customerId);
         }
 
@@ -72,7 +71,7 @@ public class BookingServiceImpl implements BookingService {
         try {
             customer = customerService.findCustomerById(bookingRequestDTO.customerId);
         }
-        catch (Exception e){
+        catch (DataIntegrityViolationException e){
             throw new CustomerNotFoundException(bookingRequestDTO.customerId);
         }
         

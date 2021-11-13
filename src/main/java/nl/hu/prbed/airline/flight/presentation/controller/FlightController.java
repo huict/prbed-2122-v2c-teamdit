@@ -10,6 +10,7 @@ import nl.hu.prbed.airline.flight.presentation.dto.FlightRequestDTO;
 import nl.hu.prbed.airline.flight.presentation.dto.FlightResponseDTO;
 import nl.hu.prbed.airline.flight.presentation.exception.FlightAlreadyExistsHTTPException;
 import nl.hu.prbed.airline.flight.presentation.exception.FlightNotFoundHTTPException;
+import nl.hu.prbed.airline.plane.application.exception.PlaneNotFoundException;
 import nl.hu.prbed.airline.plane.presentation.exception.PlaneNotFoundHTTPException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -75,10 +76,9 @@ public class FlightController {
         try {
             Flight flight = flightService.createFlight(flightRequestDTO);
             return new FlightResponseDTO(flight);
-        } catch (Exception e) {
-            if (e instanceof FlightAlreadyExistsException) {
-                throw new FlightAlreadyExistsHTTPException();
-            }
+        } catch (FlightAlreadyExistsException flightAlreadyExistsException) {
+            throw new FlightAlreadyExistsHTTPException();
+        } catch (PlaneNotFoundException planeNotFoundException) {
             throw new PlaneNotFoundHTTPException(flightRequestDTO.planeId);
         }
     }

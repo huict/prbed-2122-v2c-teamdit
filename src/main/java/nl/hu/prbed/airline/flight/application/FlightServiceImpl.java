@@ -14,6 +14,7 @@ import nl.hu.prbed.airline.flightroute.application.FlightRouteService;
 import nl.hu.prbed.airline.flightroute.domain.FlightRoute;
 import nl.hu.prbed.airline.plane.application.PlaneService;
 import nl.hu.prbed.airline.plane.domain.Plane;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -131,15 +132,15 @@ public class FlightServiceImpl implements FlightService {
     @Override
     public List<Flight> getFlightsById(List<Long> ids) {
         List<Flight> flights = new ArrayList<>();
-
+        Flight flight;
         for(Long flightId : ids){
             try{
-                Flight flight = findFlightById(flightId);
-                flights.add(flight);
+                flight = findFlightById(flightId);
             }
-            catch (Exception e) {
+            catch (DataIntegrityViolationException e) {
                 throw new FlightNotFoundException();
             }
+            flights.add(flight);
         }
 
         return flights;

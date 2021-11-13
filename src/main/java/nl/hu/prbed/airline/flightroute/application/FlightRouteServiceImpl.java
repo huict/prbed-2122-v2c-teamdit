@@ -11,6 +11,7 @@ import nl.hu.prbed.airline.flightroute.domain.FlightRoute;
 import nl.hu.prbed.airline.flightroute.presentation.dto.FlightRouteDTO;
 import nl.hu.prbed.airline.flightroute.presentation.dto.FlightRouteRequestDTO;
 import nl.hu.prbed.airline.flightroute.presentation.dto.FlightRouteResponseDTO;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -101,7 +102,7 @@ public class FlightRouteServiceImpl implements FlightRouteService{
                 .orElseThrow(FlightRouteNotFoundException::new);
         try {
             this.flightRouteRepository.deleteById(id);
-        } catch (Exception e) {
+        } catch (DataIntegrityViolationException e) {
             throw new FlightRouteInUseException(id);
         }
     }
