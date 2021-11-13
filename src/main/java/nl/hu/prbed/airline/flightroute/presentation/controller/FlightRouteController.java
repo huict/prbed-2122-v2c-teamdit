@@ -1,5 +1,7 @@
 package nl.hu.prbed.airline.flightroute.presentation.controller;
 
+import nl.hu.prbed.airline.airport.application.exception.AirportNotFoundException;
+import nl.hu.prbed.airline.airport.presentation.exception.AirportNotFoundHTTPException;
 import nl.hu.prbed.airline.flightroute.application.FlightRouteService;
 import nl.hu.prbed.airline.flightroute.application.FlightRouteServiceImpl;
 import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteAlreadyExistsException;
@@ -45,6 +47,8 @@ public class FlightRouteController {
             return this.flightRouteService.createFlightRoute(flightRouteRequestDTO);
         } catch (FlightRouteAlreadyExistsException e) {
             throw new FlightRouteAlreadyExistsHTTPException();
+        } catch (AirportNotFoundException e) {
+            throw new AirportNotFoundHTTPException(e.code);
         }
     }
 
@@ -54,6 +58,8 @@ public class FlightRouteController {
             return this.flightRouteService.updateFlightRoute(flightRouteRequestDTO);
         } catch (FlightRouteNotFoundException e) {
             throw new FlightRouteNotFoundHTTPException();
+        } catch (AirportNotFoundException e) {
+            throw new AirportNotFoundHTTPException(e.code);
         }
     }
 

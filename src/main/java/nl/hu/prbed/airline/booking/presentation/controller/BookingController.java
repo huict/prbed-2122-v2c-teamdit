@@ -9,6 +9,10 @@ import nl.hu.prbed.airline.booking.presentation.dto.BookingRequestDTO;
 import nl.hu.prbed.airline.booking.presentation.dto.BookingResponseDTO;
 import nl.hu.prbed.airline.booking.presentation.exception.BookingNotFoundHTTPException;
 import nl.hu.prbed.airline.booking.presentation.exception.NoSeatsLeftForClassHTTPException;
+import nl.hu.prbed.airline.customer.application.exception.CustomerNotFoundException;
+import nl.hu.prbed.airline.customer.presentation.exception.CustomerNotFoundHTTPException;
+import nl.hu.prbed.airline.flight.application.exception.FlightNotFoundException;
+import nl.hu.prbed.airline.flight.presentation.exception.FlightNotFoundHTTPException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -50,8 +54,15 @@ public class BookingController {
         try {
             Booking booking = this.bookingService.createBooking(bookingRequestDTO);
             return new BookingResponseDTO(booking);
-        } catch (NoSeatsLeftForClassException e){
+        }
+        catch (NoSeatsLeftForClassException e){
             throw new NoSeatsLeftForClassHTTPException();
+        }
+        catch (CustomerNotFoundException e){
+            throw new CustomerNotFoundHTTPException(bookingRequestDTO.customerId);
+        }
+        catch (FlightNotFoundException e){
+            throw new FlightNotFoundHTTPException();
         }
     }
 
@@ -63,6 +74,15 @@ public class BookingController {
             return new BookingResponseDTO(booking);
         } catch (BookingNotFoundException e){
             throw new BookingNotFoundHTTPException(bookingRequestDTO.id);
+        }
+        catch (NoSeatsLeftForClassException e){
+            throw new NoSeatsLeftForClassHTTPException();
+        }
+        catch (CustomerNotFoundException e){
+            throw new CustomerNotFoundHTTPException(bookingRequestDTO.customerId);
+        }
+        catch (FlightNotFoundException e){
+            throw new FlightNotFoundHTTPException();
         }
     }
 

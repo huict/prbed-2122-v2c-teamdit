@@ -6,12 +6,14 @@ import nl.hu.prbed.airline.booking.presentation.dto.BookingRequestDTO;
 import nl.hu.prbed.airline.booking.presentation.dto.BookingResponseDTO;
 import nl.hu.prbed.airline.customer.application.CustomerService;
 import nl.hu.prbed.airline.customer.application.CustomerServiceImpl;
+import nl.hu.prbed.airline.customer.application.exception.CustomerNotFoundException;
 import nl.hu.prbed.airline.email.EmailService;
 import nl.hu.prbed.airline.flight.application.FlightService;
 import nl.hu.prbed.airline.flight.application.FlightServiceImpl;
 import nl.hu.prbed.airline.booking.application.exception.BookingNotFoundException;
 import nl.hu.prbed.airline.booking.data.BookingRepository;
 import nl.hu.prbed.airline.booking.domain.Booking;
+import nl.hu.prbed.airline.flight.application.exception.FlightNotFoundException;
 import nl.hu.prbed.airline.flight.domain.Flight;
 import nl.hu.prbed.airline.customer.domain.Customer;
 import org.springframework.context.annotation.Lazy;
@@ -38,10 +40,23 @@ public class BookingServiceImpl implements  BookingService{
 
     public Booking createBooking(BookingRequestDTO bookingRequestDTO){
         List<Flight> flights = new ArrayList<>();
-        Customer customer = customerService.findCustomerById(bookingRequestDTO.customerId);
+        Customer customer;
+        try {
+            customer = customerService.findCustomerById(bookingRequestDTO.customerId);
+        }
+        catch (Exception e){
+            throw new CustomerNotFoundException(bookingRequestDTO.customerId);
+        }
+
         for(Long flightId : bookingRequestDTO.flightsIds){
-            Flight flight = flightService.findFlightById(flightId);
-            flights.add(flight);
+            try{
+                Flight flight = flightService.findFlightById(flightId);
+                flights.add(flight);
+            }
+            catch (Exception e) {
+                throw new FlightNotFoundException();
+            }
+
         }
 
         for (Flight flight: flights) {
@@ -60,11 +75,22 @@ public class BookingServiceImpl implements  BookingService{
 
     public Booking updateBooking(BookingRequestDTO bookingRequestDTO) {
         List<Flight> flights = new ArrayList<>();
-        Customer customer = customerService.findCustomerById(bookingRequestDTO.customerId);
+        Customer customer;
+        try {
+            customer = customerService.findCustomerById(bookingRequestDTO.customerId);
+        }
+        catch (Exception e){
+            throw new CustomerNotFoundException(bookingRequestDTO.customerId);
+        }
 
         for(Long id : bookingRequestDTO.flightsIds){
-            Flight flight = flightService.findFlightById(id);
-            flights.add(flight);
+            try{
+                Flight flight = flightService.findFlightById(id);
+                flights.add(flight);
+            }
+            catch (Exception e) {
+                throw new FlightNotFoundException();
+            }
         }
 
         Booking updatedBooking = new Booking( bookingRequestDTO.id ,customer, bookingRequestDTO.bookingClass, flights, bookingRequestDTO.passengers);
