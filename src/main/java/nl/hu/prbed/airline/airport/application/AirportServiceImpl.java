@@ -8,6 +8,7 @@ import nl.hu.prbed.airline.airport.data.AirportRepository;
 import nl.hu.prbed.airline.airport.domain.Airport;
 import nl.hu.prbed.airline.airport.presentation.dto.AirportRequestDTO;
 import nl.hu.prbed.airline.airport.presentation.dto.AirportResponseDTO;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -26,9 +27,11 @@ public class AirportServiceImpl implements AirportService {
     public List<AirportResponseDTO> getAllAirports() {
         List<Airport> airports = this.airportRepository.findAll();
         List<AirportResponseDTO> airportDTOS = new ArrayList<>();
+
         for (Airport airport : airports) {
             airportDTOS.add(new AirportResponseDTO(airport));
         }
+
         return airportDTOS;
     }
 
@@ -68,7 +71,7 @@ public class AirportServiceImpl implements AirportService {
 
         try {
             this.airportRepository.deleteByCodeICAO(code);
-        } catch(Exception e) {
+        } catch (DataIntegrityViolationException e) {
             throw new AirportInUseException(code);
         }
     }

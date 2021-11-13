@@ -10,9 +10,14 @@ import java.util.List;
 
 public interface BookingService {
     Booking createBooking(BookingRequestDTO bookingRequestDTO);
+
     Booking updateBooking(BookingRequestDTO bookingRequestDTO);
+
     void deleteBooking(Long id);
+
     List<BookingResponseDTO> getAllBookings();
+
     Booking findBookingById(long id);
+
     int getSeatsLeftForClass(Flight flight, BookingClass bookingClass);
 }

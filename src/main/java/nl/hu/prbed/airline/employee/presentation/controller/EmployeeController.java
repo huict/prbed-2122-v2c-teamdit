@@ -37,8 +37,7 @@ public class EmployeeController {
     public EmployeeResponseDTO getEmployeeById(@PathVariable Long id) {
         try {
             return new EmployeeResponseDTO(this.employeeService.findEmployeeById(id));
-        }
-        catch (EmployeeNotFoundException e){
+        } catch (EmployeeNotFoundException e) {
             throw new EmployeeNotFoundHTTPException(id);
         }
     }
@@ -49,7 +48,7 @@ public class EmployeeController {
         try {
             Employee employee = this.employeeService.createEmployee(employeeRequestDTO);
             return new EmployeeResponseDTO(employee);
-        } catch (EmployeeAlreadyExistsException e){
+        } catch (EmployeeAlreadyExistsException e) {
             throw new EmployeeAlreadyExistsHTTPException(employeeRequestDTO.id);
         }
     }
@@ -60,19 +59,17 @@ public class EmployeeController {
         try {
             Employee employee = this.employeeService.updateEmployee(employeeRequestDTO);
             return new EmployeeResponseDTO(employee);
-        }
-        catch (EmployeeNotFoundException e){
+        } catch (EmployeeNotFoundException e) {
             throw new EmployeeNotFoundHTTPException(employeeRequestDTO.id);
         }
     }
 
     // Delete Employee
     @DeleteMapping("/{id}")
-    public void deleteAirport(@PathVariable Long id) {
+    public void deleteEmployee(@PathVariable Long id) {
         try {
             this.employeeService.deleteEmployee(id);
-        }
-        catch (EmployeeNotFoundException e){
+        } catch (EmployeeNotFoundException e) {
             throw new EmployeeNotFoundHTTPException(id);
         }
     }

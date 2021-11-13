@@ -25,21 +25,20 @@ import java.util.List;
 
 @Transactional
 @Service
-public class BookingServiceImpl implements  BookingService{
+public class BookingServiceImpl implements BookingService {
     private final BookingRepository bookingRepository;
     private final CustomerService customerService;
     private final FlightService flightService;
     private final EmailService emailService;
 
-    public BookingServiceImpl(BookingRepository bookingRepository, CustomerServiceImpl customerService, @Lazy FlightServiceImpl flightService, EmailService emailService) {
+    public BookingServiceImpl(BookingRepository bookingRepository, CustomerServiceImpl customerService, @Lazy FlightService flightService, EmailService emailService) {
         this.bookingRepository = bookingRepository;
         this.customerService = customerService;
         this.flightService = flightService;
         this.emailService = emailService;
     }
 
-    public Booking createBooking(BookingRequestDTO bookingRequestDTO){
-        List<Flight> flights = new ArrayList<>();
+    public Booking createBooking(BookingRequestDTO bookingRequestDTO) {
         Customer customer;
         try {
             customer = customerService.findCustomerById(bookingRequestDTO.customerId);
@@ -48,25 +47,19 @@ public class BookingServiceImpl implements  BookingService{
             throw new CustomerNotFoundException(bookingRequestDTO.customerId);
         }
 
-        for(Long flightId : bookingRequestDTO.flightsIds){
-            try{
-                Flight flight = flightService.findFlightById(flightId);
-                flights.add(flight);
-            }
-            catch (Exception e) {
-                throw new FlightNotFoundException();
-            }
 
-        }
+        List<Flight> flights = flightService.getFlightsById(bookingRequestDTO.flightsIds);
 
-        for (Flight flight: flights) {
+        for (Flight flight : flights) {
             int seatsLeft = getSeatsLeftForClass(flight, bookingRequestDTO.bookingClass);
 
             if (seatsLeft < bookingRequestDTO.passengers.size() + 1) {
                 throw new NoSeatsLeftForClassException();
             }
         }
+
         Booking booking = new Booking(customer, bookingRequestDTO.bookingClass, flights, bookingRequestDTO.passengers);
+
         this.emailService.sendEmail(customer.getEmailAddress(), booking);
         this.bookingRepository.save(booking);
 
@@ -74,26 +67,18 @@ public class BookingServiceImpl implements  BookingService{
     }
 
     public Booking updateBooking(BookingRequestDTO bookingRequestDTO) {
-        List<Flight> flights = new ArrayList<>();
         Customer customer;
+
         try {
             customer = customerService.findCustomerById(bookingRequestDTO.customerId);
         }
         catch (Exception e){
             throw new CustomerNotFoundException(bookingRequestDTO.customerId);
         }
+        
+        List<Flight> flights = flightService.getFlightsById(bookingRequestDTO.flightsIds);
 
-        for(Long id : bookingRequestDTO.flightsIds){
-            try{
-                Flight flight = flightService.findFlightById(id);
-                flights.add(flight);
-            }
-            catch (Exception e) {
-                throw new FlightNotFoundException();
-            }
-        }
-
-        Booking updatedBooking = new Booking( bookingRequestDTO.id ,customer, bookingRequestDTO.bookingClass, flights, bookingRequestDTO.passengers);
+        Booking updatedBooking = new Booking(bookingRequestDTO.id, customer, bookingRequestDTO.bookingClass, flights, bookingRequestDTO.passengers);
 
         bookingRepository.findByid(updatedBooking.getId()).orElseThrow(() -> new BookingNotFoundException(updatedBooking.getId()));
 
@@ -128,7 +113,7 @@ public class BookingServiceImpl implements  BookingService{
         int seatsLeft = flight.getPlane().getSeatsFor(bookingClass);
 
 
-        for (Booking booking: bookings) {
+        for (Booking booking : bookings) {
             seatsLeft -= booking.getAmountOfPassengers();
         }
 

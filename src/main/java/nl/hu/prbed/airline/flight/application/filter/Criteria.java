@@ -6,5 +6,5 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public interface Criteria {
-    public List<Flight> meetCriteria(List<Flight> flights, Object criteria);
+    List<Flight> meetCriteria(List<Flight> flights, Object criteria);
 }

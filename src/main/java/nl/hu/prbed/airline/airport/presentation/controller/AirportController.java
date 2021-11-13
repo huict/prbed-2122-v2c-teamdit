@@ -3,6 +3,7 @@ package nl.hu.prbed.airline.airport.presentation.controller;
 import nl.hu.prbed.airline.airport.application.AirportService;
 import nl.hu.prbed.airline.airport.application.AirportServiceImpl;
 import nl.hu.prbed.airline.airport.application.exception.AirportAlreadyExistsException;
+import nl.hu.prbed.airline.airport.application.exception.AirportInUseException;
 import nl.hu.prbed.airline.airport.application.exception.AirportNotFoundException;
 import nl.hu.prbed.airline.airport.domain.Airport;
 import nl.hu.prbed.airline.airport.presentation.dto.AirportRequestDTO;
@@ -67,11 +68,9 @@ public class AirportController {
     public void deleteAirport(@PathVariable String code) {
         try {
             this.airportService.deleteAirport(code);
-        } catch (Exception e) {
-            // TODO: Cleanup
-            if (e instanceof AirportNotFoundException) {
-                throw new AirportNotFoundHTTPException(code);
-            }
+        } catch (AirportNotFoundException e) {
+            throw new AirportNotFoundHTTPException(code);
+        } catch (AirportInUseException e) {
             throw new AirportInUseHTTPException(code);
         }
     }

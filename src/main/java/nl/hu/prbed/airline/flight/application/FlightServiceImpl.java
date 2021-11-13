@@ -11,11 +11,8 @@ import nl.hu.prbed.airline.flight.data.FlightRepository;
 import nl.hu.prbed.airline.flight.domain.Flight;
 import nl.hu.prbed.airline.flight.presentation.dto.FlightRequestDTO;
 import nl.hu.prbed.airline.flightroute.application.FlightRouteService;
-import nl.hu.prbed.airline.flightroute.application.FlightRouteServiceImpl;
 import nl.hu.prbed.airline.flightroute.domain.FlightRoute;
 import nl.hu.prbed.airline.plane.application.PlaneService;
-import nl.hu.prbed.airline.plane.application.PlaneServiceImpl;
-import nl.hu.prbed.airline.plane.application.exception.PlaneNotFoundException;
 import nl.hu.prbed.airline.plane.domain.Plane;
 import org.springframework.stereotype.Service;
 
@@ -26,41 +23,35 @@ import java.util.Objects;
 
 @Service
 public class FlightServiceImpl implements FlightService {
-
     private final FlightRepository flightRepository;
     private final PlaneService planeService;
     private final FlightRouteService flightRouteService;
 
     public FlightServiceImpl(FlightRepository flightRepository,
-                             PlaneServiceImpl planeService,
-                             FlightRouteServiceImpl flightRouteService) {
+                             PlaneService planeService,
+                             FlightRouteService flightRouteService) {
         this.flightRepository = flightRepository;
         this.planeService = planeService;
         this.flightRouteService = flightRouteService;
     }
 
     public Flight createFlight(FlightRequestDTO flightDTO) {
+        Flight flight;
         try {
-            Plane plane;
-            try {
-                plane = planeService.getPlaneById(flightDTO.planeId);
-            } catch (PlaneNotFoundException planeNotFoundException) {
-                throw planeNotFoundException;
-            }
+            Plane plane = planeService.getPlaneById(flightDTO.planeId);
             FlightRoute flightRoute = flightRouteService.findFlightRouteByID(flightDTO.flightRouteId);
-            Flight flight = new Flight(flightDTO.departureTime, flightRoute, plane);
-
-            List<Flight> allFlights = this.findAllFlights();
-
-            if (Flight.exists(allFlights, flight)) {
-                throw new FlightAlreadyExistsException();
-            }
-
-            return flightRepository.save(flight);
-
+            flight = new Flight(flightDTO.departureTime, flightRoute, plane);
         } catch (NullPointerException nullPointerException) {
-            throw new InvalidDTOException("Missing some input variables to send!");
+            throw new InvalidDTOException("Missing required information from DTO");
         }
+
+        List<Flight> allFlights = this.findAllFlights();
+
+        if (Flight.exists(allFlights, flight)) {
+            throw new FlightAlreadyExistsException();
+        }
+
+        return flightRepository.save(flight);
     }
 
     public List<Flight> findAllFlights() {
@@ -83,7 +74,7 @@ public class FlightServiceImpl implements FlightService {
 
     public List<Flight> findFlightsByFilter(LocalDateTime departureTime, String departureLocation, String arrivalLocation) {
         List<Flight> allFlights = new ArrayList<>(this.findAllFlights());
-        List<Flight> filterResult = new ArrayList<>();
+        List<Flight> filterResult;
 
         Criteria departureTimeFilter = new CriteriaDepartureTime();
         Criteria departureLocationFilter = new CriteriaDepartureLocation();
@@ -100,56 +91,29 @@ public class FlightServiceImpl implements FlightService {
         }
 
         if (arrivalLocation != null) {
-            filterResult = arrivalLocationFilter.meetCriteria(filterResult, departureLocation);
+                    filterResult = arrivalLocationFilter.meetCriteria(filterResult, departureLocation);
         }
 
         return filterResult;
     }
 
-    public List<Flight> findFlightsByDeparture(LocalDateTime departure) {
-        try {
-            return flightRepository.findAllByDepartureTime(departure);
-        } catch (NullPointerException nullPointerException) {
-            throw new InvalidDTOException("Missing departure variable to send!");
-        }
-    }
-
     public Flight findFlightRouteAndDeparture(String role, LocalDateTime departure, Long flightRouteId) {
         try {
             FlightRoute flightRoute = flightRouteService.findFlightRouteByID(flightRouteId);
+
             if (Objects.equals(role, "[ROLE_USER]")) {
                 LocalDateTime dateTimeNow = LocalDateTime.now();
+
                 return flightRepository.findByRouteAndDepartureTimeAfter(flightRoute, dateTimeNow)
                         .orElseThrow(FlightNotFoundException::new);
             } else {
+
                 return flightRepository.findByRouteAndDepartureTime(flightRoute, departure)
                         .orElseThrow(FlightNotFoundException::new);
             }
         } catch (NullPointerException nullPointerException) {
             throw new InvalidDTOException("Missing input variables to send!");
         }
-    }
-
-    public List<Flight> findFlightByArrivalLocation(String arrivalLocation) {
-        List<Flight> flights = new ArrayList<>();
-        List<FlightRoute> flightRoutes = flightRouteService.getFlightRouteByArrivalLocation(arrivalLocation);
-        for (FlightRoute flightRoute : flightRoutes) {
-            if (flightRepository.findByRoute(flightRoute).isPresent()) {
-                flights.add(flightRepository.findByRoute(flightRoute).get());
-            }
-        }
-        return flights;
-    }
-
-    public List<Flight> findFlightByDepartureLocation(String departureLocation) {
-        List<Flight> flights = new ArrayList<>();
-        List<FlightRoute> flightRoutes = flightRouteService.getFlightRouteByDepartureLocation(departureLocation);
-        for (FlightRoute flightRoute : flightRoutes) {
-            if (flightRepository.findByRoute(flightRoute).isPresent()) {
-                flights.add(flightRepository.findByRoute(flightRoute).get());
-            }
-        }
-        return flights;
     }
 
     public Flight updateFlight(FlightRequestDTO flightDTO) {
@@ -164,10 +128,25 @@ public class FlightServiceImpl implements FlightService {
         }
     }
 
+    @Override
+    public List<Flight> getFlightsById(List<Long> ids) {
+        List<Flight> flights = new ArrayList<>();
+
+        for(Long flightId : ids){
+            try{
+                Flight flight = findFlightById(flightId);
+                flights.add(flight);
+            }
+            catch (Exception e) {
+                throw new FlightNotFoundException();
+            }
+        }
+
+        return flights;
+    }
 
     public void deleteFlightById(Long id) {
         findFlightById(id);
         flightRepository.deleteById(id);
     }
-
 }
