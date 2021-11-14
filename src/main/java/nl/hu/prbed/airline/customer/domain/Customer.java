@@ -6,6 +6,7 @@ import nl.hu.prbed.airline.booking.domain.Booking;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class Customer {
     private Long id;
     private String firstName;
     private String lastName;
-    private LocalDateTime dateOfBirth;
+    private Date dateOfBirth;
     private Long phoneNumber;
     private String emailAddress;
     private String nationality;
@@ -26,7 +27,7 @@ public class Customer {
     @OneToMany
     private List<Booking> bookings;
 
-    public Customer(Long id, String firstName, String lastName, LocalDateTime dateOfBirth, Long phoneNumber, String emailAddress, String nationality) {
+    public Customer(Long id, String firstName, String lastName, Date dateOfBirth, Long phoneNumber, String emailAddress, String nationality) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

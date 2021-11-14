@@ -2,6 +2,7 @@ package nl.hu.prbed.airline.customer.presentation.dto;
 
 import nl.hu.prbed.airline.customer.domain.Customer;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 public class CustomerDTO {
@@ -9,7 +10,7 @@ public class CustomerDTO {
     public String username;
     public String firstName;
     public String lastName;
-    public LocalDateTime dateOfBirth;
+    public Date dateOfBirth;
     public Long phoneNumber;
     public String emailAddress;
     public String nationality;
@@ -27,7 +28,7 @@ public class CustomerDTO {
     public CustomerDTO(Long id,
                        String firstName,
                        String lastName,
-                       LocalDateTime dateOfBirth,
+                       Date dateOfBirth,
                        Long phoneNumber,
                        String emailAddress,
                        String nationality) {

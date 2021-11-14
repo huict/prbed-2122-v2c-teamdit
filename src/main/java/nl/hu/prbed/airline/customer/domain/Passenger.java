@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 @Component
@@ -21,12 +22,12 @@ public class Passenger {
     private Long id;
     private String firstName;
     private String lastName;
-    private LocalDateTime dateOfBirth;
+    private Date dateOfBirth;
     private Long phoneNumber;
     private String emailAddress;
     private String nationality;
 
-    public Passenger(String firstName, String lastName, LocalDateTime dateOfBirth, Long phoneNumber, String emailAddress, String nationality) {
+    public Passenger(String firstName, String lastName, Date dateOfBirth, Long phoneNumber, String emailAddress, String nationality) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;

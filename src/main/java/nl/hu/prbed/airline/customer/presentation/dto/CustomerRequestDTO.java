@@ -2,6 +2,7 @@ package nl.hu.prbed.airline.customer.presentation.dto;
 
 import lombok.NoArgsConstructor;
 
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -11,7 +12,7 @@ public class CustomerRequestDTO {
     public String password;
     public String firstName;
     public String lastName;
-    public LocalDateTime dateOfBirth;
+    public Date dateOfBirth;
     public Long phoneNumber;
     public String emailAddress;
     public String nationality;

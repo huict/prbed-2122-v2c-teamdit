@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.sql.Date;
 import java.time.LocalDateTime;
 
 
@@ -18,9 +19,9 @@ public class Employee {
     private Long id;
     private String firstName;
     private String lastName;
-    private LocalDateTime dateOfBirth;
+    private Date dateOfBirth;
 
-    public Employee(Long id, String firstName, String lastName, LocalDateTime dateOfBirth) {
+    public Employee(Long id, String firstName, String lastName, Date dateOfBirth) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
