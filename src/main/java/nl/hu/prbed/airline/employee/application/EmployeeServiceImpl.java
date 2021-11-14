@@ -6,6 +6,7 @@ import nl.hu.prbed.airline.employee.domain.Employee;
 import nl.hu.prbed.airline.employee.presentation.dto.EmployeeRequestDTO;
 import nl.hu.prbed.airline.employee.presentation.dto.EmployeeResponseDTO;
 import nl.hu.prbed.airline.security.application.UserService;
+import nl.hu.prbed.airline.security.application.exception.UsernameAlreadyExists;
 import nl.hu.prbed.airline.security.domain.User;
 import org.springframework.stereotype.Service;
 
@@ -38,8 +39,8 @@ public class EmployeeServiceImpl implements EmployeeService{
                 .orElseThrow(() -> new EmployeeNotFoundException(id));
     }
 
-    public Employee createEmployee(EmployeeRequestDTO employeeRequestDTO) {
-        User user = userService.createUser(employeeRequestDTO);
+    public Employee createEmployee(EmployeeRequestDTO employeeRequestDTO) throws UsernameAlreadyExists {
+        User user = userService.getUser(employeeRequestDTO);
         Employee employee = new Employee(user.getId(), employeeRequestDTO.firstName, employeeRequestDTO.lastName, employeeRequestDTO.dateOfBirth);
         this.employeeRepository.save(employee);
         return employee;
