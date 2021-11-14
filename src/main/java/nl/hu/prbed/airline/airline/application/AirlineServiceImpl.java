@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class AirlineServiceImpl {
+public class AirlineServiceImpl implements AirlineService{
     private final AirlineRepository airlineRepository;
 
     public AirlineServiceImpl(AirlineRepository airlineRepository){
