@@ -11,7 +11,6 @@ import nl.hu.prbed.airline.flight.data.FlightRepository;
 import nl.hu.prbed.airline.flight.domain.Flight;
 import nl.hu.prbed.airline.flight.presentation.dto.FlightRequestDTO;
 import nl.hu.prbed.airline.flightroute.application.FlightRouteService;
-import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteNotFoundException;
 import nl.hu.prbed.airline.flightroute.domain.FlightRoute;
 import nl.hu.prbed.airline.plane.application.PlaneService;
 import nl.hu.prbed.airline.plane.domain.Plane;

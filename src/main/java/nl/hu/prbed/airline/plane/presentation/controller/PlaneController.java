@@ -4,7 +4,6 @@ import nl.hu.prbed.airline.plane.application.PlaneService;
 import nl.hu.prbed.airline.plane.application.PlaneServiceImpl;
 import nl.hu.prbed.airline.plane.application.exception.InvalidDTOException;
 import nl.hu.prbed.airline.plane.application.exception.PlaneNotFoundException;
-import nl.hu.prbed.airline.plane.application.exception.PlaneInUseException;
 import nl.hu.prbed.airline.plane.domain.Plane;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneRequestDTO;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneResponseDTO;
