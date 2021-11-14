@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.sql.Date;
-import java.time.LocalDateTime;
 
 
 @Entity

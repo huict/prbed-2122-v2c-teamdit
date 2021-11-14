@@ -10,7 +10,6 @@ import nl.hu.prbed.airline.plane.presentation.dto.PlaneRequestDTO;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneResponseDTO;
 import nl.hu.prbed.airline.plane.presentation.exception.InvalidDTOHTTPException;
 import nl.hu.prbed.airline.plane.presentation.exception.PlaneNotFoundHTTPException;
-import nl.hu.prbed.airline.plane.presentation.exception.PlaneInUseHTTPException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;

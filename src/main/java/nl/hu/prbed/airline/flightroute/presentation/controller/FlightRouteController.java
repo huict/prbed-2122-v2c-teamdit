@@ -5,7 +5,6 @@ import nl.hu.prbed.airline.airport.presentation.exception.AirportNotFoundHTTPExc
 import nl.hu.prbed.airline.flightroute.application.FlightRouteService;
 import nl.hu.prbed.airline.flightroute.application.FlightRouteServiceImpl;
 import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteAlreadyExistsException;
-import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteInUseException;
 import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteNotFoundException;
 import nl.hu.prbed.airline.flightroute.presentation.dto.FlightRouteRequestDTO;
 import nl.hu.prbed.airline.flightroute.presentation.dto.FlightRouteResponseDTO;

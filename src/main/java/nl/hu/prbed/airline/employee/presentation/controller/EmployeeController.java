@@ -2,7 +2,6 @@ package nl.hu.prbed.airline.employee.presentation.controller;
 
 import nl.hu.prbed.airline.employee.application.EmployeeService;
 import nl.hu.prbed.airline.employee.application.EmployeeServiceImpl;
-import nl.hu.prbed.airline.employee.application.exception.EmployeeAlreadyExistsException;
 import nl.hu.prbed.airline.employee.application.exception.EmployeeNotFoundException;
 import nl.hu.prbed.airline.employee.domain.Employee;
 import nl.hu.prbed.airline.employee.presentation.dto.EmployeeRequestDTO;

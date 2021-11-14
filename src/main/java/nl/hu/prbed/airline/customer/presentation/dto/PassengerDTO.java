@@ -4,7 +4,6 @@ import lombok.NoArgsConstructor;
 import nl.hu.prbed.airline.customer.domain.Passenger;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
 
 @NoArgsConstructor
 public class PassengerDTO {

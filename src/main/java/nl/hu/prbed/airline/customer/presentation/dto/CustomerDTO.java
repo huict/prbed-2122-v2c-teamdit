@@ -3,7 +3,6 @@ package nl.hu.prbed.airline.customer.presentation.dto;
 import nl.hu.prbed.airline.customer.domain.Customer;
 
 import java.sql.Date;
-import java.time.LocalDateTime;
 
 public class CustomerDTO {
     public Long id;

@@ -3,7 +3,6 @@ package nl.hu.prbed.airline.airport.presentation.controller;
 import nl.hu.prbed.airline.airport.application.AirportService;
 import nl.hu.prbed.airline.airport.application.AirportServiceImpl;
 import nl.hu.prbed.airline.airport.application.exception.AirportAlreadyExistsException;
-import nl.hu.prbed.airline.airport.application.exception.AirportInUseException;
 import nl.hu.prbed.airline.airport.application.exception.AirportNotFoundException;
 import nl.hu.prbed.airline.airport.domain.Airport;
 import nl.hu.prbed.airline.airport.presentation.dto.AirportRequestDTO;

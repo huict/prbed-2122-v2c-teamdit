@@ -1,7 +1,6 @@
 package nl.hu.prbed.airline.customer.application;
 
 import nl.hu.prbed.airline.customer.domain.Customer;
-import nl.hu.prbed.airline.customer.presentation.dto.CustomerDTO;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerRequestDTO;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerResponseDTO;
 

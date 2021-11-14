@@ -58,20 +58,20 @@ public class Booking{
 
     @Override
     public String toString() {
-        String passengerList = "";
-        String flightList = "";
+        StringBuilder passengerList = new StringBuilder();
+        StringBuilder flightList = new StringBuilder();
 
         for (Passenger passenger : passengers) {
-            passengerList += "\n"+passenger.toString();
+            passengerList.append("\n").append(passenger.toString());
         }
 
         for (Flight flight : flights) {
-            flightList += "\n"+flight.toString();
+            flightList.append("\n").append(flight.toString());
         }
 
         return  "\n\ncustomer: " + customer.toString() +
                 "\nbookingClass: " + bookingClass.toString().toLowerCase() +
                 "\nflights: " + flightList+
-                "\npassengers: " + passengerList.toString();
+                "\npassengers: " + passengerList;
     }
 }
