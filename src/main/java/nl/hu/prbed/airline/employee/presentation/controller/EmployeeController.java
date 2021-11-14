@@ -1,18 +1,14 @@
 package nl.hu.prbed.airline.employee.presentation.controller;
 
-import nl.hu.prbed.airline.airport.application.AirportService;
-import nl.hu.prbed.airline.airport.domain.Airport;
-import nl.hu.prbed.airline.airport.presentation.dto.AirportDTO;
-import nl.hu.prbed.airline.airport.presentation.dto.AirportRequestDTO;
-import nl.hu.prbed.airline.airport.presentation.dto.AirportResponseDTO;
 import nl.hu.prbed.airline.employee.application.EmployeeService;
-import nl.hu.prbed.airline.employee.application.exception.EmployeeAlreadyExistsException;
+import nl.hu.prbed.airline.employee.application.EmployeeServiceImpl;
 import nl.hu.prbed.airline.employee.application.exception.EmployeeNotFoundException;
 import nl.hu.prbed.airline.employee.domain.Employee;
 import nl.hu.prbed.airline.employee.presentation.dto.EmployeeRequestDTO;
 import nl.hu.prbed.airline.employee.presentation.dto.EmployeeResponseDTO;
 import nl.hu.prbed.airline.employee.presentation.exception.EmployeeAlreadyExistsHTTPException;
 import nl.hu.prbed.airline.employee.presentation.exception.EmployeeNotFoundHTTPException;
+import nl.hu.prbed.airline.security.application.exception.UsernameAlreadyExists;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +22,7 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
 
-    public EmployeeController(EmployeeService employeeService) {
+    public EmployeeController(EmployeeServiceImpl employeeService) {
         this.employeeService = employeeService;
     }
 
@@ -41,8 +37,7 @@ public class EmployeeController {
     public EmployeeResponseDTO getEmployeeById(@PathVariable Long id) {
         try {
             return new EmployeeResponseDTO(this.employeeService.findEmployeeById(id));
-        }
-        catch (EmployeeNotFoundException e){
+        } catch (EmployeeNotFoundException e) {
             throw new EmployeeNotFoundHTTPException(id);
         }
     }
@@ -53,8 +48,8 @@ public class EmployeeController {
         try {
             Employee employee = this.employeeService.createEmployee(employeeRequestDTO);
             return new EmployeeResponseDTO(employee);
-        } catch (EmployeeAlreadyExistsException e){
-            throw new EmployeeAlreadyExistsHTTPException(employeeRequestDTO.id);
+        } catch (UsernameAlreadyExists e) {
+            throw new EmployeeAlreadyExistsHTTPException(employeeRequestDTO.username);
         }
     }
 
@@ -64,19 +59,17 @@ public class EmployeeController {
         try {
             Employee employee = this.employeeService.updateEmployee(employeeRequestDTO);
             return new EmployeeResponseDTO(employee);
-        }
-        catch (EmployeeNotFoundException e){
+        } catch (EmployeeNotFoundException e) {
             throw new EmployeeNotFoundHTTPException(employeeRequestDTO.id);
         }
     }
 
     // Delete Employee
     @DeleteMapping("/{id}")
-    public void deleteAirport(@PathVariable Long id) {
+    public void deleteEmployee(@PathVariable Long id) {
         try {
             this.employeeService.deleteEmployee(id);
-        }
-        catch (EmployeeNotFoundException e){
+        } catch (EmployeeNotFoundException e) {
             throw new EmployeeNotFoundHTTPException(id);
         }
     }

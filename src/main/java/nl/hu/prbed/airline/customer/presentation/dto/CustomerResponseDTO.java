@@ -2,14 +2,14 @@ package nl.hu.prbed.airline.customer.presentation.dto;
 
 import nl.hu.prbed.airline.customer.domain.Customer;
 
-import java.time.LocalDateTime;
+import java.sql.Date;
 
 public class CustomerResponseDTO {
     public Long id;
     public String firstName;
     public String lastName;
-    public LocalDateTime dateOfBirth;
-    public Integer phoneNumber;
+    public Date dateOfBirth;
+    public Long phoneNumber;
     public String emailAddress;
     public String nationality;
 

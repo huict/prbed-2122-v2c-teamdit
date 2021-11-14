@@ -1,16 +1,15 @@
 package nl.hu.prbed.airline.employee.presentation.dto;
 
-import nl.hu.prbed.airline.airport.domain.Airport;
-import nl.hu.prbed.airline.employee.domain.Employee;
+import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.sql.Date;
 
+@NoArgsConstructor
 public class EmployeeRequestDTO {
     public Long id;
+    public String username;
+    public String password;
     public String firstName;
     public String lastName;
-    public LocalDateTime dateOfBirth;
-
-    public EmployeeRequestDTO() {
-    }
+    public Date dateOfBirth;
 }

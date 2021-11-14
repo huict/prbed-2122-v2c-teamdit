@@ -1,16 +1,15 @@
 package nl.hu.prbed.airline.airport.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.util.Locale;
 
 @Entity
 @Component
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 public class Airport {
     @Id
@@ -21,4 +20,21 @@ public class Airport {
     private String country;
     private double longitude;
     private double latitude;
+
+    public Airport(String codeICAO, String airportName, String city, String country, double longitude, double latitude) {
+        this.codeICAO = codeICAO.toUpperCase(Locale.ROOT);
+        this.airportName = airportName;
+        this.city = city;
+        this.country = country;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
+
+    @Override
+    public String toString() {
+        return "\ncodeICAO: " + codeICAO +
+                "\nairportName: " + airportName +
+                "\ncity: " + city +
+                "\ncountry: " + country;
+    }
 }

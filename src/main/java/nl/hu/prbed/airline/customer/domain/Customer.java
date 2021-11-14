@@ -1,13 +1,12 @@
 package nl.hu.prbed.airline.customer.domain;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import nl.hu.prbed.airline.booking.domain.Booking;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.sql.Date;
 import java.util.List;
 
 @Component
@@ -16,20 +15,19 @@ import java.util.List;
 @Getter
 public class Customer {
     @Id
-    @GeneratedValue
-    @Column(nullable = false)
     private Long id;
     private String firstName;
     private String lastName;
-    private LocalDateTime dateOfBirth;
-    private Integer phoneNumber;
+    private Date dateOfBirth;
+    private Long phoneNumber;
     private String emailAddress;
     private String nationality;
 
     @OneToMany
     private List<Booking> bookings;
 
-    public Customer(String firstName, String lastName, LocalDateTime dateOfBirth, Integer phoneNumber, String emailAddress, String nationality) {
+    public Customer(Long id, String firstName, String lastName, Date dateOfBirth, Long phoneNumber, String emailAddress, String nationality) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
@@ -38,13 +36,18 @@ public class Customer {
         this.nationality = nationality;
     }
 
-    public Customer(Long id, String firstName, String lastName, LocalDateTime dateOfBirth, Integer phoneNumber, String emailAddress, String nationality) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.dateOfBirth = dateOfBirth;
-        this.phoneNumber = phoneNumber;
-        this.emailAddress = emailAddress;
-        this.nationality = nationality;
+    public void addBooking(Booking booking) {
+        this.bookings.add(booking);
+    }
+
+
+    @Override
+    public String toString() {
+        return "\nfirstName: " + firstName +
+                "\nlastName: " + lastName +
+                "\ndateOfBirth: " + dateOfBirth +
+                "\nphoneNumber: " + phoneNumber +
+                "\nemailAddress: " + emailAddress +
+                "\nnationality: " + nationality;
     }
 }

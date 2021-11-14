@@ -5,10 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import nl.hu.prbed.airline.flightroute.domain.FlightRoute;
 import nl.hu.prbed.airline.plane.domain.Plane;
-import nl.hu.prbed.airline.booking.domain.Booking;
-import nl.hu.prbed.airline.booking.domain.BookingClass;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -47,17 +43,18 @@ public class Flight {
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (this == object)
-            return true;
-
-        if (object == null || getClass() != object.getClass())
-            return false;
-
-        Flight flight = (Flight) object;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Flight flight = (Flight) o;
         return Objects.equals(departureTime, flight.departureTime)
                 && Objects.equals(route, flight.route)
                 && Objects.equals(plane, flight.plane);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, departureTime, route, plane);
     }
 
     public static boolean exists(List<Flight> flights, Flight newFlight) {
@@ -67,5 +64,12 @@ public class Flight {
             }
         }
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "\ndeparture-time: " + departureTime +
+                "\nroute: \n" + route +
+                "\nplane: \n" + plane;
     }
 }

@@ -15,8 +15,6 @@ public class BookingResponseDTO {
     public List<Flight> flights;
     public List<Passenger> passengers;
 
-    public BookingResponseDTO() {}
-
     public BookingResponseDTO(Booking booking){
         this.id = booking.getId();
         this.customer = booking.getCustomer();

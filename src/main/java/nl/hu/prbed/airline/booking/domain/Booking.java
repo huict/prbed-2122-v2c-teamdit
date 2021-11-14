@@ -16,7 +16,7 @@ import java.util.List;
 @Component
 @Getter
 @NoArgsConstructor
-public class Booking {
+public class Booking{
     @Id
     @GeneratedValue
     @Column(nullable = false)
@@ -45,8 +45,8 @@ public class Booking {
 
     public Booking(Long id, Customer customer, BookingClass bookingClass, List<Flight> flights, List<Passenger> passengers) {
         this(customer, bookingClass, flights, passengers);
-            this.id = id;
-        }
+        this.id = id;
+    }
 
     public int getAmountOfPassengers() {
         return passengers.size() + 1;
@@ -56,4 +56,22 @@ public class Booking {
         return flights;
     }
 
+    @Override
+    public String toString() {
+        StringBuilder passengerList = new StringBuilder();
+        StringBuilder flightList = new StringBuilder();
+
+        for (Passenger passenger : passengers) {
+            passengerList.append("\n").append(passenger.toString());
+        }
+
+        for (Flight flight : flights) {
+            flightList.append("\n").append(flight.toString());
+        }
+
+        return  "\n\ncustomer: " + customer.toString() +
+                "\nbookingClass: " + bookingClass.toString().toLowerCase() +
+                "\nflights: " + flightList+
+                "\npassengers: " + passengerList;
+    }
 }

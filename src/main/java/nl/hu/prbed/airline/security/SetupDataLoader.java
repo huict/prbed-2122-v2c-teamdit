@@ -2,7 +2,6 @@ package nl.hu.prbed.airline.security;
 
 import nl.hu.prbed.airline.airline.data.AirlineRepository;
 import nl.hu.prbed.airline.airline.domain.Airline;
-import nl.hu.prbed.airline.fleet.data.FleetRepository;
 import nl.hu.prbed.airline.fleet.domain.Fleet;
 import nl.hu.prbed.airline.security.data.RoleRepository;
 import nl.hu.prbed.airline.security.data.UserRepository;
@@ -28,14 +27,14 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final AirlineRepository airlineRepository;
-    private final FleetRepository fleetRepository;
+    private static final String admin = "admin";
+    private static final String employee = "employee";
 
-    public SetupDataLoader(RoleRepository roleRepository, PasswordEncoder passwordEncoder, UserRepository userRepository, AirlineRepository airlineRepository, FleetRepository fleetRepository) {
+    public SetupDataLoader(RoleRepository roleRepository, PasswordEncoder passwordEncoder, UserRepository userRepository, AirlineRepository airlineRepository) {
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.airlineRepository = airlineRepository;
-        this.fleetRepository = fleetRepository;
     }
 
     // Temporary replacement for this being a non-production environment
@@ -50,17 +49,17 @@ public class SetupDataLoader implements ApplicationListener<ContextRefreshedEven
             createRoleIfNotFound(roleName);
         }
 
-        if (!userRepository.existsByUsername("admin")) {
+        if (!userRepository.existsByUsername(admin)) {
             Role adminRole = roleRepository.findByName("ROLE_ADMIN");
-            User user = new User("admin", passwordEncoder.encode("admin"), "Ad", "Min");
+            User user = new User(admin, passwordEncoder.encode(admin), "Ad", "Min");
             user.addRole(adminRole);
             userRepository.save(user);
         }
 
 
-        if (!userRepository.existsByUsername("employee")) {
+        if (!userRepository.existsByUsername(employee)) {
             Role employeeRole = roleRepository.findByName("ROLE_EMPLOYEE");
-            User user = new User("employee", passwordEncoder.encode("employee"), "emplo", "yee");
+            User user = new User(employee, passwordEncoder.encode(employee), "emplo", "yee");
             user.addRole(employeeRole);
             userRepository.save(user);
         }

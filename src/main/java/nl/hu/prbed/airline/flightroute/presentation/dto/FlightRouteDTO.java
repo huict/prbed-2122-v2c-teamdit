@@ -1,10 +1,12 @@
 package nl.hu.prbed.airline.flightroute.presentation.dto;
 
+import lombok.NoArgsConstructor;
 import nl.hu.prbed.airline.airport.domain.Airport;
 import nl.hu.prbed.airline.flightroute.domain.FlightRoute;
 
 import javax.validation.constraints.NotNull;
 
+@NoArgsConstructor
 public class FlightRouteDTO {
 
     public Long id;
@@ -21,18 +23,16 @@ public class FlightRouteDTO {
     @NotNull
     public double priceFirstClass;
 
-    public FlightRouteDTO() {
-
-    }
-
-    public FlightRouteDTO(FlightRoute flightRoute) {
-        this.id = flightRoute.getId();
-        this.arrivalCodeICAO = flightRoute.getArrivalLocation().getCodeICAO();
-        this.departureCodeICAO = flightRoute.getDepartureLocation().getCodeICAO();
-        this.durationMinutes = flightRoute.getDurationMinutes();
-        this.priceEconomy = flightRoute.getPriceEconomy();
-        this.priceBusiness = flightRoute.getPriceBusiness();
-        this.priceFirstClass = flightRoute.getPriceFirstClass();
+    public FlightRouteDTO(FlightRouteRequestDTO flightRouteRequestDTO) {
+        if (flightRouteRequestDTO.id != null) {
+            this.id = flightRouteRequestDTO.id;
+        }
+        this.arrivalCodeICAO = flightRouteRequestDTO.arrivalCodeICAO;
+        this.departureCodeICAO = flightRouteRequestDTO.departureCodeICAO;
+        this.durationMinutes = flightRouteRequestDTO.durationMinutes;
+        this.priceEconomy = flightRouteRequestDTO.priceEconomy;
+        this.priceBusiness = flightRouteRequestDTO.priceBusiness;
+        this.priceFirstClass = flightRouteRequestDTO.priceFirstClass;
     }
 
     public FlightRoute toFlightroute(Airport arrival, Airport departure) {

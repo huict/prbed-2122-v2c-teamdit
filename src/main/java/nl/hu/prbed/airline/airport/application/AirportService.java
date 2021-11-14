@@ -1,70 +1,19 @@
 package nl.hu.prbed.airline.airport.application;
 
-import nl.hu.prbed.airline.airport.application.exception.AirportAlreadyExistsException;
-import nl.hu.prbed.airline.airport.application.exception.AirportNotFoundException;
-import nl.hu.prbed.airline.airport.application.exception.AirportcodeNotValidException;
-import nl.hu.prbed.airline.airport.data.AirportRepository;
 import nl.hu.prbed.airline.airport.domain.Airport;
 import nl.hu.prbed.airline.airport.presentation.dto.AirportRequestDTO;
 import nl.hu.prbed.airline.airport.presentation.dto.AirportResponseDTO;
-import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
 
-@Transactional
-@Service
-public class AirportService {
-    private final AirportRepository airportRepository;
+public interface AirportService {
+    List<AirportResponseDTO> getAllAirports();
 
-    public AirportService(AirportRepository airportRepository) {
-        this.airportRepository = airportRepository;
-    }
+    Airport findAirportByCodeICAO(String code);
 
-    public Airport createAirport(AirportRequestDTO airportRequestDTO) {
-        Airport airport = airportRequestDTO.toAirport();
+    Airport createAirport(AirportRequestDTO airportRequestDTO);
 
-        if (this.airportRepository.existsByCodeICAO(airport.getCodeICAO())) {
-            throw new AirportAlreadyExistsException(airport.getCodeICAO());
-        }
+    Airport updateAirport(AirportRequestDTO airportRequestDTO);
 
-        if (airport.getCodeICAO().length() != 4) {
-            throw new AirportcodeNotValidException(airport.getCodeICAO());
-        }
-
-        this.airportRepository.save(airport);
-        return airport;
-    }
-
-    public Airport updateAirport(AirportRequestDTO airportRequestDTO) {
-        Airport updatedAirport = airportRequestDTO.toAirport();
-
-        airportRepository.findByCodeICAO(updatedAirport.getCodeICAO())
-                .orElseThrow(() -> new AirportNotFoundException(updatedAirport.getCodeICAO()));
-
-        airportRepository.saveAndFlush(updatedAirport);
-        return updatedAirport;
-    }
-
-    public void deleteAirport(String code) {
-        this.airportRepository.findByCodeICAO(code)
-            .orElseThrow(() -> new AirportNotFoundException(code));
-
-        this.airportRepository.deleteByCodeICAO(code);
-    }
-
-    public List<AirportResponseDTO> getAllAirports() {
-        List<Airport> airports = this.airportRepository.findAll();
-        List<AirportResponseDTO> airportDTOS = new ArrayList<>();
-        for (Airport airport : airports) {
-            airportDTOS.add(new AirportResponseDTO(airport));
-        }
-        return airportDTOS;
-    }
-
-    public Airport findAirportByCodeICAO(String code) {
-        return this.airportRepository.findByCodeICAO(code)
-                .orElseThrow(() -> new AirportNotFoundException(code));
-    }
+    void deleteAirport(String code);
 }

@@ -8,7 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.time.LocalDateTime;
+import java.sql.Date;
 
 @Component
 @Entity
@@ -21,17 +21,27 @@ public class Passenger {
     private Long id;
     private String firstName;
     private String lastName;
-    private LocalDateTime dateOfBirth;
-    private Integer phoneNumber;
+    private Date dateOfBirth;
+    private Long phoneNumber;
     private String emailAddress;
     private String nationality;
 
-    public Passenger(String firstName, String lastName, LocalDateTime dateOfBirth, Integer phoneNumber, String emailAddress, String nationality) {
+    public Passenger(String firstName, String lastName, Date dateOfBirth, Long phoneNumber, String emailAddress, String nationality) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.phoneNumber = phoneNumber;
         this.emailAddress = emailAddress;
         this.nationality = nationality;
+    }
+
+    @Override
+    public String toString() {
+        return "\nfirstName: " + firstName  +
+                "\nlastName: " + lastName +
+                "\ndateOfBirth: " + dateOfBirth +
+                "\nphoneNumber: " + phoneNumber +
+                "\nemailAddress: " + emailAddress +
+                "\nnationality: " + nationality;
     }
 }

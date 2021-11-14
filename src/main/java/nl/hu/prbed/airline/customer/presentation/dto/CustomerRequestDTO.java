@@ -1,16 +1,18 @@
 package nl.hu.prbed.airline.customer.presentation.dto;
 
-import java.time.LocalDateTime;
+import lombok.NoArgsConstructor;
 
+import java.sql.Date;
+
+@NoArgsConstructor
 public class CustomerRequestDTO {
     public Long id;
+    public String username;
+    public String password;
     public String firstName;
     public String lastName;
-    public LocalDateTime dateOfBirth;
-    public Integer phoneNumber;
+    public Date dateOfBirth;
+    public Long phoneNumber;
     public String emailAddress;
     public String nationality;
-
-    public CustomerRequestDTO(){}
-
 }

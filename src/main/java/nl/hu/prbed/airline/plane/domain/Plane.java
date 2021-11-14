@@ -9,7 +9,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.Objects;
 
 @Entity
 @Component
@@ -46,12 +45,20 @@ public class Plane {
         switch (bookingClass) {
             case ECONOMY:
                 seats = seatsEconomy;
+                break;
             case BUSINESS:
                 seats = seatsBusiness;
+                break;
             case FIRST:
                 seats = seatsFirstClass;
-        };
+                break;
+        }
 
         return seats;
+    }
+
+    @Override
+    public String toString() {
+        return "type: " + type;
     }
 }
