@@ -22,7 +22,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"user2\",\r\n    \"password\": \"user1\",\r\n    \"firstName\": \"us\",\r\n    \"lastName\": \"er\",\r\n    \"dateOfBirth\": \"2022-10-17T16:20\",\r\n    \"phoneNumber\": 31653909353,\r\n    \"emailAddress\": \"ayoub420@ayoubmail.com\",\r\n    \"nationality\": \"ayoubland\"\r\n}",
+							"raw": "{\r\n    \"username\": \"user2\",\r\n    \"password\": \"user1\",\r\n    \"firstName\": \"us\",\r\n    \"lastName\": \"er\",\r\n    \"dateOfBirth\": \"2022-10-17T16:20\",\r\n    \"phoneNumber\": 50000,\r\n    \"emailAddress\": \"sam.werring@student.hu.nl\",\r\n    \"nationality\": \"ayoubland\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -75,7 +75,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"user1\",\r\n    \"password\": \"user1\"\r\n}",
+							"raw": "{\r\n    \"username\": \"user2\",\r\n    \"password\": \"user1\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -406,7 +406,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"codeICAO\": \"SHIP\",\r\n    \"name\": \"schiphol\",\r\n    \"city\": \"amsterdam\",\r\n    \"country\": \"netherlands\",\r\n    \"longitude\": 132,\r\n    \"latitude\": 83838\r\n}",
+							"raw": "{\r\n    \"codeICAO\": \"SLDP\",\r\n    \"name\": \"schiphol\",\r\n    \"city\": \"amsterdam\",\r\n    \"country\": \"netherlands\",\r\n    \"longitude\": 132,\r\n    \"latitude\": 83838\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1074,21 +1074,14 @@
 									"\r",
 									"pm.test(\"Test if the applied dateformat is correct\",() => {\r",
 									"    let birthday = requestJson.dateOfBirth.split(\"-\");\r",
-									"    console.log(birthday[2].split(\"T\")[1].split(\":\"));\r",
 									"\r",
 									"    let year = birthday[0].length;\r",
 									"    let month = birthday[1].length;\r",
-									"    let day = birthday[2].split(\"T\")[0].length;\r",
-									"    let hours = birthday[2].split(\"T\")[1].split(\":\")[0].length;\r",
-									"    let minutes = birthday[2].split(\"T\")[1].split(\":\")[1].length;\r",
-									"    let seconds = birthday[2].split(\"T\")[1].split(\":\")[2].length;\r",
+									"    let day = birthday[2].length;\r",
 									"    \r",
 									"    pm.expect(year).to.eql(4);\r",
 									"    pm.expect(month).to.eql(2);\r",
 									"    pm.expect(day).to.eql(2);\r",
-									"    pm.expect(hours).to.eql(2);\r",
-									"    pm.expect(minutes).to.eql(2);\r",
-									"    pm.expect(seconds).to.eql(2);\r",
 									"\r",
 									"})\r",
 									"\r",
@@ -1133,7 +1126,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"user012A25391\",\r\n    \"password\": \"user1\",\r\n    \"firstName\": \"us\",\r\n    \"lastName\": \"er\",\r\n    \"dateOfBirth\": \"2522-10-01T16:20:10\",\r\n    \"phoneNumber\": 31653909353,\r\n    \"emailAddress\": \"boymerti@gmail.com\",\r\n    \"nationality\": \"ayoubland\"\r\n}",
+							"raw": "{\r\n    \"username\": \"user012A2539132235\",\r\n    \"password\": \"user1\",\r\n    \"firstName\": \"us\",\r\n    \"lastName\": \"er\",\r\n    \"dateOfBirth\": \"2522-10-01\",\r\n    \"phoneNumber\": 3165390935223,\r\n    \"emailAddress\": \"boymerti10@gmail.com\",\r\n    \"nationality\": \"ayoubland\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1177,21 +1170,14 @@
 									"\r",
 									"pm.test(\"Test if the applied dateformat is correct\",() => {\r",
 									"    let birthday = requestJson.dateOfBirth.split(\"-\");\r",
-									"    console.log(birthday[2].split(\"T\")[1].split(\":\"));\r",
 									"\r",
 									"    let year = birthday[0].length;\r",
 									"    let month = birthday[1].length;\r",
-									"    let day = birthday[2].split(\"T\")[0].length;\r",
-									"    let hours = birthday[2].split(\"T\")[1].split(\":\")[0].length;\r",
-									"    let minutes = birthday[2].split(\"T\")[1].split(\":\")[1].length;\r",
-									"    let seconds = birthday[2].split(\"T\")[1].split(\":\")[2].length;\r",
+									"    let day = birthday[2].length;\r",
 									"    \r",
 									"    pm.expect(year).to.eql(4);\r",
 									"    pm.expect(month).to.eql(2);\r",
 									"    pm.expect(day).to.eql(2);\r",
-									"    pm.expect(hours).to.eql(2);\r",
-									"    pm.expect(minutes).to.eql(2);\r",
-									"    pm.expect(seconds).to.eql(2);\r",
 									"\r",
 									"})\r",
 									"\r",
@@ -1487,7 +1473,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"customerId\": 105,\r\n    \"bookingClass\": \"ECONOMY\",\r\n    \"flightsIds\": [21],\r\n    \"passengers\": [{\r\n        \"firstName\": \"passenger\",\r\n        \"lastName\": \"aa\",\r\n        \"dateOfBirth\": \"2022-10-17T16:20:00\",\r\n        \"phoneNumber\": 612345672,\r\n        \"emailAddress\": \"boymerti@gmail.com\",\r\n        \"nationality\": \"purple\"\r\n    }]\r\n}",
+							"raw": "{\r\n    \"customerId\": 13,\r\n    \"bookingClass\": \"ECONOMY\",\r\n    \"flightsIds\": [14],\r\n    \"passengers\": [{\r\n        \"firstName\": \"passenger\",\r\n        \"lastName\": \"aa\",\r\n        \"dateOfBirth\": \"2022-10-17T16:20:00\",\r\n        \"phoneNumber\": 612345672,\r\n        \"emailAddress\": \"boymerti@gmail.com\",\r\n        \"nationality\": \"purple\"\r\n    }]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1796,7 +1782,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"type\": \"Airbus\",\r\n    \"seatsEconomy\": 100,\r\n    \"seatsBusiness\": 50,\r\n    \"seatsFirstClass\": 20\r\n}",
+							"raw": "{\r\n    \"type\": \"Airbusa\",\r\n    \"seatsEconomy\": 100,\r\n    \"seatsBusiness\": 50,\r\n    \"seatsFirstClass\": 20\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1912,13 +1898,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{ip}}/plane/30",
+							"raw": "{{ip}}/plane/196",
 							"host": [
 								"{{ip}}"
 							],
 							"path": [
 								"plane",
-								"30"
+								"196"
 							]
 						}
 					},
@@ -2262,7 +2248,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"flightRouteId\":8,\r\n\"planeId\":20,\r\n\"departureTime\":\"1202-11-17T11:20:00\"\r\n}",
+							"raw": "{\"flightRouteId\":10,\r\n\"planeId\":11,\r\n\"departureTime\":\"1202-11-17T11:20:00\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2633,16 +2619,15 @@
 									"\r",
 									"\r",
 									"if(pm.response.code === 409){\r",
-									"    throw new Error(\"This plane is already made!\");\r",
+									"    throw new Error(\"This employee is already made!\");\r",
 									"}\r",
 									"\r",
 									"pm.test(\"Test if the applied dateformat is correct\",() => {\r",
 									"    let birthday = requestJson.dateOfBirth.split(\"-\");\r",
-									"    console.log(birthday[2].split(\"T\")[1].split(\":\"));\r",
 									"\r",
 									"    let year = birthday[0].length;\r",
 									"    let month = birthday[1].length;\r",
-									"    let day = birthday[2].split(\"T\")[0].length;\r",
+									"    let day = birthday[2].length;\r",
 									"    \r",
 									"    pm.expect(year).to.eql(4);\r",
 									"    pm.expect(month).to.eql(2);\r",
@@ -2683,7 +2668,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{   \r\n    \"firstName\": \"TaartenvanAbel\",\r\n    \"lastName\": \"aa\",\r\n    \"password\": \"yooy\",\r\n    \"username\":\"TaartenvanAbeltjet19\",\r\n    \"dateOfBirth\": \"2200-03-16T13:56:00\"\r\n}",
+							"raw": "{   \r\n    \"firstName\": \"TaartenvanAbeltje1\",\r\n    \"lastName\": \"aa\",\r\n    \"password\": \"yooy\",\r\n    \"username\":\"TaartenvanAbeltjet193443\",\r\n    \"dateOfBirth\": \"2200-03-16\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2727,11 +2712,10 @@
 									"\r",
 									"pm.test(\"Test if the applied dateformat is correct\",() => {\r",
 									"    let birthday = requestJson.dateOfBirth.split(\"-\");\r",
-									"    console.log(birthday[2].split(\"T\")[1].split(\":\"));\r",
 									"\r",
 									"    let year = birthday[0].length;\r",
 									"    let month = birthday[1].length;\r",
-									"    let day = birthday[2].split(\"T\")[0].length;\r",
+									"    let day = birthday[2].length;\r",
 									"    \r",
 									"    pm.expect(year).to.eql(4);\r",
 									"    pm.expect(month).to.eql(2);\r",
@@ -2913,7 +2897,11 @@
 		},
 		{
 			"key": "ip",
-			"value": "http://localhost:8080"
+			"value": ""
+		},
+		{
+			"key": "ip",
+			"value": ""
 		}
 	]
 }
