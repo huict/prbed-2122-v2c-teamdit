@@ -3,7 +3,7 @@ package nl.hu.prbed.airline.airport.application;
 import nl.hu.prbed.airline.airport.application.exception.AirportAlreadyExistsException;
 import nl.hu.prbed.airline.airport.application.exception.AirportInUseException;
 import nl.hu.prbed.airline.airport.application.exception.AirportNotFoundException;
-import nl.hu.prbed.airline.airport.application.exception.AirportcodeNotValidException;
+import nl.hu.prbed.airline.airport.application.exception.AirportCodeNotValidException;
 import nl.hu.prbed.airline.airport.data.AirportRepository;
 import nl.hu.prbed.airline.airport.domain.Airport;
 import nl.hu.prbed.airline.airport.presentation.dto.AirportRequestDTO;
@@ -49,7 +49,7 @@ public class AirportServiceImpl implements AirportService {
         }
 
         if (airport.getCodeICAO().length() != 4) {
-            throw new AirportcodeNotValidException(airport.getCodeICAO());
+            throw new AirportCodeNotValidException(airport.getCodeICAO());
         }
 
         this.airportRepository.save(airport);

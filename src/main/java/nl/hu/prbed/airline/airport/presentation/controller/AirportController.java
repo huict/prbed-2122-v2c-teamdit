@@ -4,10 +4,12 @@ import nl.hu.prbed.airline.airport.application.AirportService;
 import nl.hu.prbed.airline.airport.application.AirportServiceImpl;
 import nl.hu.prbed.airline.airport.application.exception.AirportAlreadyExistsException;
 import nl.hu.prbed.airline.airport.application.exception.AirportNotFoundException;
+import nl.hu.prbed.airline.airport.application.exception.AirportCodeNotValidException;
 import nl.hu.prbed.airline.airport.domain.Airport;
 import nl.hu.prbed.airline.airport.presentation.dto.AirportRequestDTO;
 import nl.hu.prbed.airline.airport.presentation.dto.AirportResponseDTO;
 import nl.hu.prbed.airline.airport.presentation.exception.AirportAlreadyExistsHTTPException;
+import nl.hu.prbed.airline.airport.presentation.exception.AirportCodeNotValidHTTPException;
 import nl.hu.prbed.airline.airport.presentation.exception.AirportInUseHTTPException;
 import nl.hu.prbed.airline.airport.presentation.exception.AirportNotFoundHTTPException;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -49,6 +51,8 @@ public class AirportController {
             return new AirportResponseDTO(airport);
         } catch (AirportAlreadyExistsException e) {
             throw new AirportAlreadyExistsHTTPException(airportRequestDTO.codeICAO);
+        } catch (AirportCodeNotValidException e) {
+            throw new AirportCodeNotValidHTTPException(airportRequestDTO.codeICAO);
         }
     }
 
