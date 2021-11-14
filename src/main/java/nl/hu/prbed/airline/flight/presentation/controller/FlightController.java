@@ -1,6 +1,6 @@
 package nl.hu.prbed.airline.flight.presentation.controller;
 
-import nl.hu.prbed.airline.fleet.application.FleetService;
+import nl.hu.prbed.airline.flight.presentation.exception.FlightInUseHTTPException;
 import nl.hu.prbed.airline.flight.application.FlightService;
 import nl.hu.prbed.airline.flight.application.FlightServiceImpl;
 import nl.hu.prbed.airline.flight.application.exception.FlightAlreadyExistsException;
@@ -10,8 +10,11 @@ import nl.hu.prbed.airline.flight.presentation.dto.FlightRequestDTO;
 import nl.hu.prbed.airline.flight.presentation.dto.FlightResponseDTO;
 import nl.hu.prbed.airline.flight.presentation.exception.FlightAlreadyExistsHTTPException;
 import nl.hu.prbed.airline.flight.presentation.exception.FlightNotFoundHTTPException;
+import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteNotFoundException;
+import nl.hu.prbed.airline.flightroute.presentation.exception.FlightRouteNotFoundHTTPException;
 import nl.hu.prbed.airline.plane.application.exception.PlaneNotFoundException;
 import nl.hu.prbed.airline.plane.presentation.exception.PlaneNotFoundHTTPException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -80,6 +83,8 @@ public class FlightController {
             throw new FlightAlreadyExistsHTTPException();
         } catch (PlaneNotFoundException planeNotFoundException) {
             throw new PlaneNotFoundHTTPException(flightRequestDTO.planeId);
+        } catch (FlightRouteNotFoundException e) {
+            throw new FlightRouteNotFoundHTTPException();
         }
     }
 
@@ -90,6 +95,10 @@ public class FlightController {
             return new FlightResponseDTO(flight);
         } catch (FlightNotFoundException e) {
             throw new FlightNotFoundHTTPException();
+        } catch (PlaneNotFoundException e) {
+            throw new PlaneNotFoundHTTPException(flightRequestDTO.planeId);
+        } catch (FlightRouteNotFoundException e){
+            throw new FlightRouteNotFoundHTTPException();
         }
     }
 
@@ -99,6 +108,8 @@ public class FlightController {
             flightService.deleteFlightById(id);
         } catch (FlightNotFoundException e) {
             throw new FlightNotFoundHTTPException();
+        } catch (DataIntegrityViolationException e) {
+            throw new FlightInUseHTTPException();
         }
     }
 

@@ -7,8 +7,10 @@ import nl.hu.prbed.airline.customer.domain.Customer;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerRequestDTO;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerResponseDTO;
 import nl.hu.prbed.airline.customer.presentation.exception.CustomerEmailAddressAlreadyInUseHTTPException;
+import nl.hu.prbed.airline.customer.presentation.exception.CustomerInUseHTTPException;
 import nl.hu.prbed.airline.customer.presentation.exception.CustomerNotFoundHTTPException;
 import nl.hu.prbed.airline.customer.presentation.exception.CustomerPhoneNumberAlreadyInUseHTTPException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -77,6 +79,8 @@ public class CustomerController {
             this.customerService.deleteCustomer(id);
         } catch (CustomerNotFoundException e) {
             throw new CustomerNotFoundHTTPException(id);
+        } catch (DataIntegrityViolationException e){
+            throw new CustomerInUseHTTPException();
         }
     }
 

@@ -4,7 +4,7 @@ import nl.hu.prbed.airline.airline.application.exception.InvalidDTOException;
 import nl.hu.prbed.airline.fleet.application.FleetService;
 import nl.hu.prbed.airline.fleet.application.FleetServiceImpl;
 import nl.hu.prbed.airline.plane.application.exception.PlaneNotFoundException;
-import nl.hu.prbed.airline.plane.application.exception.ReliantFlightsException;
+import nl.hu.prbed.airline.plane.application.exception.PlaneInUseException;
 import nl.hu.prbed.airline.plane.data.PlaneRepository;
 import nl.hu.prbed.airline.plane.domain.Plane;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneRequestDTO;
@@ -78,7 +78,7 @@ public class PlaneServiceImpl implements PlaneService{
             planeRepository.delete(planeToDelete);
             return true;
         } catch (ConstraintViolationException e) {
-            throw new ReliantFlightsException("this plane still has flights!");
+            throw new PlaneInUseException("this plane still has flights!");
         }
     }
 }

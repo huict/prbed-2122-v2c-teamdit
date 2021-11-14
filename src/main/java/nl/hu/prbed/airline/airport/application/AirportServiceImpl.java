@@ -40,6 +40,7 @@ public class AirportServiceImpl implements AirportService {
                 .orElseThrow(() -> new AirportNotFoundException(code));
     }
 
+
     public Airport createAirport(AirportRequestDTO airportRequestDTO) {
         Airport airport = airportRequestDTO.toAirport();
 
@@ -55,6 +56,7 @@ public class AirportServiceImpl implements AirportService {
         return airport;
     }
 
+
     public Airport updateAirport(AirportRequestDTO airportRequestDTO) {
         Airport updatedAirport = airportRequestDTO.toAirport();
 
@@ -64,6 +66,7 @@ public class AirportServiceImpl implements AirportService {
         airportRepository.saveAndFlush(updatedAirport);
         return updatedAirport;
     }
+
 
     public void deleteAirport(String code) {
         this.airportRepository.findByCodeICAO(code)

@@ -11,6 +11,7 @@ import nl.hu.prbed.airline.airport.presentation.dto.AirportResponseDTO;
 import nl.hu.prbed.airline.airport.presentation.exception.AirportAlreadyExistsHTTPException;
 import nl.hu.prbed.airline.airport.presentation.exception.AirportInUseHTTPException;
 import nl.hu.prbed.airline.airport.presentation.exception.AirportNotFoundHTTPException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -70,8 +71,9 @@ public class AirportController {
             this.airportService.deleteAirport(code);
         } catch (AirportNotFoundException e) {
             throw new AirportNotFoundHTTPException(code);
-        } catch (AirportInUseException e) {
+        }   catch (DataIntegrityViolationException e) {
             throw new AirportInUseHTTPException(code);
         }
+
     }
 }

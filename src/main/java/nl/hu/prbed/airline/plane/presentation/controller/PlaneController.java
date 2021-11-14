@@ -4,13 +4,14 @@ import nl.hu.prbed.airline.plane.application.PlaneService;
 import nl.hu.prbed.airline.plane.application.PlaneServiceImpl;
 import nl.hu.prbed.airline.plane.application.exception.InvalidDTOException;
 import nl.hu.prbed.airline.plane.application.exception.PlaneNotFoundException;
-import nl.hu.prbed.airline.plane.application.exception.ReliantFlightsException;
+import nl.hu.prbed.airline.plane.application.exception.PlaneInUseException;
 import nl.hu.prbed.airline.plane.domain.Plane;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneRequestDTO;
 import nl.hu.prbed.airline.plane.presentation.dto.PlaneResponseDTO;
 import nl.hu.prbed.airline.plane.presentation.exception.InvalidDTOHTTPException;
 import nl.hu.prbed.airline.plane.presentation.exception.PlaneNotFoundHTTPException;
-import nl.hu.prbed.airline.plane.presentation.exception.ReliantFlightsHTTPException;
+import nl.hu.prbed.airline.plane.presentation.exception.PlaneInUseHTTPException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,8 +70,8 @@ public class PlaneController {
         catch (PlaneNotFoundException e){
             throw new PlaneNotFoundHTTPException(id);
         }
-        catch (ReliantFlightsException e){
-            throw new ReliantFlightsHTTPException("This plane still has reliant flights");
+        catch  (DataIntegrityViolationException e) {
+            throw new PlaneInUseException("Plane is still in use");
         }
     }
 }

@@ -7,12 +7,14 @@ import nl.hu.prbed.airline.booking.application.exception.NoSeatsLeftForClassExce
 import nl.hu.prbed.airline.booking.domain.Booking;
 import nl.hu.prbed.airline.booking.presentation.dto.BookingRequestDTO;
 import nl.hu.prbed.airline.booking.presentation.dto.BookingResponseDTO;
+import nl.hu.prbed.airline.booking.presentation.exception.BookingInUseHTTPException;
 import nl.hu.prbed.airline.booking.presentation.exception.BookingNotFoundHTTPException;
 import nl.hu.prbed.airline.booking.presentation.exception.NoSeatsLeftForClassHTTPException;
 import nl.hu.prbed.airline.customer.application.exception.CustomerNotFoundException;
 import nl.hu.prbed.airline.customer.presentation.exception.CustomerNotFoundHTTPException;
 import nl.hu.prbed.airline.flight.application.exception.FlightNotFoundException;
 import nl.hu.prbed.airline.flight.presentation.exception.FlightNotFoundHTTPException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -93,6 +95,8 @@ public class BookingController {
             this.bookingService.deleteBooking(id);
         } catch (BookingNotFoundException e){
             throw new BookingNotFoundHTTPException(id);
+        } catch (DataIntegrityViolationException e){
+            throw new BookingInUseHTTPException();
         }
     }
 }

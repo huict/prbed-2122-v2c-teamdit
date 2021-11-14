@@ -12,6 +12,7 @@ import nl.hu.prbed.airline.flightroute.presentation.dto.FlightRouteResponseDTO;
 import nl.hu.prbed.airline.flightroute.presentation.exception.FlightRouteAlreadyExistsHTTPException;
 import nl.hu.prbed.airline.flightroute.presentation.exception.FlightRouteInUseHTTPException;
 import nl.hu.prbed.airline.flightroute.presentation.exception.FlightRouteNotFoundHTTPException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -70,7 +71,7 @@ public class FlightRouteController {
             this.flightRouteService.deleteFlightRoute(id);
         } catch (FlightRouteNotFoundException flightRouteNotFoundException) {
             throw new FlightRouteNotFoundHTTPException();
-        } catch (FlightRouteInUseException flightRouteInUseException) {
+        } catch (DataIntegrityViolationException dataIntegrityViolationException) {
             throw new FlightRouteInUseHTTPException(id);
         }
     }

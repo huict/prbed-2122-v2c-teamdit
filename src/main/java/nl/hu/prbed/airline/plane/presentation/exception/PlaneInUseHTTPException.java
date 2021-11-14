@@ -4,8 +4,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(value = HttpStatus.CONFLICT, reason = "Plane can not be deleted while it has flights planned")
-public class ReliantFlightsHTTPException extends RuntimeException{
-    public ReliantFlightsHTTPException(String reason){
+public class PlaneInUseHTTPException extends RuntimeException{
+    public PlaneInUseHTTPException(String reason){
         super(reason);
     }
 }
