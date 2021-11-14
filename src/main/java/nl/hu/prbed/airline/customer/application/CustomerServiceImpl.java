@@ -6,6 +6,8 @@ import nl.hu.prbed.airline.customer.domain.Customer;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerDTO;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerRequestDTO;
 import nl.hu.prbed.airline.customer.presentation.dto.CustomerResponseDTO;
+import nl.hu.prbed.airline.customer.presentation.exception.CustomerEmailAddressAlreadyInUseHTTPException;
+import nl.hu.prbed.airline.customer.presentation.exception.CustomerPhoneNumberAlreadyInUseHTTPException;
 import nl.hu.prbed.airline.security.application.UserService;
 import nl.hu.prbed.airline.security.domain.User;
 import org.springframework.context.annotation.Lazy;
@@ -25,7 +27,9 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     public Customer createCustomer(CustomerRequestDTO customerRequestDTO) {
-        User user = userService.createUser(customerRequestDTO);
+        User user = userService.getUser(customerRequestDTO);
+        String email = customerRequestDTO.emailAddress;
+        Long phone = customerRequestDTO.phoneNumber;
 
         Customer customer = new Customer(user.getId(),
                 customerRequestDTO.firstName,
@@ -35,15 +39,29 @@ public class CustomerServiceImpl implements CustomerService {
                 customerRequestDTO.emailAddress,
                 customerRequestDTO.nationality);
 
+        if (customerRepository.existsByEmailAddress(email)) {
+            throw new CustomerEmailAddressAlreadyInUseHTTPException(email);
+        } else if (customerRepository.existsByPhoneNumber(phone)) {
+            throw new CustomerPhoneNumberAlreadyInUseHTTPException(phone);
+        }
+
         this.customerRepository.save(customer);
         return customer;
     }
 
     public Customer updateCustomer(CustomerRequestDTO customerRequestDTO) {
         Customer updatedCustomer = new Customer(customerRequestDTO.id, customerRequestDTO.firstName, customerRequestDTO.lastName, customerRequestDTO.dateOfBirth, customerRequestDTO.phoneNumber, customerRequestDTO.emailAddress, customerRequestDTO.nationality);
+        String email = customerRequestDTO.emailAddress;
+        Long phone = customerRequestDTO.phoneNumber;
 
         customerRepository.findByid(updatedCustomer.getId())
                 .orElseThrow(() -> new CustomerNotFoundException(updatedCustomer.getId()));
+
+        if (customerRepository.existsByEmailAddress(email)) {
+            throw new CustomerEmailAddressAlreadyInUseHTTPException(email);
+        } else if (customerRepository.existsByPhoneNumber(phone)) {
+            throw new CustomerPhoneNumberAlreadyInUseHTTPException(phone);
+        }
 
         customerRepository.saveAndFlush(updatedCustomer);
         return updatedCustomer;
