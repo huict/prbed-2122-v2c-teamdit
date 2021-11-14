@@ -62,27 +62,24 @@ public class UserService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException(username));
     }
 
-    public User createUser(CustomerRequestDTO customerRequestDTO) {
-        String encodedUserPassword = this.passwordEncoder.encode(customerRequestDTO.password);
-
-        User user = new User(customerRequestDTO.username,
-                encodedUserPassword,
-                customerRequestDTO.firstName,
-                customerRequestDTO.lastName);
-
-        userRepository.save(user);
-
-        return user;
+    public User getUser(CustomerRequestDTO customerRequestDTO) {
+        return createUser(customerRequestDTO.username, customerRequestDTO.password, customerRequestDTO.firstName, customerRequestDTO.lastName);
     }
 
-    public User createUser(EmployeeRequestDTO employeeRequestDTO) {
-        String encodedUserPassword = this.passwordEncoder.encode(employeeRequestDTO.password);
+    public User getUser(EmployeeRequestDTO employeeRequestDTO) {
+        return createUser(employeeRequestDTO.username, employeeRequestDTO.password, employeeRequestDTO.firstName, employeeRequestDTO.lastName);
+    }
 
-        User user = new User(employeeRequestDTO.username,
+    private User createUser(String username, String password, String firstName, String lastName) {
+        String encodedUserPassword = this.passwordEncoder.encode(password);
+        User user = new User(username,
                 encodedUserPassword,
-                employeeRequestDTO.firstName,
-                employeeRequestDTO.lastName);
+                firstName,
+                lastName);
 
+        if (userRepository.existsByUsername(username)) {
+            throw new UsernameAlreadyExists(username);
+        }
         userRepository.save(user);
 
         return user;
