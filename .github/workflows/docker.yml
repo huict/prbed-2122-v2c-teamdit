@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - dev
+      - mail-service
   pull_request:
     branches:
       - main
