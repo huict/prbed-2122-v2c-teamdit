@@ -357,45 +357,36 @@
 							"listen": "test",
 							"script": {
 								"exec": [
-									"const responseJson = pm.response.json();\r",
-									"const requestJson = JSON.parse(pm.request.body.raw);\r",
-									"\r",
-									"if(pm.response.code === 403){\r",
-									"    throw new Error(\"Not authorized!\");\r",
-									"}\r",
-									"\r",
-									"\r",
-									"if(pm.response.code === 409){\r",
-									"    throw new Error(\"There is already an airport made with this codeICAO!\");\r",
-									"}\r",
-									"\r",
-									"if(requestJson.codeICAO.length != 4){\r",
-									"    throw new Error(\"The codeICAO length must be equal to 4!\");\r",
-									"}\r",
-									"\r",
-									"pm.test(\"airport is succesfully made!\", () => {\r",
-									"    pm.response.to.have.status(200);\r",
+									"pm.test(\"airport succesfully made!\",() => {\r",
+									"   if(pm.response.code === 403 || pm.response.code === 401){\r",
+									"        throw new Error(\"Unauthorized\");\r",
+									"    };\r",
 									"    \r",
-									"    let airport = {\r",
-									"    \"codeICAO\": requestJson.codeICAO,\r",
-									"    \"name\": requestJson.name,\r",
-									"    \"city\": requestJson.city,\r",
-									"    \"country\": requestJson.country,\r",
-									"    \"longitude\": requestJson.longitude,\r",
-									"    \"latitude\": requestJson.latitude\r",
-									"    }\r",
-									"    pm.expect(responseJson).to.eql(airport);\r",
-									"})\r",
+									"    \r",
+									" const data = pm.response.json();\r",
+									" const input = JSON.parse(pm.request.body.raw);\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									" \r",
+									"    pm.expect([...Object.values(input)].includes(null)).to.be.false;\r",
 									"\r",
-									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
-									"    pm.expect(requestJson.codeICAO.length).to.eql(4);\r",
-									"    pm.expect(responseJson.codeICAO).to.be.a('string');\r",
-									"    pm.expect(responseJson.name).to.be.a('string');\r",
-									"    pm.expect(responseJson.city).to.be.a('string');\r",
-									"    pm.expect(responseJson.country).to.be.a('string');\r",
-									"    pm.expect(responseJson.longitude).to.be.a('number');\r",
-									"    pm.expect(responseJson.latitude).to.be.a('number');\r",
-									"})"
+									"    pm.expect(data).to.have.all.keys('code', 'name','city','country','longitude','latitude');\r",
+									"    pm.expect(input).to.have.all.keys('code', 'name','city','country','longitude','latitude');\r",
+									"  \r",
+									"    pm.expect(typeof data.name == \"string\").to.be.true;\r",
+									"    pm.expect(typeof data.code == \"string\").to.be.true;\r",
+									"    pm.expect(typeof data.country == \"string\").to.be.true;\r",
+									"    pm.expect(typeof data.longitude == \"number\").to.be.true;\r",
+									"    pm.expect(typeof data.latitude == \"number\").to.be.true;\r",
+									"    \r",
+									"    pm.expect(typeof input.name == \"string\").to.be.true;\r",
+									"    pm.expect(typeof input.code == \"string\").to.be.true;\r",
+									"    pm.expect(typeof input.country == \"string\").to.be.true;\r",
+									"    pm.expect(typeof input.longitude == \"number\").to.be.true;\r",
+									"    pm.expect(typeof input.latitude == \"number\").to.be.true;\r",
+									"    \r",
+									"});\r",
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -406,7 +397,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"codeICAO\": \"SLDP\",\r\n    \"name\": \"schiphol\",\r\n    \"city\": \"amsterdam\",\r\n    \"country\": \"netherlands\",\r\n    \"longitude\": 132,\r\n    \"latitude\": 83838\r\n}",
+							"raw": "{\r\n    \"codeICAO\": \"ZATE\",\r\n    \"name\": \"schiphol\",\r\n    \"city\": \"amsterdam\",\r\n    \"country\": \"netherlands\",\r\n    \"longitude\": 132,\r\n    \"latitude\": 83838\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -486,7 +477,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"codeICAO\": \"SHIM\",\r\n    \"name\": \"schiphol\",\r\n    \"city\": \"schiphol\",\r\n    \"country\": \"Belgium\",\r\n    \"longitude\": 13200,\r\n    \"latitude\": 83838\r\n}",
+							"raw": "{\r\n    \"codeICAO\": \"ZAVE\",\r\n    \"name\": \"Zaventem\",\r\n    \"city\": \"Brussels\",\r\n    \"country\": \"Belgium\",\r\n    \"longitude\": 13200,\r\n    \"latitude\": 83838\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -542,13 +533,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{ip}}/airport/SHIP",
+							"raw": "{{ip}}/airport/ZATE",
 							"host": [
 								"{{ip}}"
 							],
 							"path": [
 								"airport",
-								"SHIP"
+								"ZATE"
 							]
 						}
 					},
@@ -692,13 +683,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{ip}}/flightroute/8",
+							"raw": "{{ip}}/flightroute/9",
 							"host": [
 								"{{ip}}"
 							],
 							"path": [
 								"flightroute",
-								"8"
+								"9"
 							]
 						}
 					},
@@ -767,7 +758,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"arrivalCodeICAO\": \"SLDP\",\r\n    \"departureCodeICAO\": \"SHIP\",\r\n    \"durationMinutes\": 120,\r\n    \"priceEconomy\": 100.00,\r\n    \"priceBusiness\": 150.00,\r\n    \"priceFirstClass\": 200.00\r\n}",
+							"raw": "{\r\n    \"arrivalCodeICAO\": \"SHIP\",\r\n    \"departureCodeICAO\": \"ZAVE\",\r\n    \"durationMinutes\": 120,\r\n    \"priceEconomy\": 100.00,\r\n    \"priceBusiness\": 150.00,\r\n    \"priceFirstClass\": 200.00\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -848,7 +839,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n        \"id\": 8,\r\n        \"arrivalCodeICAO\": \"SLDP\",\r\n        \"departureCodeICAO\": \"SHIP\",\r\n        \"durationMinutes\": 121,\r\n        \"priceEconomy\": 0.0,\r\n        \"priceBusiness\": 101202.0,\r\n        \"priceFirstClass\": 20.0\r\n}",
+							"raw": "{\r\n        \"id\": 9,\r\n        \"arrivalCodeICAO\": \"ZAVE\",\r\n        \"departureCodeICAO\": \"SHIP\",\r\n        \"durationMinutes\": 121,\r\n        \"priceEconomy\": 0.0,\r\n        \"priceBusiness\": 101202.0,\r\n        \"priceFirstClass\": 20.0\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -893,13 +884,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{ip}}/flightroute/8",
+							"raw": "{{ip}}/flightroute/9",
 							"host": [
 								"{{ip}}"
 							],
 							"path": [
 								"flightroute",
-								"8"
+								"9"
 							]
 						}
 					},
@@ -1042,13 +1033,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{ip}}/customer/9",
+							"raw": "{{ip}}/customer/8",
 							"host": [
 								"{{ip}}"
 							],
 							"path": [
 								"customer",
-								"9"
+								"8"
 							]
 						}
 					},
@@ -1217,7 +1208,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 9,\r\n    \"firstName\": \"Ayoubb\",\r\n    \"lastName\": \"aa\",\r\n    \"dateOfBirth\": \"2027-10-17T16:20:00\",\r\n    \"phoneNumber\": 612345672,\r\n    \"emailAddress\": \"ayoub@hu.nl\",\r\n    \"nationality\": \"purple\"\r\n}",
+							"raw": "{\r\n    \"id\": 11,\r\n    \"firstName\": \"Ayoubb\",\r\n    \"lastName\": \"aa\",\r\n    \"dateOfBirth\": \"2027-10-17T16:20:00\",\r\n    \"phoneNumber\": 612345672,\r\n    \"emailAddress\": \"ayoub@hu.nl\",\r\n    \"nationality\": \"purple\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1271,13 +1262,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{ip}}/customer/12",
+							"raw": "{{ip}}/customer/11",
 							"host": [
 								"{{ip}}"
 							],
 							"path": [
 								"customer",
-								"12"
+								"11"
 							]
 						}
 					},
@@ -1473,7 +1464,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"customerId\": 13,\r\n    \"bookingClass\": \"ECONOMY\",\r\n    \"flightsIds\": [14],\r\n    \"passengers\": [{\r\n        \"firstName\": \"passenger\",\r\n        \"lastName\": \"aa\",\r\n        \"dateOfBirth\": \"2022-10-17T16:20:00\",\r\n        \"phoneNumber\": 612345672,\r\n        \"emailAddress\": \"boymerti@gmail.com\",\r\n        \"nationality\": \"purple\"\r\n    }]\r\n}",
+							"raw": "{\r\n    \"customerId\": 8,\r\n    \"bookingClass\": \"ECONOMY\",\r\n    \"flightsIds\": [18],\r\n    \"passengers\": [{\r\n        \"firstName\": \"passenger\",\r\n        \"lastName\": \"aa\",\r\n        \"dateOfBirth\": \"2022-10-17T16:20:00\",\r\n        \"phoneNumber\": 612345672,\r\n        \"emailAddress\": \"boymerti@gmail.com\",\r\n        \"nationality\": \"purple\"\r\n    }]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1598,13 +1589,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{ip}}/booking/22",
+							"raw": "{{ip}}/booking/13",
 							"host": [
 								"{{ip}}"
 							],
 							"path": [
 								"booking",
-								"22"
+								"13"
 							]
 						}
 					},
@@ -1721,13 +1712,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{ip}}/plane/20",
+							"raw": "{{ip}}/plane/12",
 							"host": [
 								"{{ip}}"
 							],
 							"path": [
 								"plane",
-								"20"
+								"12"
 							]
 						}
 					},
@@ -1853,7 +1844,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"type\":\"F17\",\r\n\"id\": 20,\r\n \"seatsEconomy\":120,\r\n \"seatsBusiness\":123,\r\n\"seatsFirstClass\":130}",
+							"raw": "{\r\n    \"type\":\"F17\",\r\n    \"id\": 11,\r\n    \"seatsEconomy\":120,\r\n    \"seatsBusiness\":123,\r\n    \"seatsFirstClass\":130\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1898,13 +1889,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{ip}}/plane/196",
+							"raw": "{{ip}}/plane/11",
 							"host": [
 								"{{ip}}"
 							],
 							"path": [
 								"plane",
-								"196"
+								"11"
 							]
 						}
 					},
@@ -2248,7 +2239,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"flightRouteId\":10,\r\n\"planeId\":11,\r\n\"departureTime\":\"1202-11-17T11:20:00\"\r\n}",
+							"raw": "{\r\n    \"flightRouteId\":10,\r\n    \"planeId\":12,\r\n    \"departureTime\":\"1202-11-17T11:20:00\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2342,7 +2333,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\"flightId\":43,\r\n    \"flightRouteId\":8,\r\n\"planeId\":31,\r\n\"departureTime\":\"2023-11-13T15:20:00\"\r\n}",
+							"raw": "{\r\n    \"flightId\": 13,\r\n    \"flightRouteId\": 10,\r\n    \"planeId\":12,\r\n    \"departureTime\":\"2023-11-13T15:20:00\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2387,13 +2378,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{ip}}/flight/21",
+							"raw": "{{ip}}/flight/17",
 							"host": [
 								"{{ip}}"
 							],
 							"path": [
 								"flight",
-								"21"
+								"17"
 							]
 						}
 					},
@@ -2591,13 +2582,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{ip}}/employee/38",
+							"raw": "{{ip}}/employee/20",
 							"host": [
 								"{{ip}}"
 							],
 							"path": [
 								"employee",
-								"38"
+								"20"
 							]
 						}
 					},
@@ -2756,7 +2747,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"id\": 38,\r\n    \"firstName\": \"samde man\",\r\n    \"lastName\": \"aa\",\r\n    \"dateOfBirth\": \"2022-10-17T16:20:00\"\r\n}",
+							"raw": "{\r\n    \"id\": 20,\r\n    \"firstName\": \"samde man\",\r\n    \"lastName\": \"aa\",\r\n    \"dateOfBirth\": \"2022-10-17T16:20:00\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -2810,13 +2801,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{ip}}/employee/38",
+							"raw": "{{ip}}/employee/20",
 							"host": [
 								"{{ip}}"
 							],
 							"path": [
 								"employee",
-								"38"
+								"20"
 							]
 						}
 					},
@@ -2901,7 +2892,8 @@
 		},
 		{
 			"key": "ip",
-			"value": ""
+			"value": "",
+			"disabled": true
 		}
 	]
 }
