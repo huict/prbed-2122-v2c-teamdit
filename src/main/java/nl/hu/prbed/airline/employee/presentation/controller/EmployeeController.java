@@ -9,6 +9,7 @@ import nl.hu.prbed.airline.employee.presentation.dto.EmployeeRequestDTO;
 import nl.hu.prbed.airline.employee.presentation.dto.EmployeeResponseDTO;
 import nl.hu.prbed.airline.employee.presentation.exception.EmployeeAlreadyExistsHTTPException;
 import nl.hu.prbed.airline.employee.presentation.exception.EmployeeNotFoundHTTPException;
+import nl.hu.prbed.airline.security.application.exception.UsernameAlreadyExists;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -48,8 +49,8 @@ public class EmployeeController {
         try {
             Employee employee = this.employeeService.createEmployee(employeeRequestDTO);
             return new EmployeeResponseDTO(employee);
-        } catch (EmployeeAlreadyExistsException e) {
-            throw new EmployeeAlreadyExistsHTTPException(employeeRequestDTO.id);
+        } catch (UsernameAlreadyExists e) {
+            throw new EmployeeAlreadyExistsHTTPException(employeeRequestDTO.username);
         }
     }
 
