@@ -59,17 +59,17 @@ public class FlightController {
 
     @GetMapping("/route")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public FlightResponseDTO getFlightRouteAndDeparture(Authentication authentication,
-                                                        @RequestParam(name = "departure")
-                                                        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-                                                                LocalDateTime departure,
-                                                        @RequestParam(name = "route") Long routeId) {
+    public FlightResponseDTO getFlightByRouteAndDeparture(Authentication authentication,
+                                                          @RequestParam(name = "departure") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime departure,
+                                                          @RequestParam(name = "route") Long routeId) {
         try {
             String role = authentication.getAuthorities().toString();
             Flight flight = flightService.findFlightRouteAndDeparture(role, departure, routeId);
             return new FlightResponseDTO(flight);
         } catch (FlightNotFoundException e) {
             throw new FlightNotFoundHTTPException();
+        } catch (FlightRouteNotFoundException e) {
+            throw new FlightRouteNotFoundHTTPException();
         }
 
     }

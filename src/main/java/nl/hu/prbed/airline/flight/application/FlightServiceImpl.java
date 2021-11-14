@@ -11,6 +11,7 @@ import nl.hu.prbed.airline.flight.data.FlightRepository;
 import nl.hu.prbed.airline.flight.domain.Flight;
 import nl.hu.prbed.airline.flight.presentation.dto.FlightRequestDTO;
 import nl.hu.prbed.airline.flightroute.application.FlightRouteService;
+import nl.hu.prbed.airline.flightroute.application.exception.FlightRouteNotFoundException;
 import nl.hu.prbed.airline.flightroute.domain.FlightRoute;
 import nl.hu.prbed.airline.plane.application.PlaneService;
 import nl.hu.prbed.airline.plane.domain.Plane;
@@ -28,6 +29,8 @@ public class FlightServiceImpl implements FlightService {
     private final PlaneService planeService;
     private final FlightRouteService flightRouteService;
 
+    private static final String MISSING_INFO_MSG = "Missing required information";
+
     public FlightServiceImpl(FlightRepository flightRepository,
                              PlaneService planeService,
                              FlightRouteService flightRouteService) {
@@ -43,7 +46,7 @@ public class FlightServiceImpl implements FlightService {
             FlightRoute flightRoute = flightRouteService.findFlightRouteByID(flightDTO.flightRouteId);
             flight = new Flight(flightDTO.departureTime, flightRoute, plane);
         } catch (NullPointerException nullPointerException) {
-            throw new InvalidDTOException("Missing required information from DTO");
+            throw new InvalidDTOException(MISSING_INFO_MSG);
         }
 
         List<Flight> allFlights = this.findAllFlights();
@@ -65,12 +68,8 @@ public class FlightServiceImpl implements FlightService {
     }
 
     public List<Flight> findAvailableFlights() {
-        try {
-            LocalDateTime dateTimeNow = LocalDateTime.now();
-            return flightRepository.findAllByDepartureTimeAfter(dateTimeNow);
-        } catch (NullPointerException nullPointerException) {
-            throw new InvalidDTOException("Missing departure variable to send!");
-        }
+        LocalDateTime dateTimeNow = LocalDateTime.now();
+        return flightRepository.findAllByDepartureTimeAfter(dateTimeNow);
     }
 
     public List<Flight> findFlightsByFilter(LocalDateTime departureTime, String departureLocation, String arrivalLocation) {
@@ -99,21 +98,17 @@ public class FlightServiceImpl implements FlightService {
     }
 
     public Flight findFlightRouteAndDeparture(String role, LocalDateTime departure, Long flightRouteId) {
-        try {
-            FlightRoute flightRoute = flightRouteService.findFlightRouteByID(flightRouteId);
+        FlightRoute flightRoute = flightRouteService.findFlightRouteByID(flightRouteId);
 
-            if (Objects.equals(role, "[ROLE_USER]")) {
-                LocalDateTime dateTimeNow = LocalDateTime.now();
+        if (Objects.equals(role, "[ROLE_USER]")) {
+            LocalDateTime dateTimeNow = LocalDateTime.now();
 
-                return flightRepository.findByRouteAndDepartureTimeAfter(flightRoute, dateTimeNow)
-                        .orElseThrow(FlightNotFoundException::new);
-            } else {
+            return flightRepository.findByRouteAndDepartureTimeAfter(flightRoute, dateTimeNow)
+                    .orElseThrow(FlightNotFoundException::new);
+        } else {
 
-                return flightRepository.findByRouteAndDepartureTime(flightRoute, departure)
-                        .orElseThrow(FlightNotFoundException::new);
-            }
-        } catch (NullPointerException nullPointerException) {
-            throw new InvalidDTOException("Missing input variables to send!");
+            return flightRepository.findByRouteAndDepartureTime(flightRoute, departure)
+                    .orElseThrow(FlightNotFoundException::new);
         }
     }
 
@@ -125,7 +120,7 @@ public class FlightServiceImpl implements FlightService {
             flightRepository.saveAndFlush(flight);
             return flight;
         } catch (NullPointerException nullPointerException) {
-            throw new InvalidDTOException("Missing input variables to send!");
+            throw new InvalidDTOException(MISSING_INFO_MSG);
         }
     }
 
