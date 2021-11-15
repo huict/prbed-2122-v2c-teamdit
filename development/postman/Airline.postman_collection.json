@@ -1,0 +1,2899 @@
+{
+	"info": {
+		"_postman_id": "31a7c6e1-90e1-4b82-a5c1-8bf7b2a0faa9",
+		"name": "Airline",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "Register  User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/hal+json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"user2\",\r\n    \"password\": \"user1\",\r\n    \"firstName\": \"us\",\r\n    \"lastName\": \"er\",\r\n    \"dateOfBirth\": \"2022-10-17T16:20\",\r\n    \"phoneNumber\": 50000,\r\n    \"emailAddress\": \"sam.werring@student.hu.nl\",\r\n    \"nationality\": \"ayoubland\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/register",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login as User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Succesfully logged in!\", () => {\r",
+									"    pm.expect(pm.response.code === 200);\r",
+									"\r",
+									"})\r",
+									"\r",
+									"if (pm.response.code === 200) {\r",
+									"    const authHeader = pm.response.headers.get(\"Authorization\");\r",
+									"    const token = authHeader.substring(7);\r",
+									"    pm.collectionVariables.set(\"authToken\", token);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/hal+json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"user2\",\r\n    \"password\": \"user1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/login",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login as Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Succesfully logged in!\", () => {\r",
+									"    pm.expect(pm.response.code === 200);\r",
+									"\r",
+									"})\r",
+									"\r",
+									"if (pm.response.code === 200) {\r",
+									"    const authHeader = pm.response.headers.get(\"Authorization\");\r",
+									"    const token = authHeader.substring(7);\r",
+									"    pm.collectionVariables.set(\"authToken\", token);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/hal+json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"employee\",\r\n    \"password\": \"employee\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/login",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login as Admin",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Succesfully logged in!\", () => {\r",
+									"    pm.expect(pm.response.code === 200);\r",
+									"\r",
+									"})\r",
+									"\r",
+									"if (pm.response.code === 200) {\r",
+									"    const authHeader = pm.response.headers.get(\"Authorization\");\r",
+									"    const token = authHeader.substring(7);\r",
+									"    pm.collectionVariables.set(\"authToken\", token);\r",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/hal+json",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"admin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/login",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Airport",
+			"item": [
+				{
+					"name": "Get Airports",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if (responseJson.length == 0) {return}\r",
+									"\r",
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//from https://learning.postman.com/docs/writing-scripts/script-references/test-examples\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    responseJson.forEach(airport => {\r",
+									"    pm.expect(airport.codeICAO).to.be.a('string');\r",
+									"    pm.expect(airport.name).to.be.a('string');\r",
+									"    pm.expect(airport.city).to.be.a('string');\r",
+									"    pm.expect(airport.country).to.be.a('string');\r",
+									"    pm.expect(airport.longitude).to.be.a('number');\r",
+									"    pm.expect(airport.latitude).to.be.a('number');\r",
+									"    })\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/airport",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"airport"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Airport by Code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if (pm.response.code == 404) {throw new Error(\"Didn't found the airport with code \"+ pm.request.url.path[1]);} \r",
+									"\r",
+									"pm.test(\"Status code is 200 or 404, no other status codes possible\", () => {\r",
+									"    if (pm.response.code == 200) {\r",
+									"        pm.response.to.have.status(200);\r",
+									"    } else {\r",
+									"        pm.response.to.have.status(404);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"\r",
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"//from https://learning.postman.com/docs/writing-scripts/script-references/test-examples\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(responseJson.codeICAO).to.be.a('string');\r",
+									"    pm.expect(responseJson.name).to.be.a('string');\r",
+									"    pm.expect(responseJson.city).to.be.a('string');\r",
+									"    pm.expect(responseJson.country).to.be.a('string');\r",
+									"    pm.expect(responseJson.longitude).to.be.a('number');\r",
+									"    pm.expect(responseJson.latitude).to.be.a('number');\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Test if getting the requested object\",() => {\r",
+									"let airportCode = pm.request.url.path[1];\r",
+									"pm.expect(responseJson.codeICAO).to.eql(airportCode);\r",
+									"\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/airport/SHIM",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"airport",
+								"SHIM"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Airport",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"airport succesfully made!\",() => {\r",
+									"   if(pm.response.code === 403 || pm.response.code === 401){\r",
+									"        throw new Error(\"Unauthorized\");\r",
+									"    };\r",
+									"    \r",
+									"    \r",
+									" const data = pm.response.json();\r",
+									" const input = JSON.parse(pm.request.body.raw);\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201]);\r",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									" \r",
+									"    pm.expect([...Object.values(input)].includes(null)).to.be.false;\r",
+									"\r",
+									"    pm.expect(data).to.have.all.keys('code', 'name','city','country','longitude','latitude');\r",
+									"    pm.expect(input).to.have.all.keys('code', 'name','city','country','longitude','latitude');\r",
+									"  \r",
+									"    pm.expect(typeof data.name == \"string\").to.be.true;\r",
+									"    pm.expect(typeof data.code == \"string\").to.be.true;\r",
+									"    pm.expect(typeof data.country == \"string\").to.be.true;\r",
+									"    pm.expect(typeof data.longitude == \"number\").to.be.true;\r",
+									"    pm.expect(typeof data.latitude == \"number\").to.be.true;\r",
+									"    \r",
+									"    pm.expect(typeof input.name == \"string\").to.be.true;\r",
+									"    pm.expect(typeof input.code == \"string\").to.be.true;\r",
+									"    pm.expect(typeof input.country == \"string\").to.be.true;\r",
+									"    pm.expect(typeof input.longitude == \"number\").to.be.true;\r",
+									"    pm.expect(typeof input.latitude == \"number\").to.be.true;\r",
+									"    \r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"codeICAO\": \"ZATE\",\r\n    \"name\": \"schiphol\",\r\n    \"city\": \"amsterdam\",\r\n    \"country\": \"netherlands\",\r\n    \"longitude\": 132,\r\n    \"latitude\": 83838\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/airport",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"airport"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Airport",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"const requestJson = JSON.parse(pm.request.body.raw);\r",
+									"    \r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if(pm.response.code === 404){\r",
+									"    throw new Error(\"Airport doesn't exist!\");\r",
+									"}\r",
+									"\r",
+									"if(requestJson.codeICAO.length != 4){\r",
+									"    throw new Error(\"The codeICAO length must be equal to 4!\");\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"airport succesfully updated!\",() => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"    let airport = {\r",
+									"    \"codeICAO\": requestJson.codeICAO,\r",
+									"    \"name\": requestJson.name,\r",
+									"    \"city\": requestJson.city,\r",
+									"    \"country\": requestJson.country,\r",
+									"    \"longitude\": requestJson.longitude,\r",
+									"    \"latitude\": requestJson.latitude\r",
+									"    }\r",
+									"    pm.expect(responseJson).to.eql(airport);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(requestJson.codeICAO.length).to.eql(4);\r",
+									"    pm.expect(responseJson.codeICAO).to.be.a('string');\r",
+									"    pm.expect(responseJson.name).to.be.a('string');\r",
+									"    pm.expect(responseJson.city).to.be.a('string');\r",
+									"    pm.expect(responseJson.country).to.be.a('string');\r",
+									"    pm.expect(responseJson.longitude).to.be.a('number');\r",
+									"    pm.expect(responseJson.latitude).to.be.a('number');\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"codeICAO\": \"ZAVE\",\r\n    \"name\": \"Zaventem\",\r\n    \"city\": \"Brussels\",\r\n    \"country\": \"Belgium\",\r\n    \"longitude\": 13200,\r\n    \"latitude\": 83838\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/airport",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"airport"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Airport by Code",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"   if(pm.response.code === 403){\r",
+									"        throw new Error(\"Unauthorized error, you must be authorized to delete an airport!\");}\r",
+									"\r",
+									"    if(pm.response.code === 404){\r",
+									"        throw new Error(\"Airport doesn't exist!\");\r",
+									"    }        \r",
+									"\r",
+									"pm.test(\"airport succesfully deleted!\", () => {\r",
+									"     pm.expect(pm.response.code).to.be.oneOf([200,202,204]);\r",
+									"    \r",
+									"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/airport/ZATE",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"airport",
+								"ZATE"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "FlightRoute",
+			"item": [
+				{
+					"name": "Get FlightRoutes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"\r",
+									"if (responseJson.length == 0) {return}\r",
+									"\r",
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    responseJson.forEach(flightRoute => {\r",
+									"    pm.expect(flightRoute.id).to.be.a('number');\r",
+									"    pm.expect(flightRoute.arrivalCodeICAO).to.be.a('string');\r",
+									"    pm.expect(flightRoute.departureCodeICAO).to.be.a('string');\r",
+									"    pm.expect(flightRoute.durationMinutes).to.be.a('number');\r",
+									"    pm.expect(flightRoute.priceEconomy).to.be.a('number');\r",
+									"    pm.expect(flightRoute.priceBusiness).to.be.a('number');\r",
+									"    pm.expect(flightRoute.priceFirstClass).to.be.a('number');\r",
+									"    })\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/flightroute",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"flightroute"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get FlightRoute by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if (pm.response.code == 404) {throw new Error(\"Didn't found the flightroute with id \"+ pm.request.url.path[1]);} \r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200 or 404, no other status codes possible\", () => {\r",
+									"    if (pm.response.code == 200) {\r",
+									"        pm.response.to.have.status(200);\r",
+									"    } else {\r",
+									"        pm.response.to.have.status(404);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"//from https://learning.postman.com/docs/writing-scripts/script-references/test-examples\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"\r",
+									"    pm.expect(responseJson.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.arrivalCodeICAO).to.be.a('string');\r",
+									"    pm.expect(responseJson.departureCodeICAO).to.be.a('string');\r",
+									"    pm.expect(responseJson.durationMinutes).to.be.a('number');\r",
+									"    pm.expect(responseJson.priceEconomy).to.be.a('number');\r",
+									"    pm.expect(responseJson.priceBusiness).to.be.a('number');\r",
+									"    pm.expect(responseJson.priceFirstClass).to.be.a('number');\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Test if getting the requested object\",() => {\r",
+									"let flightrouteId = Number(pm.request.url.path[1]);\r",
+									"pm.expect(responseJson.id).to.eql(flightrouteId);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/flightroute/9",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"flightroute",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post FlightRoute",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"const requestJson = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"\r",
+									"if(pm.response.code === 409){\r",
+									"    throw new Error(\"There is already a flightroute made with this arrivalcode/departurecode!\");\r",
+									"}\r",
+									"\r",
+									"\r",
+									"pm.test(\"FlightRoute is succesfully made!\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    \r",
+									"    let flightRoute = {\r",
+									"    \"arrivalCodeICAO\": requestJson.arrivalCodeICAO,\r",
+									"    \"departureCodeICAO\": requestJson.departureCodeICAO,\r",
+									"    \"durationMinutes\": requestJson.durationMinutes,\r",
+									"    \"priceEconomy\": requestJson.priceEconomy,\r",
+									"    \"priceBusiness\": requestJson.priceBusiness,\r",
+									"    \"priceFirstClass\": requestJson.priceFirstClass\r",
+									"    }\r",
+									"\r",
+									"    pm.expect(responseJson.arrivalCodeICAO).to.eql(flightRoute.arrivalCodeICAO);\r",
+									"    pm.expect(responseJson.departureCodeICAO).to.eql(flightRoute.departureCodeICAO);\r",
+									"    pm.expect(responseJson.durationMinutes).to.eql(flightRoute.durationMinutes);\r",
+									"    pm.expect(responseJson.priceEconomy).to.eql(flightRoute.priceEconomy);\r",
+									"    pm.expect(responseJson.priceBusiness).to.eql(flightRoute.priceBusiness);\r",
+									"    pm.expect(responseJson.priceFirstClass).to.eql(flightRoute.priceFirstClass);\r",
+									"\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(requestJson.arrivalCodeICAO.length).to.eql(4);\r",
+									"    pm.expect(requestJson.departureCodeICAO.length).to.eql(4);\r",
+									"    pm.expect(responseJson.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.arrivalCodeICAO).to.be.a('string');\r",
+									"    pm.expect(responseJson.departureCodeICAO).to.be.a('string');\r",
+									"    pm.expect(responseJson.durationMinutes).to.be.a('number');\r",
+									"    pm.expect(responseJson.priceEconomy).to.be.a('number');\r",
+									"    pm.expect(responseJson.priceBusiness).to.be.a('number');\r",
+									"    pm.expect(responseJson.priceFirstClass).to.be.a('number');\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"arrivalCodeICAO\": \"SHIP\",\r\n    \"departureCodeICAO\": \"ZAVE\",\r\n    \"durationMinutes\": 120,\r\n    \"priceEconomy\": 100.00,\r\n    \"priceBusiness\": 150.00,\r\n    \"priceFirstClass\": 200.00\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/flightroute",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"flightroute"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update FlightRoute",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"const requestJson = JSON.parse(pm.request.body.raw);\r",
+									"    \r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if(pm.response.code === 404){\r",
+									"    throw new Error(\"Flightroute doesn't exist!\");\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Flightroute is succesfully updated!\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    \r",
+									"    let flightRoute = {\r",
+									"    \"id\":requestJson.id,\r",
+									"    \"arrivalCodeICAO\": requestJson.arrivalCodeICAO,\r",
+									"    \"departureCodeICAO\": requestJson.departureCodeICAO,\r",
+									"    \"durationMinutes\": requestJson.durationMinutes,\r",
+									"    \"priceEconomy\": requestJson.priceEconomy,\r",
+									"    \"priceBusiness\": requestJson.priceBusiness,\r",
+									"    \"priceFirstClass\": requestJson.priceFirstClass\r",
+									"    }\r",
+									"    \r",
+									"    pm.expect(responseJson).to.eql(flightRoute);\r",
+									"    \r",
+									"\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(responseJson.arrivalCodeICAO.length).to.eql(4);\r",
+									"    pm.expect(responseJson.departureCodeICAO.length).to.eql(4);\r",
+									"    pm.expect(responseJson.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.arrivalCodeICAO).to.be.a('string');\r",
+									"    pm.expect(responseJson.departureCodeICAO).to.be.a('string');\r",
+									"    pm.expect(responseJson.durationMinutes).to.be.a('number');\r",
+									"    pm.expect(responseJson.priceEconomy).to.be.a('number');\r",
+									"    pm.expect(responseJson.priceBusiness).to.be.a('number');\r",
+									"    pm.expect(responseJson.priceFirstClass).to.be.a('number');\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"id\": 9,\r\n        \"arrivalCodeICAO\": \"ZAVE\",\r\n        \"departureCodeICAO\": \"SHIP\",\r\n        \"durationMinutes\": 121,\r\n        \"priceEconomy\": 0.0,\r\n        \"priceBusiness\": 101202.0,\r\n        \"priceFirstClass\": 20.0\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/flightroute",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"flightroute"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete FlightRoute by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"   if(pm.response.code === 403){\r",
+									"        throw new Error(\"Unauthorized error, you must be authorized to delete an flightroute!\");}\r",
+									"\r",
+									"    if(pm.response.code === 404){\r",
+									"        throw new Error(\"Flightroute doesn't exist!\");\r",
+									"    }        \r",
+									"\r",
+									"pm.test(\"Flightroute succesfully deleted!\", () => {\r",
+									"     pm.expect(pm.response.code).to.be.oneOf([200,202,204]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{ip}}/flightroute/9",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"flightroute",
+								"9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "Get Customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"\r",
+									"if (responseJson.length == 0) {return}\r",
+									"\r",
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    responseJson.forEach(customer => {\r",
+									"    pm.expect(customer.id).to.be.a('number');\r",
+									"    pm.expect(customer.firstName).to.be.a('string');\r",
+									"    pm.expect(customer.lastName).to.be.a('string');\r",
+									"    pm.expect(customer.dateOfBirth).to.be.a('string');\r",
+									"    pm.expect(customer.phoneNumber).to.be.a('number');\r",
+									"    pm.expect(customer.emailAddress).to.be.a('string');\r",
+									"    pm.expect(customer.nationality).to.be.a('string');\r",
+									"    })\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/customer",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Customer by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if (pm.response.code == 404) {throw new Error(\"Didn't found the customer with id \"+ pm.request.url.path[1]);} \r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200 or 404, no other status codes possible\", () => {\r",
+									"    if (pm.response.code == 200) {\r",
+									"        pm.response.to.have.status(200);\r",
+									"    } else {\r",
+									"        pm.response.to.have.status(404);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"//from https://learning.postman.com/docs/writing-scripts/script-references/test-examples\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(responseJson.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.firstName).to.be.a('string');\r",
+									"    pm.expect(responseJson.lastName).to.be.a('string');\r",
+									"    pm.expect(responseJson.dateOfBirth).to.be.a('string');\r",
+									"    pm.expect(responseJson.phoneNumber).to.be.a('number');\r",
+									"    pm.expect(responseJson.emailAddress).to.be.a('string');\r",
+									"    pm.expect(responseJson.nationality).to.be.a('string');\r",
+									"    })\r",
+									"\r",
+									"pm.test(\"Test if getting the requested object\",() => {\r",
+									"let customerId = Number(pm.request.url.path[1]);\r",
+									"pm.expect(responseJson.id).to.eql(customerId);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/customer/8",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"customer",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"const requestJson = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if(pm.response.code === 409){\r",
+									"    throw new Error(\"This customer is already made!\");\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Test if the applied dateformat is correct\",() => {\r",
+									"    let birthday = requestJson.dateOfBirth.split(\"-\");\r",
+									"\r",
+									"    let year = birthday[0].length;\r",
+									"    let month = birthday[1].length;\r",
+									"    let day = birthday[2].length;\r",
+									"    \r",
+									"    pm.expect(year).to.eql(4);\r",
+									"    pm.expect(month).to.eql(2);\r",
+									"    pm.expect(day).to.eql(2);\r",
+									"\r",
+									"})\r",
+									"\r",
+									"pm.test(\"customer is succesfully made!\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"   \r",
+									"    let customer = {\r",
+									"    \"firstName\": requestJson.firstName,\r",
+									"    \"lastName\": requestJson.lastName,\r",
+									"    \"dateOfBirth\": requestJson.dateOfBirth,\r",
+									"    \"phoneNumber\": requestJson.phoneNumber,\r",
+									"    \"emailAddress\": requestJson.emailAddress,\r",
+									"    \"nationality\": requestJson.nationality\r",
+									"    }\r",
+									"\r",
+									"    pm.expect(responseJson.firstName).to.eql(customer.firstName);\r",
+									"    pm.expect(responseJson.lastName).to.eql(customer.lastName);\r",
+									"    pm.expect(responseJson.dateOfBirth).to.eql(customer.dateOfBirth);\r",
+									"    pm.expect(responseJson.phoneNumber).to.eql(customer.phoneNumber);\r",
+									"    pm.expect(responseJson.emailAddress).to.eql(customer.emailAddress);\r",
+									"    pm.expect(responseJson.nationality).to.eql(customer.nationality);    \r",
+									"})\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(responseJson.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.firstName).to.be.a('string');\r",
+									"    pm.expect(responseJson.lastName).to.be.a('string');\r",
+									"    pm.expect(responseJson.dateOfBirth).to.be.a('string');\r",
+									"    pm.expect(responseJson.phoneNumber).to.be.a('number');\r",
+									"    pm.expect(responseJson.emailAddress).to.be.a('string');\r",
+									"    pm.expect(responseJson.nationality).to.be.a('string');\r",
+									"    })\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"user012A2539132235\",\r\n    \"password\": \"user1\",\r\n    \"firstName\": \"us\",\r\n    \"lastName\": \"er\",\r\n    \"dateOfBirth\": \"2522-10-01\",\r\n    \"phoneNumber\": 3165390935223,\r\n    \"emailAddress\": \"boymerti10@gmail.com\",\r\n    \"nationality\": \"ayoubland\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/customer",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"const requestJson = JSON.parse(pm.request.body.raw);\r",
+									"    \r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if(pm.response.code === 404){\r",
+									"    throw new Error(\"Customer doesn't exist!\");\r",
+									"}\r",
+									"\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test if the applied dateformat is correct\",() => {\r",
+									"    let birthday = requestJson.dateOfBirth.split(\"-\");\r",
+									"\r",
+									"    let year = birthday[0].length;\r",
+									"    let month = birthday[1].length;\r",
+									"    let day = birthday[2].length;\r",
+									"    \r",
+									"    pm.expect(year).to.eql(4);\r",
+									"    pm.expect(month).to.eql(2);\r",
+									"    pm.expect(day).to.eql(2);\r",
+									"\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Customer is succesfully updated!\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"     let customer = {\r",
+									"    \"id\":requestJson.id,\r",
+									"    \"firstName\": requestJson.firstName,\r",
+									"    \"lastName\": requestJson.lastName,\r",
+									"    \"dateOfBirth\": requestJson.dateOfBirth,\r",
+									"    \"phoneNumber\": requestJson.phoneNumber,\r",
+									"    \"emailAddress\": requestJson.emailAddress,\r",
+									"    \"nationality\": requestJson.nationality\r",
+									"    }\r",
+									"\r",
+									"    pm.expect(responseJson).to.eql(customer);\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(responseJson.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.firstName).to.be.a('string');\r",
+									"    pm.expect(responseJson.lastName).to.be.a('string');\r",
+									"    pm.expect(responseJson.dateOfBirth).to.be.a('string');\r",
+									"    pm.expect(responseJson.phoneNumber).to.be.a('number');\r",
+									"    pm.expect(responseJson.emailAddress).to.be.a('string');\r",
+									"    pm.expect(responseJson.nationality).to.be.a('string');\r",
+									"    })"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 11,\r\n    \"firstName\": \"Ayoubb\",\r\n    \"lastName\": \"aa\",\r\n    \"dateOfBirth\": \"2027-10-17T16:20:00\",\r\n    \"phoneNumber\": 612345672,\r\n    \"emailAddress\": \"ayoub@hu.nl\",\r\n    \"nationality\": \"purple\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/customer",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"customer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Customer",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"   if(pm.response.code === 403){\r",
+									"        throw new Error(\"Unauthorized error, you must be authorized to delete an customer!\");}\r",
+									"\r",
+									"    if(pm.response.code === 404){\r",
+									"        throw new Error(\"Customer doesn't exist!\");\r",
+									"    }        \r",
+									"\r",
+									"pm.test(\"Customer succesfully deleted!\", () => {\r",
+									"     pm.expect(pm.response.code).to.be.oneOf([200,202,204]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/customer/11",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"customer",
+								"11"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Booking",
+			"item": [
+				{
+					"name": "Get Booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"\r",
+									"if (responseJson.length == 0) {return}\r",
+									"\r",
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    responseJson.forEach(booking => {\r",
+									"    pm.expect(booking.id).to.be.a('number');\r",
+									"    pm.expect(booking.bookingClass).to.be.a('string');\r",
+									"    });\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/booking",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get booking by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if (pm.response.code == 404) {throw new Error(\"Didn't found the booking with id \"+ pm.request.url.path[1]);} \r",
+									"\r",
+									"\r",
+									"pm.test(\"Status code is 200 or 404, no other status codes possible\", () => {\r",
+									"    if (pm.response.code == 200) {\r",
+									"        pm.response.to.have.status(200);\r",
+									"    } else {\r",
+									"        pm.response.to.have.status(404);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"//from https://learning.postman.com/docs/writing-scripts/script-references/test-examples\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(responseJson.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.customer.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.bookingClass).to.be.a('string');\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Test if getting the requested object\",() => {\r",
+									"let bookingId = Number(pm.request.url.path[1]);\r",
+									"pm.expect(responseJson.id).to.eql(bookingId);\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/booking/24",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"booking",
+								"24"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"const requestJson = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"\r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if(pm.response.code === 400){\r",
+									"    throw new Error(\"Check the typed information, something gone wrong!\");\r",
+									"}\r",
+									"\r",
+									"if(pm.response.code === 404){\r",
+									"    throw new Error(\"Customer/Flight not found!\")\r",
+									"}\r",
+									"\r",
+									"\r",
+									"pm.test(\"booking is succesfully made!\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"    let booking = {\r",
+									"    \"customerId\": requestJson.customerId,\r",
+									"    \"bookingClass\":requestJson.bookingClass,\r",
+									"    }\r",
+									"    pm.expect(responseJson.customer.id).to.eql(booking.customerId);\r",
+									"    pm.expect(responseJson.bookingClass).to.eql(booking.bookingClass);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(responseJson.customer.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.bookingClass).to.be.a('string');\r",
+									"    });\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"customerId\": 8,\r\n    \"bookingClass\": \"ECONOMY\",\r\n    \"flightsIds\": [18],\r\n    \"passengers\": [{\r\n        \"firstName\": \"passenger\",\r\n        \"lastName\": \"aa\",\r\n        \"dateOfBirth\": \"2022-10-17T16:20:00\",\r\n        \"phoneNumber\": 612345672,\r\n        \"emailAddress\": \"boymerti@gmail.com\",\r\n        \"nationality\": \"purple\"\r\n    }]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/booking",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"const requestJson = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if(pm.response.code === 404){\r",
+									"    throw new Error(\"Booking/Customer/Flight not found!\");\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Booking is succesfully updated!\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"    let booking = {\r",
+									"    \"id\":requestJson.id,\r",
+									"    \"customerId\": requestJson.customerId,\r",
+									"    \"bookingClass\":requestJson.bookingClass,\r",
+									"    }\r",
+									"    \r",
+									"    pm.expect(booking.id).to.eql(responseJson.id);\r",
+									"    pm.expect(booking.customerId).to.eql(responseJson.customer.id);\r",
+									"    pm.expect(booking.bookingClass).to.eql(responseJson.bookingClass);\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(responseJson.customer.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.bookingClass).to.be.a('string');\r",
+									"    });\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 24,\r\n    \"customerId\": 14,\r\n    \"bookingClass\": \"FIRST\",\r\n    \"passengers\": [{\r\n        \"firstName\": \"passenger\",\r\n        \"lastName\": \"aa\",\r\n        \"dateOfBirth\": \"2022-10-17T16:20\",\r\n        \"phoneNumber\": 612345672,\r\n        \"emailAddress\": \"passenger@hu.nl\",\r\n        \"nationality\": \"purple\"\r\n    }],\r\n    \"flightsIds\": [43]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/booking",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"booking"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"   if(pm.response.code === 403){\r",
+									"        throw new Error(\"Unauthorized error, you must be authorized to delete an Booking!\");}\r",
+									"\r",
+									"    if(pm.response.code === 404){\r",
+									"        throw new Error(\"Booking doesn't exist!\");\r",
+									"    }        \r",
+									"\r",
+									"pm.test(\"Booking succesfully deleted!\", () => {\r",
+									"     pm.expect(pm.response.code).to.be.oneOf([200,202,204]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/booking/13",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"booking",
+								"13"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Plane",
+			"item": [
+				{
+					"name": "Get Planes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if (responseJson.length == 0) {return}\r",
+									"\r",
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//from https://learning.postman.com/docs/writing-scripts/script-references/test-examples\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    responseJson.forEach(plane => {\r",
+									"    pm.expect(plane.id).to.be.a('number');\r",
+									"    pm.expect(plane.type).to.be.a('string');\r",
+									"    pm.expect(plane.seatsEconomy).to.be.a('number');\r",
+									"    pm.expect(plane.seatsBusiness).to.be.a('number');\r",
+									"    pm.expect(plane.seatsFirstClass).to.be.a('number');\r",
+									"    })\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ip}}/plane",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"plane"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Plane By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if (pm.response.code == 404) {throw new Error(\"Didn't found the plane with code \"+ pm.request.url.path[1]);} \r",
+									"\r",
+									"pm.test(\"Status code is 200 or 404, no other status codes possible\", () => {\r",
+									"    if (pm.response.code == 200) {\r",
+									"        pm.response.to.have.status(200);\r",
+									"    } else {\r",
+									"        pm.response.to.have.status(404);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"//from https://learning.postman.com/docs/writing-scripts/script-references/test-examples\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(responseJson.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.type).to.be.a('string');\r",
+									"    pm.expect(responseJson.seatsEconomy).to.be.a('number');\r",
+									"    pm.expect(responseJson.seatsBusiness).to.be.a('number');\r",
+									"    pm.expect(responseJson.seatsFirstClass).to.be.a('number');\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Test if getting the requested object\",() => {\r",
+									"let planeId = Number(pm.request.url.path[1]);\r",
+									"pm.expect(responseJson.id).to.eql(planeId);\r",
+									"\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ip}}/plane/12",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"plane",
+								"12"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Plane",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"const requestJson = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"pm.test(\"plane is succesfully made!\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"    let plane = {\r",
+									"    \"type\": requestJson.type,\r",
+									"    \"seatsEconomy\": requestJson.seatsEconomy,\r",
+									"    \"seatsBusiness\": requestJson.seatsBusiness,\r",
+									"    \"seatsFirstClass\": requestJson.seatsFirstClass\r",
+									"    }\r",
+									"\r",
+									"    pm.expect(responseJson.type).to.eql(plane.type);\r",
+									"    pm.expect(responseJson.seatsEconomy).to.eql(plane.seatsEconomy);\r",
+									"    pm.expect(responseJson.seatsBusiness).to.eql(plane.seatsBusiness);\r",
+									"    pm.expect(responseJson.seatsFirstClass).to.eql(plane.seatsFirstClass);\r",
+									"\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(responseJson.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.type).to.be.a('string');\r",
+									"    pm.expect(responseJson.seatsEconomy).to.be.a('number');\r",
+									"    pm.expect(responseJson.seatsBusiness).to.be.a('number');\r",
+									"    pm.expect(responseJson.seatsFirstClass).to.be.a('number');\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\": \"Airbusa\",\r\n    \"seatsEconomy\": 100,\r\n    \"seatsBusiness\": 50,\r\n    \"seatsFirstClass\": 20\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/plane",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"plane"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Plane",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"const requestJson = JSON.parse(pm.request.body.raw);\r",
+									"    \r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if(pm.response.code === 404){\r",
+									"    throw new Error(\"Plane doesn't exist!\");\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Plane is succesfully updated!\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"     let plane = {\r",
+									"    \"id\":requestJson.id,\r",
+									"    \"type\": requestJson.type,\r",
+									"    \"seatsEconomy\": requestJson.seatsEconomy,\r",
+									"    \"seatsBusiness\": requestJson.seatsBusiness,\r",
+									"    \"seatsFirstClass\": requestJson.seatsFirstClass\r",
+									"    }\r",
+									"    pm.expect(responseJson).to.eql(plane);\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(responseJson.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.type).to.be.a('string');\r",
+									"    pm.expect(responseJson.seatsEconomy).to.be.a('number');\r",
+									"    pm.expect(responseJson.seatsBusiness).to.be.a('number');\r",
+									"    pm.expect(responseJson.seatsFirstClass).to.be.a('number');\r",
+									"    })"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"type\":\"F17\",\r\n    \"id\": 11,\r\n    \"seatsEconomy\":120,\r\n    \"seatsBusiness\":123,\r\n    \"seatsFirstClass\":130\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/plane",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"plane"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Plane",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"   if(pm.response.code === 403){\r",
+									"        throw new Error(\"Unauthorized error, you must be authorized to delete a Plane!\");}\r",
+									"\r",
+									"    if(pm.response.code === 404){\r",
+									"        throw new Error(\"Plane doesn't exist!\");\r",
+									"    }        \r",
+									"\r",
+									"pm.test(\"Plane is succesfully deleted!\", () => {\r",
+									"     pm.expect(pm.response.code).to.be.oneOf([200,202,204]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{ip}}/plane/11",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"plane",
+								"11"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Flight",
+			"item": [
+				{
+					"name": "Get Flights",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if (responseJson.length == 0) {return}\r",
+									"\r",
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//from https://learning.postman.com/docs/writing-scripts/script-references/test-examples\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"\r",
+									"    responseJson.forEach(flight => {    \r",
+									"    pm.expect(flight.id).to.be.a('number');\r",
+									"    pm.expect(flight.departureTime).to.be.a('string');\r",
+									"    });\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ip}}/flight",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"flight"
+							],
+							"query": [
+								{
+									"key": "departure",
+									"value": "2024-10-17T16:20:00",
+									"disabled": true
+								},
+								{
+									"key": "departureLocation",
+									"value": "SHIT",
+									"disabled": true
+								},
+								{
+									"key": "arrivalLocation",
+									"value": "SHIP",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get available Flights",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if (responseJson.length == 0) {return}\r",
+									"\r",
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//from https://learning.postman.com/docs/writing-scripts/script-references/test-examples\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    responseJson.forEach(flight => {\r",
+									"    pm.expect(flight.id).to.be.a('number');\r",
+									"    pm.expect(flight.departureTime).to.be.a('string');\r",
+									"    });\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ip}}/flight/available",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"flight",
+								"available"
+							],
+							"query": [
+								{
+									"key": "departureLocation",
+									"value": "SHIT",
+									"disabled": true
+								},
+								{
+									"key": "arrivalLocation",
+									"value": "SHIP",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Flight by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if (pm.response.code == 404) {throw new Error(\"Didn't found the flight with code \"+ pm.request.url.path[1]);} \r",
+									"\r",
+									"pm.test(\"Status code is 200 or 404, no other status codes possible\", () => {\r",
+									"    if (pm.response.code == 200) {\r",
+									"        pm.response.to.have.status(200);\r",
+									"    } else {\r",
+									"        pm.response.to.have.status(404);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"//from https://learning.postman.com/docs/writing-scripts/script-references/test-examples\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(responseJson.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.departureTime).to.be.a('string');\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Test if getting the requested object\",() => {\r",
+									"let flightId = Number(pm.request.url.path[1]);\r",
+									"pm.expect(responseJson.id).to.eql(flightId);\r",
+									"\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ip}}/flight/21",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"flight",
+								"21"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Flight by Route and Departure",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"\r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if(pm.response.code === 404){\r",
+									"    throw new Error(\"Didn't found the flight\");\r",
+									"}\r",
+									"\r",
+									"if (responseJson.length == 0) {return}\r",
+									"\r",
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"//from https://learning.postman.com/docs/writing-scripts/script-references/test-examples\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(responseJson.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.departureTime).to.be.a('string');\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ip}}/flight/route?departure=2024-10-17T16:20:00&route=8",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"flight",
+								"route"
+							],
+							"query": [
+								{
+									"key": "departure",
+									"value": "2024-10-17T16:20:00"
+								},
+								{
+									"key": "route",
+									"value": "8"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Flight",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"const requestJson = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if(pm.response.code === 404){\r",
+									"    throw new Error(\"Flightroute/Plane not found!\")\r",
+									"}\r",
+									"\r",
+									"if(pm.response.code === 409){\r",
+									"    throw new Error(\"This flight is already made!\");\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Test if the applied dateformat is correct\",() => {\r",
+									"    let departure = requestJson.departureTime.split(\"-\");\r",
+									"\r",
+									"    let year = departure[0].length;\r",
+									"    let month = departure[1].length;\r",
+									"    let day = departure[2].split(\"T\")[0].length;\r",
+									"    let hours = departure[2].split(\"T\")[1].split(\":\")[0].length;\r",
+									"    let minutes = departure[2].split(\"T\")[1].split(\":\")[1].length;\r",
+									"    let seconds = departure[2].split(\"T\")[1].split(\":\")[2].length;\r",
+									"    \r",
+									"    pm.expect(year).to.eql(4);\r",
+									"    pm.expect(month).to.eql(2);\r",
+									"    pm.expect(day).to.eql(2);\r",
+									"    pm.expect(hours).to.eql(2);\r",
+									"    pm.expect(minutes).to.eql(2);\r",
+									"    pm.expect(seconds).to.eql(2);\r",
+									"\r",
+									"})\r",
+									"\r",
+									"pm.test(\"flight is succesfully made!\", () => {\r",
+									"\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"    let flight = {\r",
+									"    \"flightRouteId\": requestJson.flightRouteId,\r",
+									"    \"planeId\": requestJson.planeId,\r",
+									"    \"departureTime\": requestJson.departureTime\r",
+									"    };\r",
+									"\r",
+									"\r",
+									"    pm.expect(responseJson.flightRoute.id).to.eql(flight.flightRouteId);\r",
+									"    pm.expect(responseJson.plane.id).to.eql(flight.planeId);\r",
+									"    pm.expect(responseJson.departureTime).to.eql(flight.departureTime);\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(responseJson.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.flightRoute.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.plane.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.departureTime).to.be.a('string');\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"flightRouteId\":10,\r\n    \"planeId\":12,\r\n    \"departureTime\":\"1202-11-17T11:20:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/flight",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"flight"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Flight",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"const requestJson = JSON.parse(pm.request.body.raw);\r",
+									"    \r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if(pm.response.code === 404){\r",
+									"    throw new Error(\"Flight doesn't exist!\");\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test if the applied dateformat is correct\",() => {\r",
+									"    let departure = requestJson.departureTime.split(\"-\");\r",
+									"\r",
+									"    let year = departure[0].length;\r",
+									"    let month = departure[1].length;\r",
+									"    let day = departure[2].split(\"T\")[0].length;\r",
+									"    let hours = departure[2].split(\"T\")[1].split(\":\")[0].length;\r",
+									"    let minutes = departure[2].split(\"T\")[1].split(\":\")[1].length;\r",
+									"    let seconds = departure[2].split(\"T\")[1].split(\":\")[2].length;\r",
+									"    \r",
+									"    pm.expect(year).to.eql(4);\r",
+									"    pm.expect(month).to.eql(2);\r",
+									"    pm.expect(day).to.eql(2);\r",
+									"    pm.expect(hours).to.eql(2);\r",
+									"    pm.expect(minutes).to.eql(2);\r",
+									"    pm.expect(seconds).to.eql(2);\r",
+									"\r",
+									"})\r",
+									"\r",
+									"pm.test(\"Flight is succesfully updated!\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"   \r",
+									"    let flight = {\r",
+									"    \"flightId\":requestJson.flightId,\r",
+									"    \"flightRouteId\": requestJson.flightRouteId,\r",
+									"    \"planeId\": requestJson.planeId,\r",
+									"    \"departureTime\": requestJson.departureTime\r",
+									"    };\r",
+									"\r",
+									"    pm.expect(responseJson.id).to.eql(flight.flightId);\r",
+									"    pm.expect(responseJson.flightRoute.id).to.eql(flight.flightRouteId);\r",
+									"    pm.expect(responseJson.plane.id).to.eql(flight.planeId);\r",
+									"    pm.expect(responseJson.departureTime).to.eql(flight.departureTime);\r",
+									"\r",
+									"    })\r",
+									"\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(responseJson.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.flightRoute.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.plane.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.departureTime).to.be.a('string');\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"flightId\": 13,\r\n    \"flightRouteId\": 10,\r\n    \"planeId\":12,\r\n    \"departureTime\":\"2023-11-13T15:20:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/flight",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"flight"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Flight By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"   if(pm.response.code === 403){\r",
+									"        throw new Error(\"Unauthorized error, you must be authorized to delete a flight!\");}\r",
+									"\r",
+									"    if(pm.response.code === 404){\r",
+									"        throw new Error(\"Flight doesn't exist!\");\r",
+									"    }        \r",
+									"\r",
+									"pm.test(\"Flight is succesfully deleted!\", () => {\r",
+									"     pm.expect(pm.response.code).to.be.oneOf([200,202,204]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{ip}}/flight/17",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"flight",
+								"17"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Fleet",
+			"item": [
+				{
+					"name": "Get Fleet",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"\r",
+									"if (responseJson.length == 0) {return}\r",
+									"\r",
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    responseJson.fleet.forEach(fleet => {    \r",
+									"    pm.expect(fleet.id).to.be.a('number');\r",
+									"    pm.expect(fleet.type).to.be.a('string');\r",
+									"    pm.expect(fleet.seatsEconomy).to.be.a('number');\r",
+									"    pm.expect(fleet.seatsBusiness).to.be.a('number');\r",
+									"    pm.expect(fleet.seatsFirstClass).to.be.a('number');\r",
+									"    })\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{ip}}/fleet",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"fleet"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Employee",
+			"item": [
+				{
+					"name": "Get Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if (responseJson.length == 0) {return}\r",
+									"\r",
+									"pm.test(\"Status code is 200\", () => {\r",
+									"  pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									"//from https://learning.postman.com/docs/writing-scripts/script-references/test-examples\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    responseJson.forEach(employee => {\r",
+									"    pm.expect(employee.id).to.be.a('number');\r",
+									"    pm.expect(employee.firstName).to.be.a('string');\r",
+									"    pm.expect(employee.lastName).to.be.a('string');\r",
+									"    pm.expect(employee.dateOfBirth).to.be.a('string');\r",
+									"    })\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/employee",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Employee by ID",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if (pm.response.code == 404) {throw new Error(\"Didn't found the employee with code \"+ pm.request.url.path[1]);} \r",
+									"\r",
+									"pm.test(\"Status code is 200 or 404, no other status codes possible\", () => {\r",
+									"    if (pm.response.code == 200) {\r",
+									"        pm.response.to.have.status(200);\r",
+									"    } else {\r",
+									"        pm.response.to.have.status(404);\r",
+									"    }\r",
+									"});\r",
+									"\r",
+									"const responseJson = pm.response.json();\r",
+									"\r",
+									"//from https://learning.postman.com/docs/writing-scripts/script-references/test-examples\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(responseJson.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.firstName).to.be.a('string');\r",
+									"    pm.expect(responseJson.lastName).to.be.a('string');\r",
+									"    pm.expect(responseJson.dateOfBirth).to.be.a('string');\r",
+									"    });\r",
+									"\r",
+									"pm.test(\"Test if getting the requested object\",() => {\r",
+									"let employeeId = Number(pm.request.url.path[1]);\r",
+									"pm.expect(responseJson.id).to.eql(employeeId);\r",
+									"\r",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/employee/20",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"employee",
+								"20"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"const requestJson = JSON.parse(pm.request.body.raw);\r",
+									"\r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"\r",
+									"if(pm.response.code === 409){\r",
+									"    throw new Error(\"This employee is already made!\");\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Test if the applied dateformat is correct\",() => {\r",
+									"    let birthday = requestJson.dateOfBirth.split(\"-\");\r",
+									"\r",
+									"    let year = birthday[0].length;\r",
+									"    let month = birthday[1].length;\r",
+									"    let day = birthday[2].length;\r",
+									"    \r",
+									"    pm.expect(year).to.eql(4);\r",
+									"    pm.expect(month).to.eql(2);\r",
+									"    pm.expect(day).to.eql(2);\r",
+									"\r",
+									"})\r",
+									"\r",
+									"pm.test(\"employee is succesfully made!\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"\r",
+									"    let employee = {\r",
+									"    \"firstName\": requestJson.firstName,\r",
+									"    \"lastName\": requestJson.lastName,\r",
+									"    \"dateOfBirth\": requestJson.dateOfBirth\r",
+									"    };\r",
+									"\r",
+									"    pm.expect(responseJson.firstName).to.eql(employee.firstName);\r",
+									"    pm.expect(responseJson.lastName).to.eql(employee.lastName);\r",
+									"    pm.expect(responseJson.dateOfBirth).to.eql(employee.dateOfBirth);\r",
+									"\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(responseJson.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.firstName).to.be.a('string');\r",
+									"    pm.expect(responseJson.lastName).to.be.a('string');\r",
+									"    pm.expect(responseJson.dateOfBirth).to.be.a('string');\r",
+									"    });\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{   \r\n    \"firstName\": \"TaartenvanAbeltje1\",\r\n    \"lastName\": \"aa\",\r\n    \"password\": \"yooy\",\r\n    \"username\":\"TaartenvanAbeltjet193443\",\r\n    \"dateOfBirth\": \"2200-03-16\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/employee",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json();\r",
+									"const requestJson = JSON.parse(pm.request.body.raw);\r",
+									"    \r",
+									"if(pm.response.code === 403){\r",
+									"    throw new Error(\"Not authorized!\");\r",
+									"}\r",
+									"\r",
+									"if(pm.response.code === 404){\r",
+									"    throw new Error(\"Employee doesn't exist!\");\r",
+									"}\r",
+									"\r",
+									"pm.test(\"Content-Type header is application/json\", () => {\r",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json');\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Test if the applied dateformat is correct\",() => {\r",
+									"    let birthday = requestJson.dateOfBirth.split(\"-\");\r",
+									"\r",
+									"    let year = birthday[0].length;\r",
+									"    let month = birthday[1].length;\r",
+									"    let day = birthday[2].length;\r",
+									"    \r",
+									"    pm.expect(year).to.eql(4);\r",
+									"    pm.expect(month).to.eql(2);\r",
+									"    pm.expect(day).to.eql(2);\r",
+									"\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"Employee is succesfully updated!\", () => {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    console.log(requestJson);\r",
+									"    console.log(responseJson);\r",
+									"    \r",
+									"      let employee = {\r",
+									"    \"id\":requestJson.id,\r",
+									"    \"firstName\": requestJson.firstName,\r",
+									"    \"lastName\": requestJson.lastName,\r",
+									"    \"dateOfBirth\": requestJson.dateOfBirth\r",
+									"    };\r",
+									"    pm.expect(responseJson).to.eql(employee);\r",
+									"})\r",
+									"\r",
+									"\r",
+									"pm.test(\"Test if all fields are populated correctly\", () => {\r",
+									"    pm.expect(responseJson.id).to.be.a('number');\r",
+									"    pm.expect(responseJson.firstName).to.be.a('string');\r",
+									"    pm.expect(responseJson.lastName).to.be.a('string');\r",
+									"    pm.expect(responseJson.dateOfBirth).to.be.a('string');\r",
+									"    });\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 20,\r\n    \"firstName\": \"samde man\",\r\n    \"lastName\": \"aa\",\r\n    \"dateOfBirth\": \"2022-10-17T16:20:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/employee",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Employee",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"   if(pm.response.code === 403){\r",
+									"        throw new Error(\"Unauthorized error, you must be authorized to delete an employee!\");}\r",
+									"\r",
+									"    if(pm.response.code === 404){\r",
+									"        throw new Error(\"Employee doesn't exist!\");\r",
+									"    }        \r",
+									"\r",
+									"pm.test(\"Employee is succesfully deleted!\", () => {\r",
+									"     pm.expect(pm.response.code).to.be.oneOf([200,202,204]);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/employee/20",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"employee",
+								"20"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Swagger UI",
+			"item": [
+				{
+					"name": "Documentation",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{ip}}/swagger-ui/",
+							"host": [
+								"{{ip}}"
+							],
+							"path": [
+								"swagger-ui",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{authToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "authToken",
+			"value": ""
+		},
+		{
+			"key": "ip",
+			"value": ""
+		},
+		{
+			"key": "ip",
+			"value": "",
+			"disabled": true
+		}
+	]
+}
